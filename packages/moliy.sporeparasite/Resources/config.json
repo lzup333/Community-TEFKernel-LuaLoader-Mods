@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "enabled": true,
+    "speed_multiplier": 5,
+    "production_multiplier": 5,
+    "accelerate_traps": true,
+    "max_spores": 10
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "pkgId": "moliy.sporeparasite",
+  "name": "孢子寄生",
+  "author": "Moliy",
+  "version": "1.1.0",
+  "versionCode": 6,
+  "brieflyDescribe": "孢子囊强化：弹幕移速最高 6 倍、孢子生产 1-50 倍、悬浮体上限 10-100",
+  "description": "装备孢子囊后，自动生成漂浮的孢子悬浮体并释放孢子毒气。本模组在脚本层接管三件事：放大毒气弹幕初速、加速悬浮体追踪（最高 6 倍，再高会一帧飞过目标导致乱飘）、提高每次生成的判定次数，并把原版硬编码的「最多 10 个悬浮体」改成可调 10-100。纯 Lua 实现，不修改游戏文件。",
+  "features": [
+    "UTILITY",
+    "QUALITY_OF_LIFE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "启用孢子寄生",
+      "description": "关闭后立刻恢复原版孢子囊的全部行为",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "speed_multiplier",
+      "title": "弹幕移速倍率",
+      "description": "悬浮体在追敌时把速度放大到 1-10 倍；没有目标时保持原版的缓慢飘散，不会被加速甩出去",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "倍",
+      "section": "常规"
+    },
+    {
+      "key": "production_multiplier",
+      "title": "孢子生产效率",
+      "description": "每一帧的生成判定执行几次（原版约 1/15 概率），倍率越高补充越快；能同时存在多少个由下面的上限决定",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "倍",
+      "section": "常规"
+    },
+    {
+      "key": "max_spores",
+      "title": "悬浮体数量上限",
+      "description": "原版硬编码最多 10 个。调到 10-100 之间可以同时存在更多悬浮体；高于 10 时会在生成瞬间临时改一次归属来绕过原版计数",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "个",
+      "section": "高级"
+    },
+    {
+      "key": "accelerate_traps",
+      "title": "悬浮体也加速",
+      "description": "关闭时只加速孢子毒气，漂浮的悬浮体保持原版速度",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "高级"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-mod.meta = { pkg_id = "bluefish.peakera", version = "4.0.0", version_code = 400, api_version = 1 }
+mod.meta = { pkg_id = "bluefish.peakera", version = "5.0.0", version_code = 500, api_version = 1 }
 -- 巅峰时代 / 作者：蓝色大肥鱼
 -- 力量又回来了
 -- ---------------------------------------------------------------------------
@@ -77,6 +77,20 @@ local TERRA_MELEE_IDX      = 757
 local TERRA_SPEED_FIX_MUL  = 1.0     -- 目标系数（原版 0.75）
 local terra_speed_fixed    = false   -- 写入成功后，ItemCheck 里就不再换算（否则会双重加速）
 
+-- ============ 利刃台风（物品 2622 / 射弹 409）============
+-- 2026-11-01 实机诊断（v4.1.0-诊断版）确认移动版与 PC 1.4.5.8 完全一致：
+--   item2622  dmg=85  useTime=40  useAnim=40  shoot=409
+--   proj409   timeLeft=300  extraUpdates=2  pen=-1  wh=30x30  ai=71  magic=true
+-- 持续时间换算：extraUpdates=2 表示每帧 AI 跑 3 次，实际秒数 = timeLeft / 3 / 60
+--   原版 300 → 1.67 秒；3 秒对应 timeLeft = 3 × 3 × 60 = 540
+local TYPHOON_ITEM_ID      = 2622
+local TYPHOON_PROJ_ID      = 409
+local TYPHOON_BASE_DAMAGE  = 85      -- 原版物品伤害（缩放基准）
+local TYPHOON_DAMAGE       = 90      -- 目标伤害
+local TYPHOON_USE_TIME     = 20      -- 目标使用时间（同时用于 useAnimation）
+local TYPHOON_TIMELEFT     = 540     -- 目标射弹 timeLeft（= 3 秒）
+local typhoon_proj_logged  = false
+
 -- ============ 句柄 ============
 local T_Main, T_Player, T_Proj
 local f_proj_type, f_proj_damage, f_proj_timeleft
@@ -94,6 +108,7 @@ local f_pl_armor, f_item_type   -- 护甲数组（Item[20]）与物品 type 字�
 local f_main_gamemenu, f_main_players, f_myplayer
 local m_get_myplayer, m_newtext
 local m_get_gamemenu
+local m_newproj        -- Projectile.NewProjectile（静态方法，用于一次发多枚）
 
 -- ============ 状态 ============
 local ready = false
@@ -345,9 +360,15 @@ local function weapon_damage_postfix(inst, args, result)
     if not ready then return nil end
     local it = args and args[1]
     if not it then return nil end
-    if get_i(f_item_type, it, -1) ~= TERRA_ID then return nil end
     if type(result) ~= "number" or result <= 0 then return nil end
-    return math.floor(result * TERRA_DAMAGE / TERRA_BASE_DAMAGE + 0.5)
+    local t = get_i(f_item_type, it, -1)
+    if t == TERRA_ID then
+        return math.floor(result * TERRA_DAMAGE / TERRA_BASE_DAMAGE + 0.5)
+    elseif t == TYPHOON_ITEM_ID then
+        -- 利刃台风 85 → 90：同样按比例缩放，词缀加成天然保留
+        return math.floor(result * TYPHOON_DAMAGE / TYPHOON_BASE_DAMAGE + 0.5)
+    end
+    return nil
 end
 
 -- ② 使用时间：ItemCheck 之前临时把 useTime/useAnimation 改成 14，
@@ -356,7 +377,26 @@ local function itemcheck_prefix(inst)
     if not ready or not inst then return false end
     local it = held_item(inst)
     if not it then return false end
-    if get_i(f_item_type, it, -1) ~= TERRA_ID then return false end
+    local itype = get_i(f_item_type, it, -1)
+
+    -- 利刃台风：使用时间 40 → 20（同样是临时改、用完还原，不写物品数据）
+    if itype == TYPHOON_ITEM_ID then
+        local idx = get_i(f_pl_whoami, inst, -1)
+        if idx < 0 then return false end
+        local ut2 = get_i(f_item_usetime, it, -1)
+        local ua2 = get_i(f_item_useanimation, it, -1)
+        if ut2 < 0 or ua2 < 0 then return false end
+        if ut2 ~= TYPHOON_USE_TIME then
+            terra_backup[idx] = { useTime = ut2, useAnimation = ua2 }
+        end
+        if terra_backup[idx] then
+            set_i(f_item_usetime, it, TYPHOON_USE_TIME)
+            set_i(f_item_useanimation, it, TYPHOON_USE_TIME)
+        end
+        return false
+    end
+
+    if itype ~= TERRA_ID then return false end
     local idx = get_i(f_pl_whoami, inst, -1)
     if idx < 0 then return false end
     local ut = get_i(f_item_usetime, it, -1)
@@ -577,6 +617,55 @@ local function update_postfix(inst, args, result)
     end
 end
 
+-- ============ 利刃台风：射弹持续时间 300 → 540（= 3 秒）============
+-- 走 Projectile.SetDefaults(int Type) 的 postfix：此时 SetDefaults 刚跑完，
+-- 而 NewProjectile 后续只设 position/owner/velocity/damage，不再碰 timeLeft，所以写完不会被覆盖。
+local function proj_setdefaults_postfix(inst, args, result)
+    if not ready or not inst then return end
+    local ok, err = pcall(function()
+        if get_i(f_proj_type, inst, -1) ~= TYPHOON_PROJ_ID then return end
+        set_i(f_proj_timeleft, inst, TYPHOON_TIMELEFT)
+        if typhoon_proj_logged then return end
+        typhoon_proj_logged = true
+        logf("[typhoon] timeLeft → " .. tostring(get_i(f_proj_timeleft, inst, -1)))
+    end)
+    if not ok then logf("[typhoon] setdefaults err " .. tostring(err)) end
+end
+
+-- ============ 利刃台风：一次发 2 枚 ============
+-- LuaLoader 没有生成射弹的接口，只能钩 Projectile.NewProjectile（float 版，13 个参数）：
+--   args = { spawnSource, X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1, ai2, modifer }
+-- 在 prefix 里用 patch.invoke 再调一次同一方法（速度偏转约 12°），然后放行原调用。
+-- 安全设计：第一次遇到 409 只「上膛」不发射，第二次起才真正多发；
+-- 重入守卫 np_reenter 必须在最前面，否则内层调用会无限递归。
+local np_reenter = false
+local np_armed   = false     -- 首次遇到 409 只上膛，第二次起才多发
+
+local function newproj_prefix(inst, args, result)
+    if np_reenter then return false end
+    if not args or not m_newproj then return false end
+    if args[6] ~= TYPHOON_PROJ_ID then return false end
+
+    if not np_armed then
+        np_armed = true
+        return false
+    end
+
+    local sx, sy = args[4], args[5]
+    if type(sx) ~= "number" or type(sy) ~= "number" then return false end
+    local ang = 0.21                       -- 约 12°
+    local cs, sn = math.cos(ang), math.sin(ang)
+    local nsx, nsy = sx * cs - sy * sn, sx * sn + sy * cs
+
+    np_reenter = true
+    pcall(patch.invoke, m_newproj,
+        args[1], args[2], args[3], nsx, nsy,
+        args[6], args[7], args[8], args[9],
+        args[10], args[11], args[12], args[13])
+    np_reenter = false
+    return false                           -- 放行原调用，原方法自己发第一枚
+end
+
 -- ============ 钩子安装 ============
 local function hook(method, spec, label)
     if not method then
@@ -655,6 +744,11 @@ function setup()
     end
     m_newtext = patch.get_method(T_Main, "NewText", 3) or patch.get_method(T_Main, "NewText", 5)
 
+    -- 利刃台风多发用：NewProjectile 的 float 版是 13 参（Vector2 版是 11 参，内部会转调 float 版）
+    m_newproj = patch.get_method(T_Proj, "NewProjectile", 13)
+             or patch.get_method(T_Proj, "NewProjectile", 11)
+    logf("[typhoon] NewProjectile = " .. tostring(m_newproj))
+
     -- gameMenu 在 PE 版是属性，补上 getter
     pcall(function()
         local pg = patch.get_property(T_Main, "gameMenu")
@@ -692,6 +786,16 @@ function setup()
     ok_all = hook(
         patch.get_method(T_Player, "Update", 1) or patch.get_method(T_Player, "Update"),
         { postfix = update_postfix }, "Player.Update") and ok_all
+
+    -- 利刃台风：持续时间（SetDefaults postfix）+ 多发（NewProjectile prefix）
+    -- 这两个单独装，不并入 ok_all：万一装不上只能说明这一项不能用，不能拖垮已有 7 项功能
+    local typhoon_a = hook(
+        patch.get_method(T_Proj, "SetDefaults", 1) or patch.get_method(T_Proj, "SetDefaults"),
+        { postfix = proj_setdefaults_postfix }, "Projectile.SetDefaults")
+    local typhoon_b = hook(m_newproj,
+        { prefix = newproj_prefix }, "Projectile.NewProjectile")
+    logf(string.format("[typhoon] hooks: setdefaults=%s newproj=%s",
+        tostring(typhoon_a), tostring(typhoon_b)))
 
     -- 泰拉刃：伤害（改返回值）+ 使用时间（临时改完还原）
     -- 两者分开判断：伤害钩子只要认得 Item.type 就能装，不依赖能不能取到手持物品

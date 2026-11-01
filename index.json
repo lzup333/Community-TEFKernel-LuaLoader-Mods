@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-01T06:31:29.649264Z",
+  "updatedAt": "2026-11-01T13:21:05.571906Z",
   "mods": [
     {
       "pkgId": "HvnT.lua.crimson",
@@ -301,8 +301,8 @@
       "pkgId": "bluefish.peakera",
       "name": "巅峰时代",
       "author": "蓝色大肥鱼",
-      "version": "4.0.0",
-      "versionCode": 400,
+      "version": "5.0.0",
+      "versionCode": 500,
       "brieflyDescribe": "回归巅峰",
       "features": [],
       "sizeCategory": "TINY",
@@ -311,8 +311,8 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.peakera.tefpkg",
-      "fileSize": "209.9 KiB",
-      "sha256": "68ea5508226d3e8f4fbfa48ed985e58d45c9ce74392dd858d069166efb3663f8",
+      "fileSize": "211.5 KiB",
+      "sha256": "d48bbf4e5b78c09ab56dde671efb5aa7057a55e46f313f0b800a740c3dadc579",
       "updateLog": ""
     },
     {
@@ -1531,6 +1531,27 @@
       "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.qing.motionplus.tefpkg",
       "fileSize": "4.5 KiB",
       "sha256": "bfa9d5cca57ce09eca9d86d980382357e50cd3f9431b0fef14fb9a2e6f0dfca4",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "moliy.sporeparasite",
+      "name": "孢子寄生",
+      "author": "Moliy",
+      "version": "1.1.0",
+      "versionCode": 6,
+      "brieflyDescribe": "孢子囊强化：弹幕移速最高 6 倍、孢子生产 1-50 倍、悬浮体上限 10-100",
+      "features": [
+        "UTILITY",
+        "QUALITY_OF_LIFE"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/moliy.sporeparasite.tefpkg",
+      "fileSize": "6.4 KiB",
+      "sha256": "f14e35969e8009af3a75887e3d846070bcf02a7044077993cb0ac85e983bc7c0",
       "updateLog": ""
     },
     {
