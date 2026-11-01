@@ -4,5 +4,7 @@
   "packageType": "Mod",
   "loader": "lzup333.lualoader",
   "index": "index.json",
+  "loaderMinVersionCode": 36,
+  "loaderMinVersion": "2.3.2",
   "distribution": "dist/"
 }

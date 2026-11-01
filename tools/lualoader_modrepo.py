@@ -201,20 +201,26 @@ def _extract_package(source: Path, target: Path) -> None:
 
 def _candidate(repo: Path, pkg: PackageInfo) -> dict:
     dist = repo / "dist" / f"{pkg.pkg_id}.tefpkg"
+    info = pkg.info
+    base_url = "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist"
+    size = dist.stat().st_size if dist.exists() else 0
     return {
         "pkgId": pkg.pkg_id,
         "name": pkg.name,
         "author": pkg.author,
         "version": pkg.version,
         "versionCode": pkg.version_code,
-        "path": f"dist/{pkg.pkg_id}.tefpkg",
+        "brieflyDescribe": str(info.get("brieflyDescribe", info.get("description", ""))),
+        "features": info.get("features", []),
+        "sizeCategory": str(info.get("sizeCategory", "TINY")),
+        "stableVerified": bool(info.get("stableVerified", False)),
+        "experimental": bool(info.get("experimental", False)),
+        "deprecated": bool(info.get("deprecated", False)),
+        "iconUrl": "",
+        "downloadUrl": f"{base_url}/{pkg.pkg_id}.tefpkg",
+        "fileSize": f"{size / (1024 * 1024):.2f} MiB" if size >= 1024 * 1024 else f"{size / 1024:.1f} KiB",
         "sha256": _sha256(dist) if dist.exists() else "",
-        "size": dist.stat().st_size if dist.exists() else 0,
-        "main": pkg.main_path,
-        "mainMtime": pkg.main_mtime,
-        "native": False,
-        "info": pkg.info,
-        "manifest": pkg.manifest,
+        "updateLog": "",
     }
 
 
@@ -233,7 +239,7 @@ def _prompt_duplicate(pkg: PackageInfo, existing: dict, source: Path) -> str:
 def _load_index(repo: Path) -> dict:
     path = repo / "index.json"
     if not path.exists():
-        return {"schemaVersion": 1, "repository": "Community-TEFKernel-LuaLoader-Mods", "packages": []}
+        return {"updatedAt": "", "loaderMinVersionCode": 36, "loaderMinVersion": "2.3.2", "mods": []}
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -245,7 +251,7 @@ def import_packages(repo_dir: Path, inputs: Iterable[Path], *, interactive: bool
     repo.mkdir(parents=True, exist_ok=True)
     report = ImportReport()
     index = _load_index(repo)
-    by_id = {item.get("pkgId"): item for item in index.get("packages", [])}
+    by_id = {item.get("pkgId"): item for item in index.get("mods", [])}
     paths = []
     for item in inputs:
         item = Path(item)
@@ -279,7 +285,10 @@ def import_packages(repo_dir: Path, inputs: Iterable[Path], *, interactive: bool
         except (PackageRejected, ValueError, OSError) as exc:
             report.rejected += 1
             report.errors.append(f"rejected: {source}: {exc}")
-    index["packages"] = sorted(by_id.values(), key=lambda item: item.get("pkgId", ""))
+    index["mods"] = sorted(by_id.values(), key=lambda item: item.get("pkgId", ""))
+    index.pop("packages", None)
+    index.setdefault("loaderMinVersionCode", 36)
+    index.setdefault("loaderMinVersion", "2.3.2")
     index["updatedAt"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     (repo / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return report
@@ -305,28 +314,32 @@ def rebuild_index(repo_dir: Path) -> dict:
             if main is None:
                 continue
             dist = repo / "dist" / f"{pkg_id}.tefpkg"
+            size = dist.stat().st_size if dist.exists() else 0
             packages.append({
                 "pkgId": pkg_id,
                 "name": str(info.get("name", pkg_id)),
                 "author": str(info.get("author", "")),
                 "version": str(info.get("version", luamod.get("version", "0.0.0"))),
                 "versionCode": int(info.get("versionCode", luamod.get("version_code", 0))),
-                "path": f"dist/{pkg_id}.tefpkg",
+                "brieflyDescribe": str(info.get("brieflyDescribe", info.get("description", ""))),
+                "features": info.get("features", []),
+                "sizeCategory": str(info.get("sizeCategory", "TINY")),
+                "stableVerified": bool(info.get("stableVerified", False)),
+                "experimental": bool(info.get("experimental", False)),
+                "deprecated": bool(info.get("deprecated", False)),
+                "iconUrl": "",
+                "downloadUrl": f"https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/{pkg_id}.tefpkg",
+                "fileSize": f"{size / (1024 * 1024):.2f} MiB" if size >= 1024 * 1024 else f"{size / 1024:.1f} KiB",
                 "sha256": _sha256(dist) if dist.exists() else "",
-                "size": dist.stat().st_size if dist.exists() else 0,
-                "main": str(main.relative_to(package_dir)).replace(os.sep, "/"),
-                "mainMtime": datetime.fromtimestamp(main.stat().st_mtime, timezone.utc).isoformat().replace("+00:00", "Z"),
-                "native": False,
-                "info": info,
-                "manifest": manifest,
+                "updateLog": "",
             })
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
             continue
     result = {
-        "schemaVersion": int(current.get("schemaVersion", 1)),
-        "repository": current.get("repository", "Community-TEFKernel-LuaLoader-Mods"),
+        "loaderMinVersionCode": int(current.get("loaderMinVersionCode", 36)),
+        "loaderMinVersion": current.get("loaderMinVersion", "2.3.2"),
         "updatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "packages": packages,
+        "mods": packages,
     }
     (repo / "index.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return result
@@ -400,7 +413,7 @@ def main(argv: list[str] | None = None) -> int:
             print(message, file=sys.stderr)
         return 0 if not report.rejected else 2
     if args.command == "list":
-        for item in _load_index(repo).get("packages", []):
+        for item in _load_index(repo).get("mods", []):
             print(f"{item.get('pkgId')}\t{item.get('version')}\t{item.get('name')}")
         return 0
     if args.command == "remove":
