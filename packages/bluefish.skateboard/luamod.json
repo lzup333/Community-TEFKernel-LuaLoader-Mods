@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.skateboard",
+  "version": "1.0.2",
+  "version_code": 3,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "摩擦摩擦，在光滑的地板上摩擦"
+}

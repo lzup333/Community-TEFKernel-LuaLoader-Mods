@@ -1,0 +1,52 @@
+{
+  "pkgId": "jingjing.lua.whale",
+  "name": "鲸屿小物 (WhaleByMySide)",
+  "author": "鲸鲸",
+  "version": "2.0.0",
+  "versionCode": 202610290,
+  "brieflyDescribe": "鲸歌杖、潮汐护符，和一颗会追人的鲸歌",
+  "description": "用 LuaModQuickAPI 写的示例 Mod：一把会自动追踪的魔法杖、一件回血护符、一个自带回血效果的 Buff。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true
+}

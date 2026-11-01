@@ -1,0 +1,108 @@
+{
+  "pkgId": "bluefish.betterdps",
+  "name": "更好的DPS",
+  "author": "蓝色大肥鱼",
+  "version": "1.0.1",
+  "versionCode": 2,
+  "brieflyDescribe": "更好的测试DPS",
+  "description": "让召唤物也能锁定傀儡，DPS显示增加陷阱和减益的伤害。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "lock_dummy",
+      "title": "召唤物锁定傀儡",
+      "description": "开启后，召唤物会把训练用傀儡当作可攻击目标（原版因为傀儡无敌而不会锁定）。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "功能设置"
+    },
+    {
+      "key": "count_trap",
+      "title": "DPS 计入陷阱伤害",
+      "description": "开启后，陷阱弹幕、尖刺等不是由玩家直接造成的伤害也计入 DPS。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "功能设置"
+    },
+    {
+      "key": "count_debuff",
+      "title": "DPS 计入减益伤害",
+      "description": "开启后，中毒、着火、流血等持续伤害（DoT）也计入 DPS。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "功能设置"
+    }
+  ]
+}

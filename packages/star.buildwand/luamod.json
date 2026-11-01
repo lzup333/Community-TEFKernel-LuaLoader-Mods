@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "star.buildwand",
+  "version": "2.1.1",
+  "version_code": 8,
+  "api_version": 1,
+  "multiplayer_safe": true
+}

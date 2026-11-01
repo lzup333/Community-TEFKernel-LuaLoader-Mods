@@ -1,0 +1,49 @@
+{
+  "pkgId": "liuxin.monstermorph.probe",
+  "name": "怪物伙伴",
+  "author": "liu xin",
+  "version": "1.0.0",
+  "versionCode": 27,
+  "brieflyDescribe": "怪物伙伴",
+  "description": "类似宝可梦的宠物 RPG 系统。培养你的宠物征战吧。",
+  "dependence": [],
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "features": [
+    "UI_IMPROVEMENT"
+  ],
+  "sizeCategory": "SMALL",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "targetGameVersion": "Terraria Android 1.4.5.8"
+}

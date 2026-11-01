@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "operit.weaponiframe",
+  "version": "1.7.0",
+  "version_code": 16,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

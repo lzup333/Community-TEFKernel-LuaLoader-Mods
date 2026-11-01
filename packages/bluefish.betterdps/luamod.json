@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.betterdps",
+  "version": "1.0.1",
+  "version_code": 2,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "让召唤物也能锁定傀儡，DPS显示增加陷阱和减益的伤害。"
+}

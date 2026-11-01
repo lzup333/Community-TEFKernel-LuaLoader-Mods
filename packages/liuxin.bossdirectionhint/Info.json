@@ -1,0 +1,58 @@
+{
+  "pkgId": "liuxin.bossdirectionhint",
+  "name": "Boss方向提示",
+  "author": "liuxin",
+  "description": "指针在玩家周围360°指向Boss，支持六种样式及替换自定义PNG；Boss越近，指针越靠近玩家并缩小。显示Boss负面Buff图标与剩余秒数。",
+  "version": "3.1",
+  "versionCode": 34,
+  "dependence": [],
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true
+    },
+    "windows": {
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "x64": false,
+      "arm64": false
+    }
+  },
+  "settings": [
+    {
+      "key": "distance_pointer_enabled",
+      "title": "随Boss距离调整指针",
+      "description": "开启后Boss越近，指针越靠近玩家并缩小；关闭后保持固定距离和大小。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "指针"
+    },
+    {
+      "key": "pointer_style",
+      "title": "指针样式",
+      "description": "1：原版/自定义；2：绿叶；3：紫色乌贼；4：立体箭头；5：紫色弧形；6：彩色连箭。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "section": "指针",
+      "unit": ""
+    }
+  ],
+  "brieflyDescribe": "360° Boss指针、六种样式与负面Buff倒计时",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "sizeCategory": "SMALL",
+  "features": [
+    "ASSISTANCE",
+    "UI_IMPROVEMENT"
+  ]
+}

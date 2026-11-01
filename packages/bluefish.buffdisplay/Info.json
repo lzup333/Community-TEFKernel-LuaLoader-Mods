@@ -1,0 +1,138 @@
+{
+  "pkgId": "bluefish.buffdisplay",
+  "name": "Buff显示",
+  "author": "蓝色大肥鱼",
+  "version": "1.2.4",
+  "versionCode": 16,
+  "brieflyDescribe": "玩家及NPC显示Buff效果",
+  "description": "玩家及NPC头顶显示Buff效果及剩余时间\n感谢沫黎雅的大力支持。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "show_player",
+      "title": "显示玩家 Buff",
+      "description": "开启后，自己头顶显示 Buff 图标与剩余时间。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "显示设置"
+    },
+    {
+      "key": "show_npc",
+      "title": "显示 NPC Buff",
+      "description": "开启后，屏幕内所有敌人的头顶也会显示 Buff 图标与剩余时间。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "显示设置"
+    },
+    {
+      "key": "only_debuff",
+      "title": "只看负面 Buff",
+      "description": "开启后只显示减益（如中毒、着火了、流血）；关闭则增益和减益都显示。",
+      "type": "CHOICE",
+      "defaultValue": "false",
+      "options": [
+        {
+          "value": "true",
+          "label": "只看负面"
+        },
+        {
+          "value": "false",
+          "label": "全部显示"
+        }
+      ],
+      "section": "显示设置"
+    },
+    {
+      "key": "show_timer",
+      "title": "显示剩余时间",
+      "description": "开启后，图标下方用数字显示剩余秒数；关闭则只显示图标。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "显示设置"
+    },
+    {
+      "key": "max_icons",
+      "title": "每个目标最多显示",
+      "description": "每个玩家或 NPC 头顶最多画几个 Buff 图标。数值越大画面越全，但同屏目标多时更吃性能。",
+      "type": "INTEGER",
+      "defaultValue": 4,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "个",
+      "section": "显示设置"
+    }
+  ]
+}

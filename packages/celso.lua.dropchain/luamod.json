@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "celso.lua.dropchain",
+  "version": "1.4.0",
+  "version_code": 5,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

@@ -1,0 +1,144 @@
+{
+  "pkgId": "lua.bluefish.jumproll",
+  "name": "更好的猛冲与跳跃",
+  "author": "蓝色大肥鱼",
+  "version": "3.0.0",
+  "versionCode": 202,
+  "brieflyDescribe": "猛冲、跳跃时翻滚，支持翻滚期间无敌，支持翻滚获得一次猛击。",
+  "description": "更好的猛冲与跳跃：猛冲、跳跃时角色会翻滚，翻滚期间附带无敌帧（0.17秒），翻滚结束时获得一次猛击（提升近战伤害）。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "dash_roll",
+      "title": "冲刺翻滚",
+      "description": "开启后，冲刺（猛冲）时角色做侧滚翻（默认开启）。关闭则冲刺不再翻滚。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "翻滚设置"
+    },
+    {
+      "key": "jump_roll",
+      "title": "跳跃翻滚",
+      "description": "开启后，跳跃与二段跳时角色做空中前空翻（默认开启）。关闭则跳跃不再翻滚。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "翻滚设置"
+    },
+    {
+      "key": "iframe",
+      "title": "翻滚无敌",
+      "description": "开启后，跳跃/冲刺翻滚期间角色附带短暂无敌（默认开启）。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "翻滚设置"
+    },
+    {
+      "key": "add_buff",
+      "title": "翻滚后猛击",
+      "description": "开启后，每次翻滚结束时给角色附加【惊人一刻】增益（ID:198，大幅提升近战伤害，默认开启）。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "翻滚设置"
+    },
+    {
+      "key": "trail",
+      "title": "翻滚残影",
+      "description": "开启后，跳跃/冲刺翻滚期间会留下渐隐的烟雾残影（默认开启）。",
+      "type": "CHOICE",
+      "defaultValue": "true",
+      "options": [
+        {
+          "value": "true",
+          "label": "开启"
+        },
+        {
+          "value": "false",
+          "label": "关闭"
+        }
+      ],
+      "section": "翻滚设置"
+    }
+  ]
+}

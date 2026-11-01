@@ -1,0 +1,27 @@
+{
+  "pkgId": "lua.qing.betterexperience",
+  "name": "更好的体验",
+  "author": "qing",
+  "version": "1.2.2",
+  "versionCode": 122,
+  "brieflyDescribe": "科技改变生活",
+  "description": "- 背包/仓库内的增益家具无需放置和交互即可生效\n- 背包/仓库内的制作站无需放置即可使用\n- 每种晶塔放置数量无限制\n- 晶塔传送不再需要至少两个NPC\n- 分配房间后NPC自动瞬移进入房间\n- 实时显示玩家属性\n- 可调整0~100倍的刷怪倍率\n- 可调整游戏内时间\n- 可控制沙尘暴、打雷、雨、风、日食、血月、月相",
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependency": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

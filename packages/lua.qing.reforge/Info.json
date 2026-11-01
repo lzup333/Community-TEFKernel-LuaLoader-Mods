@@ -1,0 +1,27 @@
+{
+  "pkgId": "lua.qing.reforge",
+  "name": "自动重铸",
+  "author": "qing",
+  "version": "1.0.0",
+  "versionCode": 100,
+  "brieflyDescribe": "解放你的右手",
+  "description": "实现自动重铸效果，由于是单开窗口，所以不能合并到《更好的体验》，但与之并不冲突，所以，开两个模组一样好用\n₌᳐･֊･₌᳐੭",
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependency": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

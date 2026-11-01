@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.buffdisplay",
+  "version": "1.2.4",
+  "version_code": 16,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "玩家及NPC头顶显示Buff效果及剩余时间\n感谢沫黎雅的大力支持。"
+}

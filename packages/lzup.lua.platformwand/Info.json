@@ -1,0 +1,22 @@
+{
+  "pkgId": "lzup.lua.platformwand",
+  "name": "平台魔杖",
+  "author": "lzup",
+  "version": "1.0.0",
+  "versionCode": 1,
+  "description": "用20个木头合成平台魔杖\n使用铺放木平台并消耗背包里的木平台\n遇到剑能砍掉的草/藤/花会摧毁后继续\n感谢Freya提供贴图\n仅支持Android单人模式",
+  "targetGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [
+    "lzup.lua.longplatform"
+  ],
+  "experimental": true
+}

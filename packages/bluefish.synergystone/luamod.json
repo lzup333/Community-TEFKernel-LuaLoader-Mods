@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.synergystone",
+  "version": "1.0.2",
+  "version_code": 3,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "这就是我们的频率啊\n碎裂之石、毁灭臂环、火山碎屑石协同攻击强化。"
+}

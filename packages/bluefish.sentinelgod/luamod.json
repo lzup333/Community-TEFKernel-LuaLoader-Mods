@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.sentinelgod",
+  "version": "1.2.2",
+  "version_code": 15,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "你说着友情啊、羁绊啊、未来啊，带着一堆的器灵过来了\n重型投石索、圣殿骑士投石索、斥候投石索、皇家卫队护具携带哨兵数量强化。"
+}

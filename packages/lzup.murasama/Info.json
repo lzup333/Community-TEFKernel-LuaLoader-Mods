@@ -1,0 +1,52 @@
+{
+  "pkgId": "lzup.murasama",
+  "name": "村正",
+  "author": "Raion Light / lzup333",
+  "version": "0.3.8",
+  "versionCode": 11,
+  "brieflyDescribe": "BunnyLoader 鬼妖村正移植（仅默认皮肤 / 仅 PE）",
+  "description": "移植自 BunnyLoader 的 Murasama Standalone（仅默认皮肤 / 仅 PE / Android）。0.3.8：修正 0.3.7 造成的左右都偏。根因是「贴图帧尺寸 != 命中框尺寸」时，弹丸落点取决于内核采用哪个原点（帧中心 / 命中框中心 / 贴图中心），三种取法位置不同，因此无论偏移怎么调总有一边错。现改为资产端保证不变式：帧尺寸 == 命中框尺寸 == 256（正方形）且刀柄在帧中心（实测 <=1.1px），于是三种原点取法结果一致，与内核实现无关；画面尺寸用 scale=2.0 还原（256*2=512）。另：斩击绘制层设为 OverPlayers(4)（源码顺序 DrawProjectiles→玩家→OverPlayers）；挥舞时不画刀鞘；0.3.3 起统一「字段→属性 getter」安全取值（Player.CCed 等是只读属性）。（特殊按键技能暂不实现。）",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": true
+}

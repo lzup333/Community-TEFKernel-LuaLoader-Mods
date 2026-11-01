@@ -1,0 +1,62 @@
+{
+  "pkgId": "lzup.lua.veinminer",
+  "name": "连锁挖矿 (VeinMiner)",
+  "author": "lzup333",
+  "version": "1.4.2",
+  "versionCode": 20261023,
+  "brieflyDescribe": "挖矿时自动连锁破坏相连的矿石与宝石脉",
+  "description": "破坏矿石或宝石时，自动连锁破坏所有同类型且相连的矿石与宝石。\n仅连锁矿石与宝石，挖石头、泥土等普通方块不触发。\n联机：客户端连锁会向服务端发送图格请求，由服务端权威执行并广播。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "chain_types",
+      "title": "连锁方块ID",
+      "description": "会触发连锁的方块ID, 逗号分隔",
+      "type": "STRING",
+      "defaultValue": "6,7,8,9,22,37,56,58,107,108,111,166,167,168,169,204,211,221,222,223,408,63,64,65,66,67,68,178,566",
+      "section": "连锁类型"
+    }
+  ]
+}

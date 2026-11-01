@@ -1,0 +1,117 @@
+{
+  "pkgId": "Omni.lua.more_slots",
+  "name": "更多的栏位",
+  "author": "Omni",
+  "version": "1.1.0",
+  "versionCode": 20261017,
+  "brieflyDescribe": "拥有更多栏位",
+  "description": "\n\n■ 主要功能\n· 装饰栏生效\n· 时装栏生效\n· 背包的装备以及饰品生效\n· 背包套装奖励\n· 护甲倍率\n· 装备/饰品/背包防御开关\n\n■ 温馨提示 \n如果开启「背包生效」，模组每帧会扫描几百个格子，可能会有轻微卡顿。如果只想要时装和装饰栏生效，可以把背包相关的关掉。",
+  "features": ["MECHANICS_CHANGE", "UTILITY"],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true,  "arm": true,  "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": true,  "x86": true  },
+    "linux":   { "arm64": false, "arm": false, "x64": true,  "x86": false },
+    "mac":     { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios":     { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "模组总开关",
+      "description": "关闭后模组完全停止。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "defense_mult",
+      "title": "护甲倍率",
+      "description": "最终防御 = 当前总防御 × (本值 ÷ 100)。100 = 原版，200 = 双倍。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "social_acc_enabled",
+      "title": "启用装饰栏生效",
+      "description": "让装饰栏的饰品提供属性与效果。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "vanity_armor_enabled",
+      "title": "启用时装栏生效",
+      "description": "让时装栏的盔甲提供防御与特殊效果。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "inventory_enabled",
+      "title": "启用背包生效",
+      "description": "让主背包、小猪、保险箱、护卫、虚空里的饰品和盔甲生效。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "prefix_enabled",
+      "title": "启用修饰语加成",
+      "description": "让上述生效物品的修饰语（如护佑+4防御) 提供加成。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "vanity_set_enabled",
+      "title": "启用时装套装效果",
+      "description": "时装穿齐一套时触发套装奖励。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "inventory_set_enabled",
+      "title": "启用背包套装效果",
+      "description": "背包里集齐一套盔甲时触发套装奖励。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "equip_def_enabled",
+      "title": "装备防御生效",
+      "description": "控制装备栏和时装栏的盔甲是否提供防御力。关闭后防御归零，但特殊效果依然生效。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "acc_def_enabled",
+      "title": "饰品防御生效",
+      "description": "控制饰品栏与装饰栏是否提供防御力。关闭后防御归零，但特殊效果依然生效。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "inv_def_enabled",
+      "title": "口袋背包防御生效",
+      "description": "控制背包、小猪、保险箱、护卫、虚空里的物品是否提供防御力。关闭后防御归零，但特殊效果依然生效。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "debug_log",
+      "title": "调试日志",
+      "description": "输出配置加载详情。",
+      "type": "SWITCH",
+      "defaultValue": false
+    }
+  ]
+}

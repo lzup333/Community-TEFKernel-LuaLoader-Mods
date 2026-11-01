@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "ailab.lua.buffstack",
+  "version": "2.3.2",
+  "version_code": 20261220,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

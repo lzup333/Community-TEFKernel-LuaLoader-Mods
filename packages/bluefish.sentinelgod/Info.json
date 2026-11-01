@@ -1,0 +1,52 @@
+{
+  "pkgId": "bluefish.sentinelgod",
+  "name": "我就是哨兵神",
+  "author": "蓝色大肥鱼",
+  "version": "1.2.2",
+  "versionCode": 15,
+  "brieflyDescribe": "投石索系列强化",
+  "description": "你说着友情啊、羁绊啊、未来啊，带着一堆的器灵过来了\n重型投石索、圣殿骑士投石索、斥候投石索、皇家卫队护具携带哨兵数量强化。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true
+}

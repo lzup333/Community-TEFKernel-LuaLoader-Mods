@@ -1,0 +1,502 @@
+{
+  "pkgId": "ailab.lua.buffstack",
+  "name": "药水叠加 (BuffStack)",
+  "author": "哇",
+  "version": "2.3.2",
+  "versionCode": 20261220,
+  "brieflyDescribe": "药水叠加 v2.3.1：49 项设置 + 羊皮纸 3 页面板（紫罗兰强调色 / 可选 1~1000 滑块）。把「同一种状态效果再吃一次」从原版的「谁长留谁」改成剩余时间相加（只占 1 个槽位），并新增按 buff 单独时长上限、减益也叠加、层数/总时长播报、药水冷却缩减、强制移除/免疫指定 buff、所有效果死亡后都保留，以及 5 模组统一的 /forge help|stat|check|export|import 与进世界自检播报。",
+  "description": "只做一件事：身上已经有某个状态效果、又吃到同一个效果时，把两次的剩余时间**相加**，仍然只占 1 个状态槽位，而不是按原版的「谁长留谁」。\n\n■ v2.0.0 新增（逐条）\n1) 按 buff 单独的时长上限（per_buff_limits，字符串）：写 `编号:上限秒` 或 `名字:上限秒`，逗号分隔，例如 `5:600, 铁皮:600, 中毒:30`。另有「按类别的默认上限」（per_buff_cat_limits），写 `类别:上限秒`，类别可用 buff/debuff/minion/pet/food/imbue/other 或 增益/减益/仆从/宠物/食物/附魔/其他，多条用 `|` 或 `,` 分隔，例如 `debuff:60|buff:3600`。\n★ 与全局上限的关系：**两者取小**。最终写入的时长 = min(叠加结果, 单条上限, 类别默认上限, 全局上限)。全局 max_time_sec 仍是总闸，单条上限不可能突破它。\n★ 写错一条只跳过那一条：解析失败会在日志与诊断域里给出明确原因（缺分隔符 / 上限不是整数 / 编号越界 / 未知类别 / 找不到该名字的效果），其余条目照常生效，也**绝不会**影响其它设置。\n★ 按名字写需要 Lang.GetBuffName，进世界后才会解析（解析不了会报「找不到名叫…的效果」）。\n\n2) 减益也叠加（stack_debuff，默认关）：PVP / 自虐向。注意持续伤害类减益叠加后同一时间掉血更多。\n★ 优先级顺序（写死，有测试断言）：黑名单 > 免疫表 > 减益开关 > 强制位 > 类别开关 > 其他。也就是「黑名单 > 减益开关」——被黑名单拦下的减益，打开这个开关也不会叠加。\n\n3) 层数与总时长可视化：叠加播报升级为「时间叠加：60 秒 + 60 秒 = 120 秒（当前 2 层 / 共 120 秒）」。层数 = 本模组在这条效果上成功结算的次数，效果过期（或距上次超过 5 秒）后重新从 1 计。\n\n4) 药水冷却缩减（potion_delay_mult，倍率类，默认 100 = 1 倍，上限 10000 = 100 倍）。★ 只在药水叠加里实现（玩家工坊不碰这一项）。做法：改「药水疾病(21)」这条效果的时长 —— 游戏自己在 Player.UpdateBuffs 里有 `potionDelay = buffTime[j]`，所以冷却会等比缩短，而且完全不影响药水疾病本身该不该叠加的判定；另在 DelBuff(21) 后缀补乘一次（原版重置回原值时）。已知代价：折算可能差 1 帧；药水疾病图标的倒计时会跟着变短；哲学家之石等原版加成仍在本模组之后相乘。\n\n5) 强制移除 / 免疫指定 buff（immune_buffs，字符串）：写编号或名字，逗号分隔，例如 `94, 6, 魔力病`。\n★ 与黑名单的区别：**黑名单 = 不叠加**（效果照样存在，只按原版取较长）；**免疫表 = 直接不给加**（获得时被拦下），并且身上已经有的话立刻移除。\n\n6) 统一聊天命令与启动自检（本批 5 个模组同一套契约）：\n· /forge help — 命令表\n· /forge stat — 诊断统计（每域调用次数 / 命中 / 错误 / 最近错误 / 平均与峰值耗时，超阈值标 SLOW）\n· /forge check — 重跑一次启动自检\n· /forge export [all] — 把当前设置压成 `forge:buffstack|k=v;…|#校验` 的短串打进聊天栏（默认只导出与默认值不同的项）；超过 320 字符自动分片成 `[i/n]` 多行\n· /forge import <串>（支持分片，逐片贴入即可）/ /forge import reset 放弃已缓存的分片\n  导入 = 就地改写 config.json 的对应 key（未知 key 与 schemaVersion 原样保留）+ 立即生效。\n★ 自检播报（self_check，默认开）：每次进世界的第一帧，把每个功能域的状态播一次 —— 「[药水叠加] 域 叠加核心：句柄✅ 钩子✅ 本帧命中 0 次」，最多 12 行，超出折叠成一行统计。这一步就是用来回答「为什么没生效」的。diag_report_cmd（默认 forge stat）与 diag_slow_ms（默认 50 毫秒）可调。\n\n■ v2.1.0 新增\n· 全部死亡保留（persist_all_on_death，SWITCH，默认关）：开启后死亡重置时身上**所有**状态效果（无论是否已永久化、无论增益还是减益）都不会被清掉，复活后仍在。原理同「死亡复活后仍保留」——写游戏自带的 Main.persistentBuff；区别是那条只管「已永久化的效果」，这条覆盖全部，两条互不依赖。打开时会在改动前记下每条编号的原值，关掉开关后精确还原（游戏自带的 persistentBuff[71/73…79] 不受影响），无需重启。★ 注意：减益也会跟着活下来，复活瞬间可能继续掉血。\n\n■ 沿用 v1.1.0 的内容\n· 只保留「时间叠加」：不再有叠加方式(mode)与效果层数上限(max_layers)，也不再有占多槽位的代码路径。\n· 4 项总控：联机仅房主生效(host_only) / 非关键项刷新间隔(tick_interval，默认 10 帧，把黑名单重建、类别缓存失效、免疫清扫等按序号平摊进 N 个桶) / 自动重读设置(config_reload_sec) / 日志总开关(write_log，默认关)。\n· 类别：「其他」(cat_other) 作为兜底，任何编号都有归属（判定不出来的一律进「其他」）。\n· 默认黑名单：魔力病(94)、魔力涌动/再生(6)；黑名单槽位存「编号 + 1」。\n· 永久化：剩余时长达到阈值（或打开「永不消失」）后每帧维持、不再递减，并用游戏自带的 persistentBuff 标记，死亡复活后仍在；默认只作用于增益。\n· 滑块上限按类型收紧：秒类 86400（一天）、帧/秒间隔类 60、编号类 401；**倍率/百分比类统一 10000（= 100 倍）**。读取 config.json 时按同一区间双向夹取。\n· 44 格状态槽位上限不改（原版字段初始化时定死），真机更短时会在第一次扫描里探测出真实长度并按它工作。\n· Main.NewText 只接受能安全构造实参的重载（手机版 5 参），按句柄自身的形参个数调用；Main.myPlayer / Main.gameMenu 在手机版是**属性**，只走 get_myPlayer() / get_gameMenu()。\n\n■ 本代加载器做不到的功能（详见 README 同名章节）\n· 没有 ModPacket / 网络 API → 只能手动 /forge export + 客机 /forge import，不能自动把房主设置推给所有人。\n· 不能新增状态槽位（Player.maxBuffs 是 const，且数组长度在字段初始化时定死）。\n· 不能改「状态效果的持续伤害每帧掉多少血 / 掉血频率」这类没有暴露标量入口的行为。\n\n■ 未实机验证：本工作区无法启动游戏，以上结论全部来自反编译源码、官方符号表(TSV)、现成 Mod 源码与假内核逻辑测试（`项目/buffstack/tests/run_tests.py`），**未经实机验证**。建议先只装这一个模组、从默认设置开始试。\n\n■ 开发方式：AI（DeepSeek 模型）辅助开发的纯 Lua 模组，靠 Hook 加载器暴露的游戏方法实现。所有符号都先在反编译源码、官方符号表(TSV)与现成 Mod 源码里核对过，取不到就只打日志并降级。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "QUALITY_OF_LIFE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "总开关",
+      "description": "关掉后本模组完全不介入：状态效果按原版规则刷新（同种效果只保留较长的那一次），不会叠加。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "host_only",
+      "title": "联机：仅房主生效",
+      "description": "默认开启，避免好友各自设置互相打架。语义：读游戏自己的 Main.netMode，netMode == 1（客机）时本模组只读不写、完全不介入游戏数据；netMode == 0（单人）/ 2（房主、服务端）照常。取不到 netMode 句柄时会退化成「不限制」，绝不会因为联机判定失败就让整个模组失效。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "tick_interval",
+      "title": "非关键项刷新间隔(帧)",
+      "description": "把逐帧工作分两档：必须逐帧的（永久效果时长维持）保持逐帧；可放宽的（黑名单/白名单集合重建、类别判定缓存、死亡保留登记等）按序号平摊进本值个桶，每帧只跑一个桶。默认 10 ≈ 开销降到 1/10；填 1 = 逐帧（等价旧行为）。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "config_reload_sec",
+      "title": "自动重读设置间隔(秒)",
+      "description": "在 TEFManager 里改完设置不用重启游戏：每隔本值秒重读一次 config.json，同一个节拍顺手刷新 netMode 与 myPlayer 缓存。填小了会多点文件 IO，填大了改设置生效慢。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "write_log",
+      "title": "写入日志文件(日志过大会崩游戏)",
+      "description": "日志总开关，默认关闭。关闭时，除 setup() 阶段「符号取不到 / 钩子装不上」这类一次性诊断外，运行期任何日志都不写（尤其逐帧与叠加这些高频路径），也不会往模组私有目录写任何日志文件。排查问题时才需要开。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "self_check",
+      "title": "启动自检播报（进世界首帧）",
+      "description": "默认开启。每次进世界后的第一帧，把每个功能域的状态在聊天栏播报一次（句柄/钩子/本帧命中），最多 12 行、超出折叠成一行统计 —— 这是排查「为什么没生效」最快的一步。一次性，不刷屏。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "diag_report_cmd",
+      "title": "诊断报告命令",
+      "description": "调用它等于执行 /forge stat（打印每域的调用次数、命中、错误、最近错误与耗时）。留空 = 用默认值 forge stat。",
+      "type": "STRING",
+      "defaultValue": "forge stat"
+    },
+    {
+      "key": "diag_slow_ms",
+      "title": "慢域阈值(毫秒)",
+      "description": "某个功能域的平均单次耗时超过这个值，就在 /forge stat 的对应行标上 SLOW，方便定位卡顿来源。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "unit": "毫秒"
+    },
+    {
+      "key": "max_time_sec",
+      "title": "叠加后时长上限",
+      "description": "公式：叠加后的时长上限 = (本值 − 1) 秒（1 = 不限）。★ 这是**总闸**：单条上限（单 buff 上限表 / 类别默认上限）与它**取小**，不可能突破它。上限按秒类收紧到一天：86400 = 86400 − 1 秒 ≈ 一天。游戏本身对时长也有夹取，调得再高也未必有效。",
+      "type": "INTEGER",
+      "defaultValue": 86400,
+      "min": 1,
+      "max": 86400,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "per_buff_limits",
+      "title": "单 buff 时长上限表",
+      "description": "格式：`编号:上限秒` 或 `名字:上限秒`，逗号分隔，例如 `5:600, 铁皮:600, 中毒:30`。与全局上限**取小**：最终时长 = min(叠加结果, 单条上限, 类别默认上限, 全局上限)，所以全局上限仍是总闸、单条上限不可能突破它。写错的那一条会被跳过并在日志/诊断域给出原因（缺分隔符、上限不是整数、编号越界、找不到该名字的效果），其余条目照常生效。按名字写需要游戏的中文名，进世界后才会解析。留空 = 只按全局上限。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "per_buff_cat_limits",
+      "title": "按类别的默认时长上限",
+      "description": "格式：`类别:上限秒`，多条用 `|` 或 `,` 分隔，例如 `debuff:60|buff:3600`。类别可用 buff/debuff/minion/pet/food/imbue/other，也可用中文 增益/减益/仆从/宠物/食物/附魔/其他。优先级：单 buff 上限 > 类别默认 > 全局上限（全部取小）。留空 = 不设类别默认。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "keep_sec",
+      "title": "永久效果的维持时长",
+      "description": "永久效果每帧被维持到的剩余秒数（游戏里显示成 60:00 这种）。填大一点没有副作用，模组会一直续。上限按秒类收紧到一天（86400 秒）。",
+      "type": "INTEGER",
+      "defaultValue": 3600,
+      "min": 60,
+      "max": 86400,
+      "step": 60,
+      "unit": "秒"
+    },
+    {
+      "key": "cat_buff",
+      "title": "类别：增益",
+      "description": "普通增益（铁皮、再生、敏捷、黑曜石皮…）是否可以叠加。想只让增益叠加、减益照旧，就把下面减益那条关掉。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "cat_debuff",
+      "title": "类别：减益",
+      "description": "减益（中毒、着火、诅咒、破甲…）是否可以叠加。注意：持续伤害类减益叠加后会让同一时间掉更多血，拿不准就关掉这一条。 想要「减益也能叠加」，请看「减益也叠加」那一条（默认关）：那条开关打开后本类别开关才生效；被黑名单拦下的减益依然不叠加。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "cat_minion",
+      "title": "类别：召唤仆从",
+      "description": "召唤类仆从的 buff（史莱姆、黄蜂、小鬼、星辰之龙、泰拉棱镜…）是否可以叠加。仆从的在场数量仍受原版限制，叠加只管 buff 时长。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "cat_pet",
+      "title": "类别：宠物",
+      "description": "光照宠物与外观宠物 buff（妖精、可疑触手、发光蜗牛…）是否可以叠加。原版宠物之间有互斥清理，叠出来的时长可能被后召的宠物清掉，介意就关掉。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "cat_food",
+      "title": "类别：食物饱食",
+      "description": "吃得好 / 很满意 / 吃饱一类食物 buff 是否可以叠加。原版不同食物之间本来就会互相顶掉，这一条只管同一种食物。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "cat_imbue",
+      "title": "类别：武器附魔",
+      "description": "瓶装附魔（毒液瓶、火焰瓶、诅咒焰瓶…）是否可以叠加。原版附魔之间互斥，叠加会让同一瓶的时长更久。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "cat_other",
+      "title": "类别：其他",
+      "description": "兜底类别，默认开启。任何 buff 编号都一定有归属：6 个具名类别判定不出来的一律进「其他」，由这一条决定是否叠加。「判定不出来」的两种情况：① 编号超出已知范围（大于 350）；② 游戏数据取不到（没有 Main / 静态数组句柄为空）导致无法判断它是不是减益、宠物、附魔。关掉它可以让「来路不明」的效果一律不叠加（更保守）。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "stack_debuff",
+      "title": "减益也叠加",
+      "description": "默认关闭。开启后减益（中毒、着火、诅咒、破甲…）也按「剩余时间相加」处理。注意：持续伤害类减益叠加后同一时间掉的血更多，PVP 里也更强，属于自虐/对战向设置。优先级（写死）：黑名单 > 免疫表 > 本开关 > 强制可叠加位 > 类别开关 > 其他；被黑名单拦下的减益，打开本开关也不会叠加。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "immune_buffs",
+      "title": "强制移除 / 免疫的状态效果",
+      "description": "格式：编号或名字，逗号分隔，例如 `94, 6, 魔力病`。这些效果**根本不会被加上**（获得时拦下），身上已经有的会在进世界后立刻被移除。与黑名单的区别：黑名单 = 不叠加（效果照样存在，只按原版取较长）；免疫表 = 直接不给 / 直接移除。留空 = 不启用。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "blacklist_ids",
+      "title": "黑名单编号（填真实 ID，逗号分隔）",
+      "description": "填**真实 ID**，逗号分隔，例如 94,6,396；空 = 不启用。默认 94（魔力病）、6（魔力涌动/再生）、396（魔力过热，内置忽略）。与下面的旧槽位取并集，改完立即生效。",
+      "type": "STRING",
+      "defaultValue": "94,6,396"
+    },
+    {
+      "key": "blacklist_1",
+      "title": "黑名单槽位 1（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 95,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_2",
+      "title": "黑名单槽位 2（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 7,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_3",
+      "title": "黑名单槽位 3（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_4",
+      "title": "黑名单槽位 4（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_5",
+      "title": "黑名单槽位 5（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_6",
+      "title": "黑名单槽位 6（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_7",
+      "title": "黑名单槽位 7（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_8",
+      "title": "黑名单槽位 8（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_9",
+      "title": "黑名单槽位 9（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "blacklist_10",
+      "title": "黑名单槽位 10（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 一定不叠加（1 = 该槽位不使用）。推荐改用上面的「黑名单编号」填真实 ID，逗号分隔；两者取并集。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "allow_1",
+      "title": "强制可叠加槽位 1（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 无视类别开关一定叠加（1 = 该槽位不使用）；但压不过黑名单、免疫表与内置忽略项。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "allow_2",
+      "title": "强制可叠加槽位 2（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 无视类别开关一定叠加（1 = 该槽位不使用）；但压不过黑名单、免疫表与内置忽略项。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "allow_3",
+      "title": "强制可叠加槽位 3（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 无视类别开关一定叠加（1 = 该槽位不使用）；但压不过黑名单、免疫表与内置忽略项。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "allow_4",
+      "title": "强制可叠加槽位 4（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 无视类别开关一定叠加（1 = 该槽位不使用）；但压不过黑名单、免疫表与内置忽略项。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "allow_5",
+      "title": "强制可叠加槽位 5（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 无视类别开关一定叠加（1 = 该槽位不使用）；但压不过黑名单、免疫表与内置忽略项。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "allow_6",
+      "title": "强制可叠加槽位 6（ID+1，1=空）",
+      "description": "旧槽位兼容：填「真实 ID + 1」→ 无视类别开关一定叠加（1 = 该槽位不使用）；但压不过黑名单、免疫表与内置忽略项。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 401,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "perm_threshold_sec",
+      "title": "多少秒以上变永久",
+      "description": "公式：剩余时长 ≥ (本值 − 1) 秒的效果自动变永久（1 = 不启用）。上限按秒类收紧到一天。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 86400,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "never_expire",
+      "title": "永不消失（全局）",
+      "description": "开启后所有符合条件的效果一旦获得就永久维持，永不倒计时。默认只作用于增益，见下一条。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "perm_only_buff",
+      "title": "永久化只作用于增益",
+      "description": "保护性默认值：减益永远不会被永久化。追求极限自由度可以关掉——关掉后减益也会变永久（包括「永不消失」的效果），而且可能再也去不掉。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "persist_on_death",
+      "title": "死亡复活后仍保留",
+      "description": "用游戏自带的 persistentBuff 机制标记永久化的效果：死亡重置时不会被清掉，复活后还在。关掉则按原版规则，死亡后所有效果清空。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "persist_all_on_death",
+      "title": "所有效果死亡后都保留",
+      "description": "默认关闭。开启后，死亡重置时身上**所有**状态效果（无论是否已永久化、无论增益还是减益）都不会被清掉，复活后仍在。原理与上一条相同：写游戏自带的 Main.persistentBuff。区别：上一条只管「已经永久化」的效果，这一条覆盖**全部**；两条互不依赖，可以只开其中一条。改动前会记下每条编号的原值，关掉本开关后精确还原，不会污染游戏自带的那几个条目，也不需要重启游戏。注意：减益（中毒/着火/诅咒…）也会跟着活过死亡，复活瞬间可能继续掉血。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "potion_delay_mult",
+      "title": "药水冷却倍率(%)",
+      "description": "默认 100（= 1 倍，原版行为）。改成 50 = 冷却减半，200 = 冷却翻倍，上限 10000（= 100 倍）。★ 只在药水叠加里实现（玩家工坊不碰这一项，避免两处打架）。做法：改「药水疾病」这条效果的时长 —— 游戏自己会用它的时长当冷却计时器，所以冷却等比缩短，并且完全不影响药水疾病本身该不该叠加的判定；原版把冷却重置回原值的那一次也会补乘。已知代价：折算可能差 1 帧；药水疾病图标的倒计时会跟着变短；哲学家之石等原版加成仍在本模组之后相乘。游戏对很多数值有硬性夹取，滑块调高未必有效果。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "announce",
+      "title": "聊天栏播报",
+      "description": "每次叠加成功在聊天栏播报一行（含 buff 中文名、编号、当前层数与总时长），方便你知道该往黑名单里填什么。同一种效果 5 秒内只播一次。取不到可安全调用的 Main.NewText 时本功能自动关闭（叠加不受影响）。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "debug_log",
+      "title": "详细日志",
+      "description": "把槽位上限探测、写入失败、死亡保留登记等细节写进日志。只有排查问题时才需要开；它仍受上面「写入日志文件」总开关约束（总开关关掉时它也不输出）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "gui_enable",
+      "title": "显示游戏内面板",
+      "description": "关掉后 mod.on_gui 直接 return（不绘制、不响应）。可在本设置页或 /forge 命令随时开回来，不会锁死。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "gui_layout",
+      "title": "面板布局",
+      "description": "滚动 = 长内容放进 begin_scroll 虚拟列表；分页 = 每组/每页切片显示。老加载器没有 begin_scroll 时自动回落分页。",
+      "type": "CHOICE",
+      "defaultValue": "滚动",
+      "options": [
+        {
+          "value": "滚动",
+          "label": "滚动"
+        },
+        {
+          "value": "分页",
+          "label": "分页"
+        }
+      ]
+    },
+    {
+      "key": "gui_slider",
+      "title": "参数页数值滑块",
+      "description": "打开后，参数页的数值项会在数字输入框上方多一条 1~1000 的滑块（上限更小的项按该项上限）。滑块只改本次游戏里的运行时值；数字框仍然保留，可以自由输入任意整数，不受设置页区间夹取。",
+      "type": "SWITCH",
+      "defaultValue": false
+    }
+  ]
+}

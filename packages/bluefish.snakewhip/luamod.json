@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.snakewhip",
+  "version": "1.0.2",
+  "version_code": 3,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "蛇形手环、德鲁伊蛇纹斗篷、衔尾蛇指环升级成自动四切"
+}

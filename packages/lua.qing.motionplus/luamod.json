@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "lua.qing.motionplus",
+  "version": "1.2.5",
+  "version_code": 125,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

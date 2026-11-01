@@ -1,0 +1,41 @@
+{
+  "pkgId": "lzup.lua.creativemenu",
+  "name": "创造模式菜单 (Creative Menu)",
+  "author": "lzup333",
+  "version": "1.1.0",
+  "versionCode": 20261015,
+  "brieflyDescribe": "创造模式菜单！",
+  "description": "创造模式菜单，支持拼音检索物品/生物！",
+  "features": [],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": true, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": true, "x86": true },
+    "linux": { "arm64": false, "arm": false, "x64": true, "x86": true },
+    "mac": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios": { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "pinyin_mode",
+      "title": "拼音识别方式",
+      "description": "搜索时按哪种编码匹配拼音",
+      "type": "CHOICE",
+      "defaultValue": "full",
+      "options": [
+        { "value": "full", "label": "全拼" },
+        { "value": "ms", "label": "微软双拼（ing=n）" }
+      ],
+      "section": "搜索"
+    }
+  ]
+}

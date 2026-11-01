@@ -1,0 +1,31 @@
+{
+  "pkgId": "liuxin.lua.betterzoom",
+  "name": "缩放界面",
+  "author": "liuxin",
+  "version": "1.0",
+  "versionCode": 9,
+  "description": "游戏内双指自由缩放，扩大可见范围；无GUI，设置本地保存。保留v1.6有效相机逻辑，精简逐帧开销及旧配置。",
+  "dependence": [],
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    }
+  },
+  "stableVerified": false,
+  "experimental": true
+}

@@ -1,0 +1,336 @@
+-- 获取时期独立于稀有度、前缀和熟练等级。可补充明确掉落/商店/事件来源。
+-- 原版内部名与已核对的 ItemID 数字一起登记。Android 常量字段没有可读存储地址。
+-- ID 来自 Terraria 1.4.5.8 PE 的 ItemID 声明；注册不读取 const 字段指针。
+local M={
+    CopperShortsword={id=3507,stage=0,source='初始/铜锭制作'},TinShortsword={id=3501,stage=0,source='锡锭制作'},
+    Starfury={id=65,stage=0,source='天空箱'},EnchantedSword={id=989,stage=0,source='附魔剑冢/宝匣'},
+    Terragrim={id=4144,stage=0,source='附魔剑冢'},
+    Minishark={id=98,stage=0,source='军火商'},Musket={id=96,stage=0,source='暗影珠'},TheUndertaker={id=800,stage=0,source='猩红之心'},
+    Vilethorn={id=64,stage=0,source='暗影珠'},CrimsonRod={id=1256,stage=0,source='猩红之心'},
+    WandofSparking={id=3069,stage=0,source='地表箱'},BabyBirdStaff={id=4281,stage=0,source='生命木箱'},
+    Muramasa={id=155,stage=3,source='地牢箱（标准流程）'},WaterBolt={id=165,stage=3,source='地牢（标准流程）'},
+    Handgun={id=164,stage=3,source='地牢箱（标准流程）'},AquaScepter={id=157,stage=3,source='地牢箱（标准流程）'},
+    MagicMissile={id=113,stage=3,source='地牢箱（标准流程）'},BlueMoon={id=163,stage=3,source='地牢箱（标准流程）'},
+    BreakerBlade={id=426,stage=4,source='血肉墙掉落'},ClockworkAssaultRifle={id=434,stage=4,source='血肉墙掉落'},
+    LaserRifle={id=514,stage=4,source='血肉墙掉落'},FireWhip={id=4912,stage=4,source='血肉墙掉落'},
+    TentacleSpike={id=5094,stage=0,source='初期敌怪掉落'},
+    BladeofGrass={id=190,stage=0,source='丛林孢子/毒刺/藤蔓制作'},
+    -- 后期明确来源；离线样本核对自同版 Item.SetDefaults，运行时配方样本优先。
+    Zenith={id=4956,stage=10,source='月亮领主掉落/终局制作',sample={damage=190,useTime=10,category='melee'}},
+    Meowmere={id=3063,stage=10,source='月亮领主掉落/终局制作',sample={damage=200,useTime=14,category='melee'}},
+    StarWrath={id=3065,stage=10,source='月亮领主掉落/终局制作',sample={damage=170,useTime=16,category='melee'}},
+    Terrarian={id=3389,stage=10,source='月亮领主掉落/终局制作',sample={damage=190,useTime=25,category='melee'}},
+    SDMG={id=1553,stage=10,source='月亮领主掉落/终局制作',sample={damage=85,useTime=5,category='ranged'}},
+    LastPrism={id=3541,stage=10,source='月亮领主掉落/终局制作',sample={damage=100,useTime=10,category='magic'}},
+    MoonlordTurretStaff={id=3569,stage=10,source='月亮领主掉落/终局制作',sample={damage=100,useTime=30,category='summon'}},
+    LunarFlareBook={id=3570,stage=10,source='月亮领主掉落/终局制作',sample={damage=100,useTime=10,category='magic'}},
+    RainbowCrystalStaff={id=3571,stage=10,source='月亮领主掉落/终局制作',sample={damage=130,useTime=30,category='summon'}},
+    Celeb2={id=3930,stage=10,source='月亮领主掉落/终局制作',sample={damage=50,useTime=6,category='ranged'}},
+    SolarEruption={id=3473,stage=9,source='四柱碎片制作',sample={damage=105,useTime=20,category='melee'}},
+    DayBreak={id=3543,stage=9,source='四柱碎片制作',sample={damage=150,useTime=16,category='melee'}},
+    VortexBeater={id=3475,stage=9,source='四柱碎片制作',sample={damage=50,useTime=20,category='ranged'}},
+    Phantasm={id=3540,stage=9,source='四柱碎片制作',sample={damage=50,useTime=12,category='ranged'}},
+    NebulaArcanum={id=3476,stage=9,source='四柱碎片制作',sample={damage=70,useTime=30,category='magic'}},
+    NebulaBlaze={id=3542,stage=9,source='四柱碎片制作',sample={damage=130,useTime=12,category='magic'}},
+    StardustCellStaff={id=3474,stage=9,source='四柱碎片制作',sample={damage=60,useTime=36,category='summon'}},
+    StardustDragonStaff={id=3531,stage=9,source='四柱碎片制作',sample={damage=40,useTime=36,category='summon'}},
+    PossessedHatchet={id=1122,stage=8,source='石巨人后事件/掉落',sample={damage=80,useTime=14,category='melee'}},
+    Stynger={id=1258,stage=8,source='石巨人后事件/掉落',sample={damage=45,useTime=22,category='ranged'}},
+    HeatRay={id=1295,stage=8,source='石巨人后事件/掉落',sample={damage=90,useTime=10,category='magic'}},
+    StaffofEarth={id=1296,stage=8,source='石巨人后事件/掉落',sample={damage=125,useTime=24,category='magic'}},
+    GolemFist={id=1297,stage=8,source='石巨人后事件/掉落',sample={damage=90,useTime=24,category='melee'}},
+    InfluxWaver={id=2880,stage=8,source='石巨人后事件/掉落',sample={damage=100,useTime=20,category='melee'}},
+    Xenopopper={id=2797,stage=8,source='石巨人后事件/掉落',sample={damage=45,useTime=21,category='ranged'}},
+    LaserMachinegun={id=2795,stage=8,source='石巨人后事件/掉落',sample={damage=60,useTime=20,category='magic'}},
+    ChargedBlasterCannon={id=2882,stage=8,source='石巨人后事件/掉落',sample={damage=100,useTime=20,category='magic'}},
+    ElectrosphereLauncher={id=2796,stage=8,source='石巨人后事件/掉落',sample={damage=40,useTime=12,category='ranged'}},
+    DD2SquireBetsySword={id=3827,stage=8,source='石巨人后事件/掉落',sample={damage=180,useTime=20,category='melee'}},
+    DD2BetsyBow={id=3859,stage=8,source='石巨人后事件/掉落',sample={damage=38,useTime=30,category='ranged'}},
+    ApprenticeStaffT3={id=3870,stage=8,source='石巨人后事件/掉落',sample={damage=100,useTime=20,category='magic'}},
+    PiranhaGun={id=1156,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=40,useTime=30,category='ranged'}},
+    MagnetSphere={id=1266,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=48,useTime=20,category='magic'}},
+    InfernoFork={id=1445,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=70,useTime=30,category='magic'}},
+    SpectreStaff={id=1446,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=65,useTime=24,category='magic'}},
+    VampireKnives={id=1569,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=29,useTime=16,category='melee'}},
+    ScourgeoftheCorruptor={id=1571,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=70,useTime=20,category='melee'}},
+    StaffoftheFrostHydra={id=1572,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=100,useTime=30,category='summon'}},
+    Flairon={id=2611,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=66,useTime=20,category='melee'}},
+    TempestStaff={id=2621,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=50,useTime=36,category='summon'}},
+    RazorbladeTyphoon={id=2622,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=85,useTime=40,category='magic'}},
+    BubbleGun={id=2623,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=5,useTime=9,category='magic'}},
+    Tsunami={id=2624,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=53,useTime=24,category='ranged'}},
+    EmpressBlade={id=5005,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=90,useTime=36,category='summon'}},
+    FairyQueenMagicItem={id=4952,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=50,useTime=2,category='magic'}},
+    FairyQueenRangedItem={id=4953,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=50,useTime=2,category='ranged'}},
+    RainbowWhip={id=4914,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=170,useTime=30,category='summon'}},
+    Seedler={id=3018,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=50,useTime=23,category='melee'}},
+    TheEyeOfCthulhu={id=3292,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程'},
+    ButchersChainsaw={id=3098,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=120,useTime=8,category='melee'}},
+    DeadlySphereStaff={id=3249,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=55,useTime=36,category='summon'}},
+    RavenStaff={id=1802,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=55,useTime=28,category='summon'}},
+    BatScepter={id=1801,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=45,useTime=12,category='magic'}},
+    BlizzardStaff={id=1931,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=58,useTime=5,category='magic'}},
+    NorthPole={id=1947,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=80,useTime=30,category='melee'}},
+    SnowmanCannon={id=1946,stage=7,source='世纪之花后掉落/事件；猪鲨按标准流程',sample={damage=67,useTime=15,category='ranged'}},
+    -- 近战投射/回旋武器：分类仍取原版字段，来源独立登记。
+    ShadowFlameKnife={id=3054,stage=4,source='困难模式哥布林召唤师',sample={damage=43,useTime=12,category='melee'}},
+    FlyingKnife={id=3030,stage=4,source='困难模式宝箱怪',sample={damage=40,useTime=15,category='melee'}},
+    Bananarang={id=1324,stage=4,source='困难模式小丑',sample={damage=45,useTime=11,category='melee'}},
+    LightDisc={id=561,stage=5,source='机械Boss材料制作',sample={damage=60,useTime=14,category='melee'}},
+    ChainGuillotines={id=3012,stage=4,source='腐化宝箱怪',sample={damage=59,useTime=14,category='melee'}},
+    PaladinsHammer={id=1513,stage=7,source='世纪之花后地牢圣骑士',sample={damage=100,useTime=15,category='melee'}},
+}
+-- Arkhalis 在新版本为开发者套装来源，不登记旧版剑冢时期。
+-- 扩展法杖、魔法枪、魔法书、鞭子、仆从及哨兵，避免仅有配方产物才进入时期基准。
+M.AmethystStaff={id=739,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=15,useTime=37,category='magic'}}
+M.TopazStaff={id=740,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=16,useTime=36,category='magic'}}
+M.SapphireStaff={id=741,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=18,useTime=34,category='magic'}}
+M.EmeraldStaff={id=742,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=19,useTime=32,category='magic'}}
+M.RubyStaff={id=743,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=18,useTime=28,category='magic'}}
+M.DiamondStaff={id=744,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=23,useTime=26,category='magic'}}
+M.AmberStaff={id=3377,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=21,useTime=28,category='magic'}}
+M.WandofFrosting={id=5147,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=15,useTime=26,category='magic'}}
+M.DaybloomStaff={id=6152,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=8,useTime=4,category='magic'}}
+M.GlacierFang={id=6153,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=11,useTime=24,category='magic'}}
+M.Petalstorm={id=6154,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=20,useTime=42,category='magic'}}
+M.ThunderStaff={id=4062,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=24,useTime=17,category='magic'}}
+M.BeeGun={id=1121,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=9,useTime=12,category='magic'}}
+M.ZapinatorGray={id=4347,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=42,useTime=36,category='magic'}}
+M.DemonScythe={id=272,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=35,useTime=20,category='magic'}}
+M.WeatherPain={id=5118,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=13,useTime=45,category='magic'}}
+M.SlimeStaff={id=1309,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=8,useTime=28,category='summon'}}
+M.VampireFrogStaff={id=4273,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=11,useTime=36,category='summon'}}
+M.FlinxStaff={id=5069,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=8,useTime=36,category='summon'}}
+M.AbigailsFlower={id=5114,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=6,useTime=36,category='summon'}}
+M.BlandWhip={id=4672,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=14,useTime=30,category='summon'}}
+M.ThornWhip={id=4913,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=18,useTime=30,category='summon'}}
+M.CobWhip={id=5473,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=9,useTime=35,category='summon'}}
+M.PalworldMinionCattiva={id=5663,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=11,useTime=15,category='summon'}}
+M.PalworldMinionFoxsparks={id=5664,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=20,useTime=15,category='summon'}}
+M.ClayPotMinion={id=6161,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=5,useTime=36,category='summon'}}
+M.SpaceGun={id=127,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=20,useTime=17,category='magic'}}
+M.FlowerofFire={id=112,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=48,useTime=16,category='magic'}}
+M.Flamelash={id=218,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=32,useTime=30,category='magic'}}
+M.HornetStaff={id=2364,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=12,useTime=22,category='summon'}}
+M.ImpStaff={id=2365,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=17,useTime=36,category='summon'}}
+M.HoundiusShootius={id=5119,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=24,useTime=30,category='summon'}}
+M.DeadCellsMushroomBoiSummonItem={id=5456,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=8,useTime=36,category='summon'}}
+M.CorruptWhip={id=5474,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=17,useTime=30,category='summon'}}
+M.CrimsonWhip={id=5475,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=19,useTime=30,category='summon'}}
+M.MeteorWhip={id=5476,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=18,useTime=30,category='summon'}}
+M.SlimeWhip={id=5688,stage=0,source='同版配方/掉落/商店门槛核对',sample={damage=15,useTime=30,category='summon'}}
+M.DD2FlameburstTowerT1Popper={id=3818,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=17,useTime=30,category='summon'}}
+M.DD2BallistraTowerT1Popper={id=3824,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=30,useTime=30,category='summon'}}
+M.DD2LightningAuraT1Popper={id=3829,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=4,useTime=30,category='summon'}}
+M.DD2ExplosiveTrapT1Popper={id=3832,stage=2,source='同版配方/掉落/商店门槛核对',sample={damage=24,useTime=30,category='summon'}}
+M.BookofSkulls={id=1313,stage=3,source='同版配方/掉落/商店门槛核对',sample={damage=29,useTime=32,category='magic'}}
+M.BoneWhip={id=5074,stage=3,source='同版配方/掉落/商店门槛核对',sample={damage=29,useTime=30,category='summon'}}
+M.CrystalSerpent={id=3209,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=40,useTime=29,category='magic'}}
+M.FlowerofFrost={id=1264,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=60,useTime=12,category='magic'}}
+M.FrostStaff={id=726,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=46,useTime=12,category='magic'}}
+M.CrystalVileShard={id=3051,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=25,useTime=33,category='magic'}}
+M.SoulDrain={id=3006,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=35,useTime=12,category='magic'}}
+M.LightningStrike={id=6155,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=150,useTime=55,category='magic'}}
+M.MeteorStaff={id=2750,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=50,useTime=10,category='magic'}}
+M.PoisonStaff={id=1308,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=43,useTime=36,category='magic'}}
+M.UnholyTrident={id=683,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=150,useTime=27,category='magic'}}
+M.ZapinatorOrange={id=4348,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=100,useTime=36,category='magic'}}
+M.CursedFlames={id=519,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=55,useTime=15,category='magic'}}
+M.GoldenShower={id=1336,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=30,useTime=6,category='magic'}}
+M.CrystalStorm={id=518,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=35,useTime=7,category='magic'}}
+M.IceRod={id=496,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=28,useTime=9,category='magic'}}
+M.DeadCellsKillingDeck={id=5461,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=22,useTime=20,category='magic'}}
+M.ClingerStaff={id=3014,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=43,useTime=24,category='magic'}}
+M.NimbusRod={id=1244,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=30,useTime=22,category='magic'}}
+M.MagicDagger={id=517,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=30,useTime=8,category='magic'}}
+M.MedusaHead={id=3269,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=40,useTime=20,category='magic'}}
+M.SpiritFlame={id=3779,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=85,useTime=22,category='magic'}}
+M.ShadowFlameHexDoll={id=3053,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=32,useTime=7,category='magic'}}
+M.SharpTears={id=4270,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=40,useTime=11,category='magic'}}
+M.SkyFracture={id=3787,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=38,useTime=4,category='magic'}}
+M.SpiderStaff={id=2551,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=26,useTime=36,category='summon'}}
+M.QueenSpiderStaff={id=2366,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=26,useTime=30,category='summon'}}
+M.PirateStaff={id=2584,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=40,useTime=36,category='summon'}}
+M.SanguineStaff={id=4269,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=35,useTime=36,category='summon'}}
+M.Smolstar={id=4758,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=6,useTime=36,category='summon'}}
+M.CoolWhip={id=4911,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=45,useTime=30,category='summon'}}
+M.DeadCellsBarnacleSummonItem={id=5463,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=33,useTime=30,category='summon'}}
+M.PalworldMinionTrustyCattiva={id=6148,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=22,useTime=15,category='summon'}}
+M.PalworldMinionTrustyFoxsparks={id=6149,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=40,useTime=15,category='summon'}}
+M.ForbiddenMinion={id=6164,stage=4,source='同版配方/掉落/商店门槛核对',sample={damage=40,useTime=36,category='summon'}}
+M.RainbowRod={id=495,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=50,useTime=25,category='magic'}}
+M.MagicalHarp={id=494,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=42,useTime=12,category='magic'}}
+M.BookStaff={id=3852,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=36,useTime=3,category='magic'}}
+M.OpticStaff={id=2535,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=24,useTime=36,category='summon'}}
+M.SwordWhip={id=4678,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=55,useTime=28,category='summon'}}
+M.DD2FlameburstTowerT2Popper={id=3819,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=42,useTime=30,category='summon'}}
+M.DD2BallistraTowerT2Popper={id=3825,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=74,useTime=30,category='summon'}}
+M.DD2LightningAuraT2Popper={id=3830,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=11,useTime=30,category='summon'}}
+M.DD2ExplosiveTrapT2Popper={id=3833,stage=5,source='同版配方/掉落/商店门槛核对',sample={damage=59,useTime=30,category='summon'}}
+M.VenomStaff={id=2188,stage=6,source='同版配方/掉落/商店门槛核对',sample={damage=44,useTime=30,category='magic'}}
+M.NettleBurst={id=788,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=35,useTime=25,category='magic'}}
+M.WaspGun={id=1155,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=31,useTime=18,category='magic'}}
+M.LeafBlower={id=1178,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=48,useTime=5,category='magic'}}
+M.RainbowGun={id=1260,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=45,useTime=40,category='magic'}}
+M.ShadowbeamStaff={id=1444,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=80,useTime=15,category='magic'}}
+M.Razorpine={id=1930,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=48,useTime=8,category='magic'}}
+M.ToxicFlask={id=3105,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=52,useTime=45,category='magic'}}
+M.SparkleGuitar={id=4715,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=85,useTime=12,category='magic'}}
+M.PrincessWeapon={id=5065,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=70,useTime=25,category='magic'}}
+M.PygmyStaff={id=1157,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=40,useTime=28,category='summon'}}
+M.StormTigerStaff={id=4607,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=41,useTime=36,category='summon'}}
+M.MaceWhip={id=4679,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=160,useTime=35,category='summon'}}
+M.ScytheWhip={id=4680,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=110,useTime=27,category='summon'}}
+M.FlowerWhip={id=5477,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=50,useTime=30,category='summon'}}
+M.EelWhip={id=5478,stage=7,source='同版配方/掉落/商店门槛核对',sample={damage=150,useTime=30,category='summon'}}
+M.XenoStaff={id=2749,stage=8,source='同版配方/掉落/商店门槛核对',sample={damage=36,useTime=36,category='summon'}}
+M.DD2FlameburstTowerT3Popper={id=3820,stage=8,source='同版配方/掉落/商店门槛核对',sample={damage=88,useTime=30,category='summon'}}
+M.DD2BallistraTowerT3Popper={id=3826,stage=8,source='同版配方/掉落/商店门槛核对',sample={damage=156,useTime=30,category='summon'}}
+M.DD2LightningAuraT3Popper={id=3831,stage=8,source='同版配方/掉落/商店门槛核对',sample={damage=34,useTime=30,category='summon'}}
+M.DD2ExplosiveTrapT3Popper={id=3834,stage=8,source='同版配方/掉落/商店门槛核对',sample={damage=126,useTime=30,category='summon'}}
+M.ConstellationWhip={id=5479,stage=9,source='同版配方/掉落/商店门槛核对',sample={damage=130,useTime=30,category='summon'}}
+M.MoonLordWhip={id=5480,stage=10,source='同版配方/掉落/商店门槛核对',sample={damage=110,useTime=30,category='summon'}}
+M.ArcSurge={id=6173,stage=8,source='同版配方/掉落/商店门槛核对',sample={damage=180,useTime=6,category='magic'}}
+M.Shuriken={id=42,stage=0,source='同版标准流程掉落/商店/制作'}
+M.EnchantedBoomerang={id=55,stage=0,source='同版标准流程掉落/商店/制作'}
+M.FlintlockPistol={id=95,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Harpoon={id=160,stage=0,source='同版标准流程掉落/商店/制作'}
+M.SpikyBall={id=161,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BallOHurt={id=162,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Trident={id=277,stage=0,source='同版标准流程掉落/商店/制作'}
+M.ThrowingKnife={id=279,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Spear={id=280,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Blowpipe={id=281,stage=0,source='同版标准流程掉落/商店/制作'}
+M.WoodenBoomerang={id=284,stage=0,source='同版标准流程掉落/商店/制作'}
+M.PoisonedKnife={id=287,stage=0,source='同版标准流程掉落/商店/制作'}
+M.IceBoomerang={id=670,stage=0,source='同版标准流程掉落/商店/制作'}
+M.IceBlade={id=724,stage=0,source='同版标准流程掉落/商店/制作'}
+M.TheRottedFork={id=802,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Umbrella={id=946,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Boomstick={id=964,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BeeKeeper={id=1123,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Beenade={id=1130,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BoneSword={id=1166,stage=0,source='同版标准流程掉落/商店/制作'}
+M.ZombieArm={id=1304,stage=0,source='同版标准流程掉落/商店/制作'}
+M.SnowballCannon={id=1319,stage=0,source='同版标准流程掉落/商店/制作'}
+M.ChainKnife={id=1325,stage=0,source='同版标准流程掉落/商店/制作'}
+M.RottenEgg={id=1809,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BloodyMachete={id=1825,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BladedGlove={id=1827,stage=0,source='同版标准流程掉落/商店/制作'}
+M.RedRyder={id=1870,stage=0,source='同版标准流程掉落/商店/制作'}
+M.CandyCaneSword={id=1909,stage=0,source='同版标准流程掉落/商店/制作'}
+M.StarAnise={id=1913,stage=0,source='同版标准流程掉落/商店/制作'}
+M.FruitcakeChakram={id=1918,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Revolver={id=2269,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Katana={id=2273,stage=0,source='同版标准流程掉落/商店/制作'}
+M.PurpleClubberfish={id=2330,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Swordfish={id=2332,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Anchor={id=2424,stage=0,source='同版标准流程掉落/商店/制作'}
+M.FalconBlade={id=2608,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BeesKnees={id=2888,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Javelin={id=3094,stage=0,source='同版标准流程掉落/商店/制作'}
+M.FrostDaggerfish={id=3197,stage=0,source='同版标准流程掉落/商店/制作'}
+M.PainterPaintballGun={id=3350,stage=0,source='同版标准流程掉落/商店/制作'}
+M.PartyGirlGrenade={id=3548,stage=0,source='同版标准流程掉落/商店/制作'}
+M.AntlionClaw={id=3772,stage=0,source='同版标准流程掉落/商店/制作'}
+M.AleThrowingGlove={id=3821,stage=0,source='同版标准流程掉落/商店/制作'}
+M.PaperAirplaneA={id=4343,stage=0,source='同版标准流程掉落/商店/制作'}
+M.PaperAirplaneB={id=4344,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Gladius={id=4463,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BloodRainBow={id=4381,stage=0,source='同版标准流程掉落/商店/制作'}
+M.QuadBarrelShotgun={id=4703,stage=3,source='同版标准流程掉落/商店/制作'}
+M.TragicUmbrella={id=4707,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Shroomerang={id=4764,stage=0,source='同版标准流程掉落/商店/制作'}
+M.CombatWrench={id=4818,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Mace={id=5011,stage=0,source='同版标准流程掉落/商店/制作'}
+M.FlamingMace={id=5012,stage=0,source='同版标准流程掉落/商店/制作'}
+M.HamBat={id=5096,stage=0,source='同版标准流程掉落/商店/制作'}
+M.BatBat={id=5097,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Flymeal={id=5129,stage=0,source='同版标准流程掉落/商店/制作'}
+M.HiveFive={id=5294,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Trimarang={id=5298,stage=0,source='同版标准流程掉落/商店/制作'}
+M.StylistKilLaKillScissorsIWish={id=3352,stage=0,source='同版标准流程掉落/商店/制作'}
+M.DyeTradersScimitar={id=3349,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Rally={id=3285,stage=0,source='同版标准流程掉落/商店/制作'}
+M.WoodYoyo={id=3278,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Code1={id=3262,stage=1,source='同版标准流程掉落/商店/制作'}
+M.Flamarang={id=119,stage=2,source='同版标准流程掉落/商店/制作'}
+M.Sunfury={id=220,stage=2,source='同版标准流程掉落/商店/制作'}
+M.Sandgun={id=266,stage=2,source='同版标准流程掉落/商店/制作'}
+M.DarkLance={id=274,stage=2,source='同版标准流程掉落/商店/制作'}
+M.ObsidianSwordfish={id=2331,stage=2,source='同版标准流程掉落/商店/制作'}
+M.HellwingBow={id=3019,stage=2,source='同版标准流程掉落/商店/制作'}
+M.MolotovCocktail={id=2590,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Cascade={id=3282,stage=2,source='同版标准流程掉落/商店/制作'}
+M.PinkPhaseblade={id=5535,stage=2,source='同版标准流程掉落/商店/制作'}
+M.PewMaticHorn={id=5117,stage=0,source='同版标准流程掉落/商店/制作'}
+M.Shotgun={id=534,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Cutlass={id=672,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Frostbrand={id=676,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Marrow={id=682,stage=4,source='同版标准流程掉落/商店/制作'}
+M.BeamSword={id=723,stage=4,source='同版标准流程掉落/商店/制作'}
+M.IceBow={id=725,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Uzi={id=1265,stage=4,source='同版标准流程掉落/商店/制作'}
+M.IceSickle={id=1306,stage=4,source='同版标准流程掉落/商店/制作'}
+M.KOCannon={id=1314,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Gatligator={id=2270,stage=4,source='同版标准流程掉落/商店/制作'}
+M.DartPistol={id=3007,stage=4,source='同版标准流程掉落/商店/制作'}
+M.DartRifle={id=3008,stage=4,source='同版标准流程掉落/商店/制作'}
+M.FetidBaghnakhs={id=3013,stage=4,source='同版标准流程掉落/商店/制作'}
+M.DaedalusStormbow={id=3029,stage=4,source='同版标准流程掉落/商店/制作'}
+M.ShadowFlameBow={id=3052,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Toxikarp={id=3210,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Bladetongue={id=3211,stage=4,source='同版标准流程掉落/商店/制作'}
+M.SlapHand={id=3258,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Chik={id=3283,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Amarok={id=3289,stage=4,source='同版标准流程掉落/商店/制作'}
+M.HelFire={id=3290,stage=4,source='同版标准流程掉落/商店/制作'}
+M.OnyxBlaster={id=3788,stage=4,source='同版标准流程掉落/商店/制作'}
+M.DripplerFlail={id=4272,stage=4,source='同版标准流程掉落/商店/制作'}
+M.BouncingShield={id=4760,stage=4,source='同版标准流程掉落/商店/制作'}
+M.TaxCollectorsStickOfDoom={id=3351,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Flamethrower={id=506,stage=5,source='同版标准流程掉落/商店/制作'}
+M.Megashark={id=533,stage=5,source='同版标准流程掉落/商店/制作'}
+M.MushroomSpear={id=756,stage=5,source='同版标准流程掉落/商店/制作'}
+M.Code2={id=3284,stage=5,source='同版标准流程掉落/商店/制作'}
+M.DD2SquireDemonSword={id=3823,stage=5,source='同版标准流程掉落/商店/制作'}
+M.MonkStaffT1={id=3835,stage=5,source='同版标准流程掉落/商店/制作'}
+M.MonkStaffT2={id=3836,stage=5,source='同版标准流程掉落/商店/制作'}
+M.DD2PhoenixBow={id=3854,stage=5,source='同版标准流程掉落/商店/制作'}
+M.Yelets={id=3286,stage=5,source='同版标准流程掉落/商店/制作'}
+M.DeathSickle={id=1327,stage=5,source='同版标准流程掉落/商店/制作'}
+M.PinkPhasesaber={id=5536,stage=4,source='同版标准流程掉落/商店/制作'}
+M.WaffleIron={id=5382,stage=6,source='同版标准流程掉落/商店/制作'}
+M.Keybrand={id=671,stage=7,source='同版标准流程掉落/商店/制作'}
+M.TacticalShotgun={id=679,stage=7,source='同版标准流程掉落/商店/制作'}
+M.TerraBlade={id=757,stage=7,source='同版标准流程掉落/商店/制作'}
+M.GrenadeLauncher={id=758,stage=7,source='同版标准流程掉落/商店/制作'}
+M.RocketLauncher={id=759,stage=7,source='同版标准流程掉落/商店/制作'}
+M.ProximityMineLauncher={id=760,stage=7,source='同版标准流程掉落/商店/制作'}
+M.SniperRifle={id=1254,stage=7,source='同版标准流程掉落/商店/制作'}
+M.VenusMagnum={id=1255,stage=7,source='同版标准流程掉落/商店/制作'}
+M.FlowerPow={id=1259,stage=7,source='同版标准流程掉落/商店/制作'}
+M.CandyCornRifle={id=1782,stage=7,source='同版标准流程掉落/商店/制作'}
+M.JackOLanternLauncher={id=1784,stage=7,source='同版标准流程掉落/商店/制作'}
+M.TheHorsemansBlade={id=1826,stage=7,source='同版标准流程掉落/商店/制作'}
+M.StakeLauncher={id=1835,stage=7,source='同版标准流程掉落/商店/制作'}
+M.ElfMelter={id=1910,stage=7,source='同版标准流程掉落/商店/制作'}
+M.ChristmasTreeSword={id=1928,stage=7,source='同版标准流程掉落/商店/制作'}
+M.ChainGun={id=1929,stage=7,source='同版标准流程掉落/商店/制作'}
+M.PulseBow={id=2223,stage=7,source='同版标准流程掉落/商店/制作'}
+M.PsychoKnife={id=3106,stage=7,source='同版标准流程掉落/商店/制作'}
+M.NailGun={id=3107,stage=7,source='同版标准流程掉落/商店/制作'}
+M.ValkyrieYoyo={id=3288,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Arkhalis={id=3368,stage=4,source='同版标准流程掉落/商店/制作'}
+M.Kraken={id=3291,stage=7,source='同版标准流程掉落/商店/制作'}
+M.PiercingStarlight={id=4923,stage=7,source='同版标准流程掉落/商店/制作'}
+M.FlaironFlail={id=5526,stage=7,source='同版标准流程掉落/商店/制作'}
+M.MonkStaffT3={id=3858,stage=8,source='同版标准流程掉落/商店/制作'}
+M.DeadCellsBarrelLauncher={id=5460,stage=4,source='同版标准流程掉落/商店/制作'}
+M.TrueCopperShortsword={id=5669,stage=10,source='同版标准流程掉落/商店/制作'}
+M.Blowgun={id=986,stage=0,source='巫医商店'}
+M.RedsYoyo={id=3287,stage=4,source='困难模式专家宝藏袋'}
+M.Gradient={id=3316,stage=4,source='困难模式骷髅商人'}
+M.Valor={id=3317,stage=3,source='地牢箱'}
+M.FireworksLauncher={id=3546,stage=8,source='石巨人后派对女孩商店'}
+return M

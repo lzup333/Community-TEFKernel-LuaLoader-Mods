@@ -1,0 +1,101 @@
+{
+  "pkgId": "celso.lua.dropchain",
+  "name": "掉落连锁（Lua）",
+  "author": "liuxin",
+  "version": "1.1",
+  "versionCode": 5,
+  "brieflyDescribe": "击杀怪物后按概率再掉一次、再再掉一次……最多追加 3~5 次，概率逐次递减。",
+  "description": "玩家打死怪物后，有概率触发“掉落连锁！”——再掉一次、再再掉一次……最多追加 3~5 次，而且每次概率越来越低。于是一只史莱姆偶尔会掉 6 次东西。",
+  "features": ["MECHANICS_CHANGE", "QUALITY_OF_LIFE"],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": true, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "linux": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "mac": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios": { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "chain_chance_percent",
+      "title": "首次连锁概率",
+      "description": "每只怪物被击杀后，触发第一次额外掉落的概率。默认 35%。",
+      "type": "INTEGER",
+      "defaultValue": 35,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "max_extra_rounds",
+      "title": "最大追加掉落次数",
+      "description": "最多在原有掉落之外再生成几份本次掉出的物品。推荐 3~5 次；1 次等于只可能翻倍一次。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 8,
+      "step": 1,
+      "unit": "次"
+    },
+    {
+      "key": "chain_decay_percent",
+      "title": "连锁概率衰减",
+      "description": "每多连锁一次，下一次触发的概率就乘上这个百分比。数值越小越难连下去。默认 75%。",
+      "type": "INTEGER",
+      "defaultValue": 75,
+      "min": 10,
+      "max": 95,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "announce_min_rounds",
+      "title": "提示所需掉落次数",
+      "description": "本次总掉落次数达到该值时才在聊天栏显示“掉落连锁！”。2 表示只要有额外掉落就提示。",
+      "type": "INTEGER",
+      "defaultValue": 3,
+      "min": 2,
+      "max": 9,
+      "step": 1,
+      "unit": "次"
+    },
+    {
+      "key": "allow_heavy_targets",
+      "title": "Boss / 特殊目标参与连锁",
+      "description": "开启后 Boss、事件 Boss、蠕虫类等目标也会连锁掉落；其掉落含奖杯、宝藏袋等一次性物品，开启后可以重复获得。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "allow_statue_targets",
+      "title": "雕像怪参与连锁",
+      "description": "开启后由怪物雕像刷出的怪物也会连锁掉落，可用于刷怪场，但会让原版雕像掉落限制形同虚设。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "require_player_hit",
+      "title": "仅玩家攻击过的怪物",
+      "description": "开启后，只有被玩家打过的怪物才会连锁掉落，避免熔岩、陷阱、坠落等“白捡”也被连锁。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "chain_sound",
+      "title": "连锁提示音",
+      "description": "连锁成功时播放金币音效，连锁越长音调越高。",
+      "type": "SWITCH",
+      "defaultValue": true
+    }
+  ]
+}

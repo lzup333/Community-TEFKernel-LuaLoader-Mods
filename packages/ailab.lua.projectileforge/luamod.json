@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "ailab.lua.projectileforge",
+  "version": "2.2.3",
+  "version_code": 20270107,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

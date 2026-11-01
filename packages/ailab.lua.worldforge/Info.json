@@ -1,0 +1,2243 @@
+{
+  "pkgId": "ailab.lua.worldforge",
+  "name": "世界工坊 (WorldForge)",
+  "author": "哇",
+  "version": "10.4.0",
+  "versionCode": 20270323,
+  "brieflyDescribe": "世界工坊 v10.4：192 项设置、21 个分组。调时间 / 天气 / 雷击 / 事件 / 刷怪与生物属性、住房与晶塔、渔夫、世纪之花、液体世界、商店售价、微光嬗变；地图生成专项（新建世界尺寸与邪恶类型、生成后追加二十余种特征、全图清除 / 替换）；游戏内面板（折叠参数页 + 一键操作 + 娱乐事件）。默认零开销，未经实机验证。",
+  "description": "把「世界本身」做成一座可调的工坊：共 192 项设置、21 个分组，全部在模组设置里调，改完回到游戏约 3 秒生效。\n\n■ 能调什么：时间流速与昼夜 / 月相锁定，下雨 / 风力 / 沙尘暴 / 云量，雷击（禁止 · 频率 · 下落时长 · 同时存在的数量 · 满屏落雷 · 两道雷的最小间距），各类事件（血月 / 日食 / 史莱姆雨 / 灯笼夜 / 派对 / 南瓜月 / 霜月 / 万圣节 / 圣诞节）与它们的自动重复间隔，入侵波数与事件进度，刷怪速度 / 上限 / 六类生物各自的倍率 / 精英与稀有怪 / 同屏敌怪硬上限，生物生命 · 伤害 · 防御 · 抗击退 · 金钱 · 体型，住房与晶塔规则，树木生长，渔夫任务，稀有生物，复活与墓碑，制作站，陨石与世纪之花，生物群系蔓延速度，困难模式，液体世界（水 / 岩浆 / 蜂蜜灌注），世界边缘限制，重力药水不翻转屏幕，商店售价，微光嬗变自定义。\n\n■ 地图生成：新建世界的世界大小与邪恶类型；世界生成完成后按预算分帧追加各种特征（生命 / 魔力水晶、浮空岛 / 云岛 / 云湖、洞穴、矿脉、微光群系、埋藏宝箱、大理石堆、神庙祭坛、暗影球、宝石洞、矿斑、石斑、贝壳堆、绿洲、墓地、苔藓、发光苔藓、神庙陷阱、岩浆陷阱、雕像陷阱、蜂巢），以及按方块编号全图清除 / 替换。所有生成任务都可以随时中断，有进度播报和数量上限，默认全部关闭。\n\n■ 游戏内面板：装上 LuaLoader 1.9.0 后可以在游戏里打开「世界工坊」面板 —— 状态总览、可折叠 + 可检索的参数页（所有数值项点「值」用屏幕数字键盘输入，0 也能输；改的是运行时数值，不动设置文件）、一键页（事件 / 特征 / 玩家 / 雷击 / 娱乐，图片按钮 + 文字，危险动作要二次确认）和工具页（恢复原版、撤销改动、面板自检）。\n\n■ 说明：本模组只经过静态校验与假内核逻辑测试，未经实机验证。首次使用建议只装这一个模组，并从默认设置开始。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "模组总开关",
+      "description": "本模组的开关。关掉后立刻停手，并把改过的刷怪速度、刷怪上限、困难模式还原回原版。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "总控"
+    },
+    {
+      "key": "host_only",
+      "title": "联机：只有房主生效",
+      "description": "联机时只有房主（主机 / 服务器）的这套设置会生效；作为客机进别人世界时不改动任何数据。单机与当房主不受影响。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "总控"
+    },
+    {
+      "key": "hot_reload",
+      "title": "自动重读设置",
+      "description": "打开后每隔几秒自动检查一次设置改动，改完设置回到游戏就会生效，不用重启。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "总控"
+    },
+    {
+      "key": "config_reload_sec",
+      "title": "自动重读间隔",
+      "description": "每隔多少秒检查一次设置改动（改完回到游戏，最多等这么久生效）。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "秒",
+      "section": "总控"
+    },
+    {
+      "key": "tick_interval",
+      "title": "非关键项刷新间隔",
+      "description": "天气、事件、刷怪参数这类非关键项每 N 帧刷新一次。数字越大越省性能；1 = 每帧刷新。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧",
+      "section": "总控"
+    },
+    {
+      "key": "verbose_log",
+      "title": "详细日志",
+      "description": "记录更详细的运行信息，排查问题时才需要。要配合「写入日志文件」一起打开。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "总控"
+    },
+    {
+      "key": "write_log",
+      "title": "写入日志文件",
+      "description": "把运行日志写进模组目录。默认关闭：日志文件过大可能影响游戏，只在排查问题时打开。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "总控"
+    },
+    {
+      "key": "self_check",
+      "title": "进世界自检播报",
+      "description": "进入世界时在聊天栏播报一次功能自检结果。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "总控"
+    },
+    {
+      "key": "diag_report_cmd",
+      "title": "诊断报告命令",
+      "description": "（高级选项）自定义诊断命令，留空即可。",
+      "type": "STRING",
+      "defaultValue": "forge stat",
+      "section": "总控"
+    },
+    {
+      "key": "chat_cmd",
+      "title": "聊天指令 /forge",
+      "description": "打开后可以在聊天栏输入 /forge 命令来导入导出设置、查看状态。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "总控"
+    },
+    {
+      "key": "import_string",
+      "title": "导入设置串",
+      "description": "把一整套设置串粘贴到这里即可导入（设置串用聊天栏 /forge export 导出）。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "总控"
+    },
+    {
+      "key": "export_mode",
+      "title": "自动导出设置串",
+      "description": "打开后每次应用设置都会顺手导出一份设置串到模组目录。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "总控"
+    },
+    {
+      "key": "diag_slow_ms",
+      "title": "慢功能告警阈值",
+      "description": "（高级选项）某个功能单帧耗时超过这个毫秒数就记一条警告。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 1000,
+      "step": 5,
+      "unit": "毫秒",
+      "section": "总控"
+    },
+    {
+      "key": "time_speed",
+      "title": "时间流速·倍率",
+      "description": "时间流逝速度倍率，100% = 原版；1000% 就是快 10 倍。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "时间"
+    },
+    {
+      "key": "time_freeze",
+      "title": "冻结时间",
+      "description": "冻结时间：昼夜不再推进。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "时间"
+    },
+    {
+      "key": "day_lock",
+      "title": "昼夜锁定",
+      "description": "把时间锁在某个时刻；锁定期间时间不再流动。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "时间",
+      "options": [
+        {
+          "value": "none",
+          "label": "不锁定"
+        },
+        {
+          "value": "day",
+          "label": "锁在白天·正午"
+        },
+        {
+          "value": "night",
+          "label": "锁在夜晚·午夜"
+        },
+        {
+          "value": "clock",
+          "label": "锁在指定时刻"
+        }
+      ]
+    },
+    {
+      "key": "lock_hour",
+      "title": "锁定时刻",
+      "description": "选「锁在指定时刻」时，锁在几点（1~24 时）。",
+      "type": "INTEGER",
+      "defaultValue": 12,
+      "min": 1,
+      "max": 24,
+      "step": 1,
+      "unit": "时",
+      "section": "时间"
+    },
+    {
+      "key": "moon_lock",
+      "title": "月相锁定",
+      "description": "把月相固定住。第 1 档 = 不锁定。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "档",
+      "section": "时间"
+    },
+    {
+      "key": "rain_mode",
+      "title": "下雨模式",
+      "description": "不干预 / 让它一直下雨 / 让它一直晴天。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "天气",
+      "options": [
+        {
+          "value": "none",
+          "label": "不干预"
+        },
+        {
+          "value": "on",
+          "label": "永久下雨"
+        },
+        {
+          "value": "off",
+          "label": "永久晴天"
+        }
+      ]
+    },
+    {
+      "key": "rain_intensity",
+      "title": "雨量强度",
+      "description": "下雨时的雨量强度。",
+      "type": "INTEGER",
+      "defaultValue": 60,
+      "min": 1,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "section": "天气"
+    },
+    {
+      "key": "wind_mode",
+      "title": "风力模式",
+      "description": "不干预 / 锁定风力 / 永久无风。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "天气",
+      "options": [
+        {
+          "value": "none",
+          "label": "不干预"
+        },
+        {
+          "value": "lock",
+          "label": "锁定风力"
+        },
+        {
+          "value": "calm",
+          "label": "永久无风"
+        }
+      ]
+    },
+    {
+      "key": "wind_dir",
+      "title": "风向",
+      "description": "锁定风力时的风向。",
+      "type": "CHOICE",
+      "defaultValue": "east",
+      "section": "天气",
+      "options": [
+        {
+          "value": "west",
+          "label": "向左（西风）"
+        },
+        {
+          "value": "still",
+          "label": "静止"
+        },
+        {
+          "value": "east",
+          "label": "向右（东风）"
+        }
+      ]
+    },
+    {
+      "key": "wind_power",
+      "title": "风力强度",
+      "description": "锁定风力时的强度。",
+      "type": "INTEGER",
+      "defaultValue": 40,
+      "min": 1,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "section": "天气"
+    },
+    {
+      "key": "sandstorm_mode",
+      "title": "沙尘暴模式",
+      "description": "不干预 / 沙漠里一直刮沙尘暴 / 永久禁止沙尘暴。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "天气",
+      "options": [
+        {
+          "value": "none",
+          "label": "不干预"
+        },
+        {
+          "value": "on",
+          "label": "永久沙尘暴"
+        },
+        {
+          "value": "off",
+          "label": "禁止沙尘暴"
+        }
+      ]
+    },
+    {
+      "key": "sandstorm_power",
+      "title": "沙尘暴强度",
+      "description": "永久沙尘暴时的强度。",
+      "type": "INTEGER",
+      "defaultValue": 60,
+      "min": 1,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "section": "天气"
+    },
+    {
+      "key": "cloud_lock",
+      "title": "锁定云量",
+      "description": "把天空的云量固定在下面的数值（原版本来会自己变化）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "天气"
+    },
+    {
+      "key": "lightning_block",
+      "title": "禁止雷击",
+      "description": "暴雨里的落雷完全关闭：既不劈人劈怪，也没有屏幕闪光和雷声。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "天气"
+    },
+    {
+      "key": "lightning_freq_mult",
+      "title": "雷击频率",
+      "description": "落雷出现的频率倍率，100% = 原版。低于 100% 按比例变少，高于 100% 按倍率变多。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "天气"
+    },
+    {
+      "key": "lightning_extra_cap",
+      "title": "每帧最多补雷次数",
+      "description": "频率倍率高于 100% 时，每帧最多额外补几次雷。数字太大会掉帧。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 200,
+      "step": 1,
+      "unit": "次",
+      "section": "天气"
+    },
+    {
+      "key": "lightning_windup_mult",
+      "title": "雷击下落时长",
+      "description": "闪电特效出现到真正劈下来的时长倍率。100% = 原版约 4 秒；数字越大劈得越慢（更容易躲开），越小越快。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 20,
+      "max": 400,
+      "step": 5,
+      "unit": "%",
+      "section": "天气"
+    },
+    {
+      "key": "lightning_max_bolts",
+      "title": "同时存在的落雷上限",
+      "description": "全世界同时最多存在几道正在劈的落雷。第 1 档 = 不限制（原版行为）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "unit": "道",
+      "section": "天气"
+    },
+    {
+      "key": "lightning_spread_bolts",
+      "title": "满屏落雷·每帧道数",
+      "description": "每帧在你左右约一屏宽的范围内额外铺开的落雷数量，用来做出「满屏落雷」的效果。第 1 档 = 关闭。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 31,
+      "step": 1,
+      "unit": "道",
+      "section": "天气"
+    },
+    {
+      "key": "lightning_min_dist",
+      "title": "两道落雷的最小间距",
+      "description": "两道落雷之间至少隔开多少格。第 1 档 = 本模组不额外限制（原版自己还有一条「同一名玩家附近约 50 格内不再劈」的规则）。想让雷挨得更近就把它调小，并配合「满屏落雷」。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 121,
+      "step": 5,
+      "unit": "格",
+      "section": "天气"
+    },
+    {
+      "key": "cloud_amount",
+      "title": "云量",
+      "description": "天空的云量，数字越大云越多（200 档 = 满天云）。",
+      "type": "INTEGER",
+      "defaultValue": 101,
+      "min": 1,
+      "max": 201,
+      "step": 5,
+      "unit": "档",
+      "section": "天气"
+    },
+    {
+      "key": "starfall_mult",
+      "title": "夜晚坠落之星·倍率",
+      "description": "夜晚坠落之星的生成概率倍率，100% = 原版。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "天气"
+    },
+    {
+      "key": "blood_moon",
+      "title": "永久血月",
+      "description": "每个夜晚都是血月（天亮时原版会自己结束）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "block_blood_moon",
+      "title": "禁止血月",
+      "description": "血月永远不会出现（优先级高于「永久血月」）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "eclipse",
+      "title": "永久日食",
+      "description": "白天也是日食状态（刷怪按日食处理）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "block_eclipse",
+      "title": "禁止日食",
+      "description": "日食永远不会出现（优先级高于「永久日食」）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "slime_rain",
+      "title": "永久史莱姆雨",
+      "description": "史莱姆雨会一直持续。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "block_slime_rain",
+      "title": "禁止史莱姆雨",
+      "description": "史莱姆雨永远不会出现。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "lantern_night",
+      "title": "永久灯笼夜",
+      "description": "每个夜晚都是灯笼夜。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "party",
+      "title": "永久派对",
+      "description": "每个白天都是派对，NPC 会一直开派对。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "pumpkin_moon",
+      "title": "永久南瓜月",
+      "description": "南瓜月会一直开着。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "snow_moon",
+      "title": "永久霜月",
+      "description": "霜月会一直开着。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "always_halloween",
+      "title": "永久万圣节",
+      "description": "每天都是万圣节。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "always_christmas",
+      "title": "永久圣诞节",
+      "description": "每天都是圣诞节。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "事件"
+    },
+    {
+      "key": "invasion_wave_mult",
+      "title": "入侵波数·倍率",
+      "description": "入侵事件的波数倍率，100% = 原版。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "事件"
+    },
+    {
+      "key": "event_progress_mult",
+      "title": "事件进度·快进倍率",
+      "description": "事件进度推进速度倍率（南瓜月 / 霜月这类）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "事件"
+    },
+    {
+      "key": "eclipse_repeat_days",
+      "title": "日食·自动重复间隔",
+      "description": "每隔多少天自动再来一次日食。第 1 档 = 不自动重复。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 31,
+      "step": 1,
+      "unit": "天",
+      "section": "事件"
+    },
+    {
+      "key": "bloodmoon_repeat_days",
+      "title": "血月·自动重复间隔",
+      "description": "每隔多少天自动再来一次血月。第 1 档 = 不自动重复。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 31,
+      "step": 1,
+      "unit": "天",
+      "section": "事件"
+    },
+    {
+      "key": "pumpkinmoon_repeat_days",
+      "title": "南瓜月·自动重复间隔",
+      "description": "每隔多少天自动再来一次南瓜月。第 1 档 = 不自动重复。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 31,
+      "step": 1,
+      "unit": "天",
+      "section": "事件"
+    },
+    {
+      "key": "snowmoon_repeat_days",
+      "title": "霜月·自动重复间隔",
+      "description": "每隔多少天自动再来一次霜月。第 1 档 = 不自动重复。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 31,
+      "step": 1,
+      "unit": "天",
+      "section": "事件"
+    },
+    {
+      "key": "spawn_rate_mult",
+      "title": "刷怪速度·倍率",
+      "description": "自然刷怪速度倍率，100% = 原版。倍率越高，怪出得越快。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_cap_mult",
+      "title": "刷怪上限·倍率",
+      "description": "同屏自然刷怪数量上限倍率，100% = 原版。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "no_natural_spawn",
+      "title": "禁止自然刷怪",
+      "description": "完全停止自然刷怪（只剩事件与召唤出来的怪）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "刷怪"
+    },
+    {
+      "key": "block_boss_spawn",
+      "title": "禁止 Boss 自然出现",
+      "description": "Boss 不会自然出现（自己用召唤物召的照样能出）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "刷怪"
+    },
+    {
+      "key": "block_passive_spawn",
+      "title": "禁止小动物自然出现",
+      "description": "小动物不会自然出现。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_dup_limit",
+      "title": "单次额外生成上限",
+      "description": "一次自然刷怪最多额外多刷几只。",
+      "type": "INTEGER",
+      "defaultValue": 3,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "只",
+      "section": "刷怪"
+    },
+    {
+      "key": "boss_summon_count",
+      "title": "召唤 Boss·一次几只",
+      "description": "用召唤物召 Boss 时一次召几只。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "只",
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_mult_boss",
+      "title": "刷怪倍率·Boss",
+      "description": "Boss 的自然刷怪概率倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_mult_slime",
+      "title": "刷怪倍率·史莱姆",
+      "description": "史莱姆类的自然刷怪概率倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_mult_flying",
+      "title": "刷怪倍率·飞行",
+      "description": "飞行类的自然刷怪概率倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_mult_ground",
+      "title": "刷怪倍率·地面",
+      "description": "地面类的自然刷怪概率倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_mult_passive",
+      "title": "刷怪倍率·小动物",
+      "description": "小动物类的自然刷怪概率倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "spawn_mult_other",
+      "title": "刷怪倍率·其它",
+      "description": "其它类别生物的自然刷怪概率倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "block_invasion",
+      "title": "禁止入侵事件",
+      "description": "哥布林 / 海盗 / 雪人军团 / 火星暴乱这类入侵不会自己发生。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "刷怪"
+    },
+    {
+      "key": "elite_spawn_mult",
+      "title": "精英与稀有怪·刷新倍率",
+      "description": "精英怪与稀有怪的刷新倍率，100% = 原版。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "刷怪"
+    },
+    {
+      "key": "enemy_hard_cap",
+      "title": "同屏敌怪硬上限",
+      "description": "同屏敌怪最多几只，超出的不再生成。第 1 档 = 不限制。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 501,
+      "step": 1,
+      "unit": "只",
+      "section": "刷怪"
+    },
+    {
+      "key": "ai_simplify",
+      "title": "怪物 AI 简化（性能）",
+      "description": "离玩家很远的怪不再每帧跑 AI，用来省性能。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "刷怪"
+    },
+    {
+      "key": "npc_life_mult",
+      "title": "生物生命·倍率",
+      "description": "所有生物的生命倍率（下面还有按类别的分级倍率，两者相乘）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "npc_damage_mult",
+      "title": "生物伤害·倍率",
+      "description": "所有生物的伤害倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "npc_defense_mult",
+      "title": "生物防御·倍率",
+      "description": "所有生物的防御倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "npc_kb_mult",
+      "title": "生物抗击退·倍率",
+      "description": "所有生物的抗击退倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "npc_value_mult",
+      "title": "生物金钱·倍率",
+      "description": "所有生物掉落金钱的倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "npc_scale_mult",
+      "title": "生物体型·倍率",
+      "description": "所有生物的体型倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "npc_affect_friendly",
+      "title": "影响友好生物",
+      "description": "打开后，城镇 NPC 与小动物也按上面的倍率改（默认只改敌对生物）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "生物属性"
+    },
+    {
+      "key": "boss_life_mult",
+      "title": "Boss 生命·倍率",
+      "description": "Boss 的生命倍率（与上面的「生物生命」相乘）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "boss_damage_mult",
+      "title": "Boss 伤害·倍率",
+      "description": "Boss 的伤害倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "boss_defense_mult",
+      "title": "Boss 防御·倍率",
+      "description": "Boss 的防御倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "boss_kb_mult",
+      "title": "Boss 抗击退·倍率",
+      "description": "Boss 的抗击退倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "boss_value_mult",
+      "title": "Boss 金钱·倍率",
+      "description": "Boss 掉落金钱的倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "boss_scale_mult",
+      "title": "Boss 体型·倍率",
+      "description": "Boss 的体型倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_slime_life",
+      "title": "史莱姆·生命倍率",
+      "description": "在「生物生命·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_slime_damage",
+      "title": "史莱姆·伤害倍率",
+      "description": "在「生物伤害·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_slime_defense",
+      "title": "史莱姆·防御倍率",
+      "description": "在「生物防御·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_fly_life",
+      "title": "飞行·生命倍率",
+      "description": "在「生物生命·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_fly_damage",
+      "title": "飞行·伤害倍率",
+      "description": "在「生物伤害·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_fly_defense",
+      "title": "飞行·防御倍率",
+      "description": "在「生物防御·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_ground_life",
+      "title": "地面·生命倍率",
+      "description": "在「生物生命·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_ground_damage",
+      "title": "地面·伤害倍率",
+      "description": "在「生物伤害·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_ground_defense",
+      "title": "地面·防御倍率",
+      "description": "在「生物防御·倍率」之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_other_life",
+      "title": "其它·生命倍率",
+      "description": "没归入史莱姆 / 飞行 / 地面的敌对生物，在生命倍率之上再乘一次。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_other_damage",
+      "title": "其它·伤害倍率",
+      "description": "同上，作用于伤害。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_other_defense",
+      "title": "其它·防御倍率",
+      "description": "同上，作用于防御。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "生物属性"
+    },
+    {
+      "key": "cat_override",
+      "title": "生物分类覆盖表",
+      "description": "按生物编号单独指定类别，格式 编号=类别（0 Boss / 1 史莱姆 / 2 飞行 / 3 地面 / 4 小动物 / 5 其它），例如 4=0,50=1。留空即可。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "生物属性"
+    },
+    {
+      "key": "house_no_furniture",
+      "title": "住房免装修",
+      "description": "房屋不再要求桌椅、光源等家具就能住人。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "住房"
+    },
+    {
+      "key": "house_max_npcs",
+      "title": "一屋可住人数",
+      "description": "一间合格房屋最多住几个人。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "个",
+      "section": "住房"
+    },
+    {
+      "key": "house_ignore_evil",
+      "title": "腐化房间也能住",
+      "description": "被腐化 / 猩红污染的房间也算合格住房。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "住房"
+    },
+    {
+      "key": "house_ignore_size",
+      "title": "无视房间尺寸",
+      "description": "不看房间尺寸，很小的房间也算合格住房。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "住房"
+    },
+    {
+      "key": "pylon_ignore_range",
+      "title": "晶塔无视距离",
+      "description": "离晶塔多远都能传送。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "晶塔"
+    },
+    {
+      "key": "pylon_ignore_danger",
+      "title": "晶塔无视危险判定",
+      "description": "周围有敌怪时也能传送。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "晶塔"
+    },
+    {
+      "key": "pylon_allow_dupes",
+      "title": "允许同类型晶塔多座",
+      "description": "同一种晶塔可以放很多座，不再互相顶掉。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "晶塔"
+    },
+    {
+      "key": "pylon_total_limit",
+      "title": "晶塔总数上限",
+      "description": "全图晶塔总数上限。第 1 档 = 不限制。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "座",
+      "section": "晶塔"
+    },
+    {
+      "key": "pylon_note",
+      "title": "（暂未支持）",
+      "description": "本项暂未支持，无需设置。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "晶塔"
+    },
+    {
+      "key": "spread_block",
+      "title": "禁止生物群系蔓延",
+      "description": "腐化 / 猩红 / 神圣不再向新方块蔓延（已经有的方块不会消失），不需要开旅行模式。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界"
+    },
+    {
+      "key": "spread_force",
+      "title": "强制生物群系蔓延",
+      "description": "就算开了旅行模式的「停止蔓延」，也照常蔓延（与上一条互斥，上一条优先）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界"
+    },
+    {
+      "key": "world_edge_free",
+      "title": "取消世界边缘限制",
+      "description": "可以走出世界边界，镜头也不会被推回来。边界外本来就没有地形，看不到东西是正常的。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界"
+    },
+    {
+      "key": "gravity_no_flip",
+      "title": "重力药水屏幕不翻转",
+      "description": "吃重力药水或带重力球时，屏幕和操作不再上下颠倒。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界"
+    },
+    {
+      "key": "hardmode",
+      "title": "强制困难模式",
+      "description": "直接把世界切成困难模式（等于击败血肉墙）：开始刷困难模式的怪、出现新矿石。注意这一步不可逆。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界"
+    },
+    {
+      "key": "spread_speed_mult",
+      "title": "生物群系蔓延速度",
+      "description": "腐化 / 猩红 / 神圣的蔓延速度倍率，100% = 原版。数字越大蔓延越快（最高约 24 倍）；低于 100% 会让蔓延变慢。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 2400,
+      "step": 10,
+      "unit": "%",
+      "section": "世界"
+    },
+    {
+      "key": "liquid_mode",
+      "title": "灌注液体",
+      "description": "把世界下半部灌满液体：不干预 / 水 / 岩浆 / 蜂蜜。开启后从世界底部往上灌，可以随时关掉。",
+      "type": "CHOICE",
+      "defaultValue": "off",
+      "section": "液体世界",
+      "options": [
+        {
+          "value": "off",
+          "label": "不干预"
+        },
+        {
+          "value": "water",
+          "label": "灌水"
+        },
+        {
+          "value": "lava",
+          "label": "灌岩浆"
+        },
+        {
+          "value": "honey",
+          "label": "灌蜂蜜"
+        }
+      ]
+    },
+    {
+      "key": "liquid_height",
+      "title": "液面高度",
+      "description": "液面最高灌到世界高度的百分之多少。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "section": "液体世界"
+    },
+    {
+      "key": "liquid_rate",
+      "title": "每秒灌注格数",
+      "description": "每秒最多灌注多少格液体。数字太大可能掉帧。",
+      "type": "INTEGER",
+      "defaultValue": 500,
+      "min": 1,
+      "max": 5000,
+      "step": 100,
+      "unit": "格/帧",
+      "section": "液体世界"
+    },
+    {
+      "key": "freeze_liquid",
+      "title": "冻结液体",
+      "description": "液体完全静止，不再流动。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "液体世界"
+    },
+    {
+      "key": "tree_block_growth",
+      "title": "禁止树木生长",
+      "description": "树木不再生长。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "树木"
+    },
+    {
+      "key": "angler_reward_mult",
+      "title": "任务奖励·份数",
+      "description": "渔夫任务奖励一次给几份。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "份",
+      "section": "渔夫"
+    },
+    {
+      "key": "angler_instant",
+      "title": "完成即刷新任务",
+      "description": "交完渔夫任务后立刻刷新下一个任务，不用再等一天。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "渔夫"
+    },
+    {
+      "key": "quest_fish_stack",
+      "title": "任务鱼堆叠上限",
+      "description": "渔夫任务鱼一格里最多叠几条。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 9999,
+      "step": 1,
+      "unit": "条",
+      "section": "渔夫"
+    },
+    {
+      "key": "angler_reward_note",
+      "title": "（暂未支持）",
+      "description": "本项暂未支持，无需设置。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "渔夫"
+    },
+    {
+      "key": "rare_spawn_mult",
+      "title": "稀有生物·刷新倍率",
+      "description": "稀有生物的刷新倍率，100% = 原版。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "稀有生物"
+    },
+    {
+      "key": "rare_use_rarity",
+      "title": "稀有判定·沿用原版标记",
+      "description": "沿用原版自己的稀有标记来判定哪些怪算稀有。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "稀有生物"
+    },
+    {
+      "key": "rare_value_threshold",
+      "title": "稀有判定·掉落金钱（备用）",
+      "description": "备用判据：掉落金钱达到这个数就当成稀有生物（仅在关掉「沿用原版标记」时使用）。",
+      "type": "INTEGER",
+      "defaultValue": 5000,
+      "min": 1,
+      "max": 1000000,
+      "step": 100,
+      "unit": "铜",
+      "section": "稀有生物"
+    },
+    {
+      "key": "rare_list",
+      "title": "稀有编号补表",
+      "description": "额外把某些生物当成稀有：填编号，用逗号隔开，例如 134,266。留空即可。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "稀有生物"
+    },
+    {
+      "key": "respawn_mode",
+      "title": "复活地点",
+      "description": "死后在哪里复活：出生点 / 原地。",
+      "type": "CHOICE",
+      "defaultValue": "spawn",
+      "section": "复活与死亡",
+      "options": [
+        {
+          "value": "spawn",
+          "label": "出生点 / 床（原版）"
+        },
+        {
+          "value": "in_place",
+          "label": "原地复活"
+        }
+      ]
+    },
+    {
+      "key": "respawn_time_mult",
+      "title": "复活等待时间·倍率",
+      "description": "复活等待时间的倍率，100% = 原版。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "复活与死亡"
+    },
+    {
+      "key": "respawn_instant",
+      "title": "秒复活（无视原版记时）",
+      "description": "死了一秒就能复活，无视原版的等待时间。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "复活与死亡"
+    },
+    {
+      "key": "tombstone_block",
+      "title": "死亡不掉墓碑",
+      "description": "死亡不再掉落墓碑。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "复活与死亡"
+    },
+    {
+      "key": "craft_range_boost",
+      "title": "制作范围加倍",
+      "description": "站在制作站旁边时，制作范围翻倍。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "制作站"
+    },
+    {
+      "key": "alchemy_table_global",
+      "title": "炼药桌效果全局生效",
+      "description": "炼药桌的效果在任何地方都生效。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "制作站"
+    },
+    {
+      "key": "meteor_mode",
+      "title": "陨石坠落",
+      "description": "陨石：不干预 / 永远不落 / 一过早上 9 点就落 / 立刻落一颗。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "世界生成",
+      "options": [
+        {
+          "value": "none",
+          "label": "不干预"
+        },
+        {
+          "value": "block",
+          "label": "禁止坠落"
+        },
+        {
+          "value": "boost",
+          "label": "加速坠落·每天必落"
+        },
+        {
+          "value": "now",
+          "label": "立刻落一颗"
+        }
+      ]
+    },
+    {
+      "key": "plantera_bulb_block",
+      "title": "禁止世纪之花苞生成",
+      "description": "世纪之花苞不再生成。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界生成"
+    },
+    {
+      "key": "plantera_bulb_now",
+      "title": "立刻生成世纪之花苞",
+      "description": "立刻生成一朵世纪之花苞（要地下丛林才找得到位置）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界生成"
+    },
+    {
+      "key": "plantera_bulb_interval",
+      "title": "花苞补种间隔",
+      "description": "每隔几分钟自动补种一朵花苞。第 1 档 = 不补种。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 241,
+      "step": 1,
+      "unit": "档",
+      "section": "世界生成"
+    },
+    {
+      "key": "plantera_daily",
+      "title": "世纪之花每天刷新",
+      "description": "每个白天开始时自动刷一批花苞（需要三王全败）。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "世界生成"
+    },
+    {
+      "key": "plantera_daily_count",
+      "title": "每天刷新·生成次数",
+      "description": "每次自动刷新最多生成几朵。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "次",
+      "section": "世界生成"
+    },
+    {
+      "key": "plantera_bulb_runs",
+      "title": "花苞补种次数上限",
+      "description": "本模组一共最多补种几朵花苞。第 1 档 = 不限制。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 101,
+      "step": 1,
+      "unit": "次",
+      "section": "世界生成"
+    },
+    {
+      "key": "wgen_size",
+      "title": "世界大小",
+      "description": "新建世界时用多大的地图。注意：只对之后新建的世界生效，已有世界改不了。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "地图生成",
+      "options": [
+        {
+          "value": "none",
+          "label": "不干预（原版）"
+        },
+        {
+          "value": "small",
+          "label": "小世界"
+        },
+        {
+          "value": "medium",
+          "label": "中世界"
+        },
+        {
+          "value": "large",
+          "label": "大世界"
+        }
+      ]
+    },
+    {
+      "key": "wgen_evil",
+      "title": "邪恶类型",
+      "description": "新建世界用腐化还是猩红。只对之后新建的世界生效。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "地图生成",
+      "options": [
+        {
+          "value": "none",
+          "label": "不干预（原版）"
+        },
+        {
+          "value": "random",
+          "label": "随机"
+        },
+        {
+          "value": "corruption",
+          "label": "腐化之地"
+        },
+        {
+          "value": "crimson",
+          "label": "猩红之地"
+        }
+      ]
+    },
+    {
+      "key": "wgen_life_crystals",
+      "title": "额外生命水晶",
+      "description": "世界生成完成后，额外再撒几个生命水晶。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 501,
+      "step": 5,
+      "unit": "个",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_mana_crystals",
+      "title": "额外魔力水晶",
+      "description": "世界生成完成后，额外再撒几个魔力水晶。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 501,
+      "step": 5,
+      "unit": "个",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_islands",
+      "title": "额外浮空岛",
+      "description": "额外生成几座浮空岛（带天空房与宝箱）。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "unit": "座",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_cloud_islands",
+      "title": "额外云岛",
+      "description": "额外生成几座云岛。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "unit": "座",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_cloud_lakes",
+      "title": "额外云湖",
+      "description": "额外生成几处云湖。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "unit": "处",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_caves",
+      "title": "额外洞穴",
+      "description": "额外挖几个洞穴。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 201,
+      "step": 5,
+      "unit": "个",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_ore_type",
+      "title": "矿脉方块编号",
+      "description": "「额外矿脉」用哪种矿石，填方块编号（例如 7 铁矿、22 铜矿）。",
+      "type": "INTEGER",
+      "defaultValue": 7,
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "unit": "编号",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_ore_veins",
+      "title": "额外矿脉",
+      "description": "额外生成几条矿脉。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 301,
+      "step": 5,
+      "unit": "条",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_shimmer_biomes",
+      "title": "额外微光群系",
+      "description": "额外生成几处微光群系。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "处",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_clear_tiles",
+      "title": "生成后清除的方块",
+      "description": "世界生成完成后，把世界上这些编号的方块全部清掉。填编号，逗号隔开。留空 = 不清除。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_budget",
+      "title": "每帧扫描格数",
+      "description": "每帧最多扫描多少格（清除 / 替换用）。数字越大越快，但也越容易掉帧。",
+      "type": "INTEGER",
+      "defaultValue": 4000,
+      "min": 1,
+      "max": 20000,
+      "step": 500,
+      "unit": "格/帧",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_note",
+      "title": "（暂未支持）",
+      "description": "本项暂未支持，无需设置。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_chests",
+      "title": "额外埋藏宝箱",
+      "description": "额外埋几个宝箱。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 101,
+      "step": 1,
+      "unit": "个",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_chest_item",
+      "title": "宝箱主物品编号",
+      "description": "宝箱里必放的主物品编号（0 = 让原版自己决定战利品）。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 6000,
+      "step": 1,
+      "unit": "编号",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_chest_style",
+      "title": "宝箱样式",
+      "description": "宝箱样式：第 1 档 = 原版自动，第 2 档 = 木箱，第 3 档 = 金箱，依次类推。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 47,
+      "step": 1,
+      "unit": "样式",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_replace",
+      "title": "生成后方块替换",
+      "description": "生成完成后把 A 号方块换成 B 号方块，格式 A=B，多个用逗号隔开，例如 30=0（把 30 号删掉）。留空 = 不替换。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_custom_w",
+      "title": "自定义世界宽度",
+      "description": "自定义世界的宽度（格）。0 = 用原版尺寸。只对新建世界生效。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 16800,
+      "step": 100,
+      "unit": "格",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_custom_h",
+      "title": "自定义世界高度",
+      "description": "自定义世界的高度（格）。0 = 用原版尺寸。只对新建世界生效。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 4800,
+      "step": 100,
+      "unit": "格",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_spawn_x",
+      "title": "自定义出生点 X",
+      "description": "自定义出生点的 X 坐标（格）。0 = 用原版位置。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 16800,
+      "step": 10,
+      "unit": "格",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_spawn_y",
+      "title": "自定义出生点 Y",
+      "description": "自定义出生点的 Y 坐标（格）。0 = 用原版位置。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 4800,
+      "step": 10,
+      "unit": "格",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_start",
+      "title": "新世界起始时刻",
+      "description": "新世界开局是白天还是夜晚。",
+      "type": "CHOICE",
+      "defaultValue": "none",
+      "section": "地图生成",
+      "options": [
+        {
+          "value": "none",
+          "label": "不干预"
+        },
+        {
+          "value": "day",
+          "label": "早上"
+        },
+        {
+          "value": "night",
+          "label": "夜晚"
+        },
+        {
+          "value": "dusk",
+          "label": "黄昏"
+        }
+      ]
+    },
+    {
+      "key": "wgen_island_house",
+      "title": "浮空岛附带天空房与宝箱",
+      "description": "浮空岛 / 云岛生成时一起放上原版的天空房、宝箱和家具（关掉就只有光秃秃的地形）。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_island_style",
+      "title": "天空房家具样式",
+      "description": "天空房家具的样式编号。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "样式",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_cloud_chest",
+      "title": "云岛 / 云湖上也埋宝箱",
+      "description": "云岛和云湖上也埋一个宝箱。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_sky_band",
+      "title": "天空结构的生成高度",
+      "description": "天空结构生成得多高（相对地表）。",
+      "type": "CHOICE",
+      "defaultValue": "standard",
+      "section": "地图生成",
+      "options": [
+        {
+          "value": "standard",
+          "label": "标准（离地表 100 格以上）"
+        },
+        {
+          "value": "low",
+          "label": "低空（40 格以上）"
+        },
+        {
+          "value": "high",
+          "label": "高空（240 格以上）"
+        }
+      ]
+    },
+    {
+      "key": "wgen_under_band",
+      "title": "地下结构的生成深度",
+      "description": "地下结构生成在多深的地方。",
+      "type": "CHOICE",
+      "defaultValue": "standard",
+      "section": "地图生成",
+      "options": [
+        {
+          "value": "standard",
+          "label": "标准（各自的原版范围）"
+        },
+        {
+          "value": "shallow",
+          "label": "浅层（25%~60%）"
+        },
+        {
+          "value": "deep",
+          "label": "深层（60%~95%）"
+        },
+        {
+          "value": "all",
+          "label": "全程（20%~95%）"
+        }
+      ]
+    },
+    {
+      "key": "wgen_struct_gap",
+      "title": "结构类生成间隔",
+      "description": "浮空岛这类大结构每 N 帧最多放一个（它们一次要写几十万格）。数字越小越快，1 = 不节流。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 120,
+      "step": 1,
+      "unit": "帧",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_hits_frame",
+      "title": "每帧最多清除 / 替换格数",
+      "description": "每帧最多清除 / 替换多少格。第 1 档 = 不限制。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 2001,
+      "step": 100,
+      "unit": "格/帧",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_total_cap",
+      "title": "单次生成·特征总量上限",
+      "description": "一整套生成任务最多放多少个特征，超出会被自动削减。",
+      "type": "INTEGER",
+      "defaultValue": 5000,
+      "min": 1,
+      "max": 5000,
+      "step": 50,
+      "unit": "个",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_speed",
+      "title": "特征生成速度",
+      "description": "每帧最多放置几个特征。数字越大生成越快，对帧率的影响也越大。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "个/帧",
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_reframe",
+      "title": "结构放置后补图块框架",
+      "description": "放置完成后重算一遍方块贴图框架，避免新放的方块看起来是破的。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_quick_scan",
+      "title": "图块扫描·分块批量读",
+      "description": "用更快的批量方式读取图块。关掉后扫描会明显变慢。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "地图生成"
+    },
+    {
+      "key": "wgen_marble",
+      "title": "额外大理石堆",
+      "description": "额外生成几处大理石堆。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_lihzahrd",
+      "title": "额外神庙祭坛",
+      "description": "额外生成几座神庙祭坛。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 11,
+      "step": 1,
+      "unit": "座",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_shadow_orbs",
+      "title": "额外暗影球 / 猩红心",
+      "description": "额外生成几个暗影球 / 猩红心。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 21,
+      "step": 1,
+      "unit": "个",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_gem_caves",
+      "title": "额外宝石洞",
+      "description": "额外生成几处宝石洞。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 51,
+      "step": 1,
+      "unit": "处",
+      "section": "沙漠与绿洲"
+    },
+    {
+      "key": "wgen_ore_patches",
+      "title": "额外矿斑",
+      "description": "额外生成几处矿斑（地表矿石堆）。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 101,
+      "step": 5,
+      "unit": "处",
+      "section": "沙漠与绿洲"
+    },
+    {
+      "key": "wgen_graveyards",
+      "title": "额外墓地",
+      "description": "额外生成几处墓地（成片的墓碑）。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 21,
+      "step": 2,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_moss",
+      "title": "额外苔藓",
+      "description": "额外生成几处苔藓。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 41,
+      "step": 5,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_glow_moss",
+      "title": "额外发光苔藓",
+      "description": "额外生成几处发光苔藓。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 41,
+      "step": 5,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_mayan_traps",
+      "title": "额外神庙陷阱",
+      "description": "额外生成几处神庙陷阱。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 41,
+      "step": 5,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_lava_traps",
+      "title": "额外岩浆陷阱",
+      "description": "额外生成几处岩浆陷阱。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 41,
+      "step": 5,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_statue_traps",
+      "title": "额外雕像陷阱",
+      "description": "额外生成几处雕像陷阱。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 41,
+      "step": 5,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_bee_larva",
+      "title": "额外蜂巢",
+      "description": "额外生成几处蜂巢（会孵出蜜蜂）。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 41,
+      "step": 5,
+      "unit": "处",
+      "section": "地下结构"
+    },
+    {
+      "key": "wgen_stone_patches",
+      "title": "额外石斑",
+      "description": "额外生成几处石斑。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 101,
+      "step": 5,
+      "unit": "处",
+      "section": "沙漠与绿洲"
+    },
+    {
+      "key": "wgen_shell_piles",
+      "title": "额外贝壳堆",
+      "description": "额外生成几处贝壳堆。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 51,
+      "step": 1,
+      "unit": "处",
+      "section": "沙漠与绿洲"
+    },
+    {
+      "key": "wgen_oases",
+      "title": "额外绿洲",
+      "description": "额外生成几处沙漠绿洲。第 1 档 = 不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 11,
+      "step": 1,
+      "unit": "处",
+      "section": "沙漠与绿洲"
+    },
+    {
+      "key": "shimmer_enable",
+      "title": "启用自定义微光配方",
+      "description": "启用下面这张自定义微光嬗变表。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "微光"
+    },
+    {
+      "key": "shimmer_any_item",
+      "title": "任意物品→任意物品",
+      "description": "让任意物品丢进微光都能变成指定物品：填编号。第 1 档 = 关闭。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 6001,
+      "step": 1,
+      "unit": "编号",
+      "section": "微光"
+    },
+    {
+      "key": "chest_loot_note",
+      "title": "（暂未支持）",
+      "description": "本项暂未支持，无需设置。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "微光"
+    },
+    {
+      "key": "shimmer_recipes",
+      "title": "微光配方表",
+      "description": "自定义微光配方，格式 原料编号=产物编号，多个用逗号隔开，例如 22=23。留空 = 不改配方。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "微光"
+    },
+    {
+      "key": "shop_price_mult",
+      "title": "商店售价·倍率",
+      "description": "NPC 商店的售价倍率，100% = 原版。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%",
+      "section": "NPC 商店"
+    },
+    {
+      "key": "shop_happiness_note",
+      "title": "（暂未支持）",
+      "description": "本项暂未支持，无需设置。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "NPC 商店"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "travel_enabled": true,
+    "skeleton_enabled": true,
+    "skeleton_require_cavern": true,
+    "skeleton_scan_radius_tiles": 120
+  }
+}

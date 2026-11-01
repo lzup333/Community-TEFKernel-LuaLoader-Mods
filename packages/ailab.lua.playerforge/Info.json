@@ -1,0 +1,1047 @@
+{
+  "pkgId": "ailab.lua.playerforge",
+  "name": "玩家工坊 (PlayerForge)",
+  "author": "哇",
+  "version": "2.1.3",
+  "versionCode": 20271026,
+  "brieflyDescribe": "玩家属性工坊：108 项设置，倍率类上限放宽到 10000（100 倍），含仆从/哨兵倍率、鞭子攻速与范围、使用时间下限、点亮全图、视野缩放与光照穿透、暴击伤害/无敌帧/药水冷却/拾取范围/自动挂机/自动朝向；v2.0.1 移除了会导致整进程闪退的聊天对象反射，聊天指令默认关闭，导出/导入改为 forge_export.txt 与粘贴设置串，另加崩溃取证日志；v2.1.1 修复主菜单属性页空指针崩溃；v2.1.0 新增游戏内图形面板（5 页，属性页只读）；默认零开销。",
+  "description": "把「玩家自身属性」做成一座可调的工坊：共 108 项设置，像内存修改器一样自由改数值，又不必自己去翻内存。改完设置由「自动重读设置间隔」驱动（默认 5 秒）生效，不必重启、不必重进世界。\n\n■ 主要公式\n· 数值属性：最终值 = 原版最终值 × (倍率 ÷ 100) + 加值。倍率 100% = 不变；加值是「设置值 − 1」（1 = 不加）；两者可同时用。\n· 所有改写都作用在「装备与增益都算完之后」的最终数值上，原版每帧重算 → 天然幂等、不会越滚越大。\n· 游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果。\n\n■ v2.0.1 修复了什么（重要）\n· 崩溃根因：v2.0.0 为了读聊天文本，反射了 Terraria.Chat.ChatMessage 的 get_Text 与<Text>k__BackingField。这条路径在真机上会把整个进程打死（原生崩溃，Lua 侧 pcall 拦不住），本工作区唯一有实机证据的崩溃就是它。v2.0.1 **彻底移除**了对该类型的一切引用。\n· 聊天指令改为可选：只有把「聊天指令(/forge)」打开时才解析聊天类型并装钩子；唯一入口是 SayChatCommand.ProcessIncomingMessage(string, byte)，参数全是标量，不碰消息对象。默认关闭 = 一行聊天代码都不执行。\n· 默认零聊天依赖的通道：导出 = 打开「导出当前设置到文件」→ 私有目录 forge_export.txt；导入 = 把设置串粘贴进「导入设置串(粘贴)」。两者单机与客机都能用。\n· 新增崩溃取证日志（默认开）：最近 60 条状态增量写进 playerforge_diag.log，闪退时请一并发来。\n· 顺带修正：对玩家暴击伤害的回调此前误读 args[4]（那是 pvp 标志），已按 Player.Hurt(8 参) 的真实签名改读 args[6]（crit）。\n\n■ v2.0.0 滑块上限（§3.2）\n· 倍率 / 百分比类：1 ~ 10000（10000 = 100 倍），默认 100 = 1 倍。\n· 非倍率类（秒 / 帧 / 点 / 格 / 数量）保持 v1.1.0 的上限，没有一起放大。\n\n■ v2.0.0 新增能力\n· 仆从位 / 哨兵位百分比（minion_mult / turret_mult，写在 Player.ResetEffects 的 postfix，公式 = 原版 × 倍率 ÷ 100 + 加值；不碰 maxTurretsOld 的变化检测）。\n· 鞭子：whip_speed / whip_range（玩家侧 whipUseTimeMultiplier / whipRangeMultiplier），与属性工坊「跳过 useTime/useAnimation 改写」配合，解决「攻速太快 → 鞭长被吃掉」。\n· min_use_time（默认 3，范围 1~60）：所有攻速写入点统一夹取下限，键名与属性工坊一致。\n· 点亮全图：WorldMap.UnlockMapSection 一次性跑全部地图段（大世界约 672 次），另有「逐格 Update 兜底（强制分帧、可中断、带进度播报）」与三个开关。\n· 视野/相机：hook XNAWorldCameraSettings 的 MinPixelScale / MaxPixelScale / MaxWorldWidth / MaxWorldHeight getter；默认值等于原版 = 完全不动。\n· 光照：LightingEngine.UpdateLightDecay postfix 改 LightMap 的衰减系数（穿透强度滑块 + 完全夜视开关）。\n· 暴击伤害倍率、无敌帧倍率/加值、药水冷却倍率、冲刺祝福、拾取范围（GetItemGrabRange postfix）、自动使用/自动朝向最近敌人。\n\n■ 工程能力（跨模组统一约定；v2.0.1 起全部默认零聊天依赖）\n· 设置串导出：打开「导出当前设置到文件」→ 写进模组私有目录 forge_export.txt（只含非默认项）。\n· 设置串导入：把串粘贴进「导入设置串(粘贴)」→ 校验校验和 → 就地改写 config.json → 播报并自动清空。串格式 forge:playerforge|<k>=<v>;…|#<sum>，单机与客机都能用，不需要分片。\n· 聊天命令（可选，默认关）：打开「聊天指令(/forge)」后可用 /forge help | stat | check | export [all] | import <串> | import reset | map。\n· 诊断域注册表 + 启动自检播报（默认开，进世界首帧一次性播报「句柄/钩子/命中」），另有 diag_report_cmd / diag_slow_ms。\n· 崩溃取证日志（默认开）：最近 60 条状态增量写进 playerforge_diag.log（内核日志会丢最后几行，这份文件才是崩溃时可靠的依据）。\n\n■ 开关式能力\n上帝模式、闪避、无限飞行、无限跳、无限火箭、熔岩免疫、水下呼吸、夜视、生物探测、宝藏探测、危险感知、平静、隐身、重力控制、节省弹药、免疫所有减益、点亮全图、自动挂机、自动朝向敌人等。\n\n■ 默认值全部等于原版（倍率 100%、加值 +0、开关全关），不动设置就零开销。\n\n■ 做不到（详见 README「做不到」一节）\n· Player.scale 在 1.4.5.8 手机版**不存在**（Player/Entity 都没有该字段），玩家体型倍率未实现。\n· Main.mouseX / mouseY 是**只读属性**（只有 get;），自动瞄准没有可写入口 → 只做了「自动朝向最近敌人」。\n· LegacyLighting 的 _negLight/_negLight2/_negLight3 在手机版**不存在**（symbols 校验已标「字段不存在」）→ 传统光照那一路的完全夜视不可用，只剩 LightingEngine 那一路。\n· 穿墙 / 无碰撞：不做（会把玩家卡死在方块里）。\n\n■ 未实机验证：本模组只经过静态校验与假内核逻辑测试，没有在真机上跑过。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "总开关",
+      "description": "关闭后本模组立刻停手：下一帧起被改写的数值由游戏自己重算回原版；免疫减益这类一次性改动会主动还原。游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果；滑块上限已按类型收紧，方便手动调节。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "self_check",
+      "title": "启动自检播报",
+      "description": "进入世界后的第一帧，把每个功能域的「句柄 / 钩子 / 本帧命中」一次性打到聊天栏，用来回答「为什么这项没生效」。一次性、不刷屏；每次进世界各播一次。默认开。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "diag_slow_ms",
+      "title": "自检慢域阈值(毫秒)",
+      "description": "单域平均耗时超过该毫秒数就在自检/报告里标 SLOW。1~1000。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "unit": "毫秒"
+    },
+    {
+      "key": "diag_report_cmd",
+      "title": "详细报告聊天命令",
+      "description": "触发详细诊断报告的聊天命令（留空则用默认的 forge stat）。报告含每域 calls / hits / errs / 最近一次错误 / 平均耗时。",
+      "type": "STRING",
+      "defaultValue": "forge stat"
+    },
+    {
+      "key": "chat_cmd",
+      "title": "聊天指令(/forge)",
+      "description": "开启后才解析聊天类型并安装聊天钩子，/forge help|stat|check|export|import|map 才可用。★ 默认关闭：一次实机整进程崩溃（SIGSEGV/SIGABRT，Lua 侧 pcall 拦不住）就发生在聊天子系统的相邻路径上，聊天指令只是可选便利功能，默认零风险。关闭时请改用「粘贴导入设置串」与「导出当前设置到文件」。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "import_string",
+      "title": "导入设置串(粘贴)",
+      "description": "默认（零聊天依赖）的导入通道，单机与客机都可用：把导出的设置串整串粘贴到这里即可。检测到非空就校验校验和 → 就地改写 config.json（只替换已知 key，未知 key 与其它字段原样保留）→ 游戏内播报结果 → 自动清空本项。校验和不对或格式不对会拒绝并播报原因（不清空，方便你改）。粘贴长度不受聊天框限制，不需要分片。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "export_now",
+      "title": "导出当前设置到文件",
+      "description": "打开后本模组把当前设置串写进自己的私有目录 forge_export.txt（只含与默认值不同的项），播报一次结果，然后自动把本开关写回关闭（不会一直重复导出）。这是零聊天依赖的导出通道：文件写在模组私有目录（与 config.json 同目录）：/storage/emulated/0/Android/data/eternal.future.tefmanager/files/mods/lzup333.lualoader/private/playerforge/forge_export.txt",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "hot_reload",
+      "title": "自动重读设置",
+      "description": "这是「是否自动重读」的总闸：打开后每「自动重读设置间隔」秒检查一次 TEFManager 的设置文件，改完设置回到游戏即可生效，不必重启。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "config_reload_sec",
+      "title": "自动重读设置间隔(秒)",
+      "description": "每隔这么多秒比对一次 TEFManager 的设置文件，同一节拍刷新联机身份（netMode）缓存。「自动重读设置」关掉时不再重读设置，但联机身份仍按此节拍刷新。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "tick_interval",
+      "title": "非关键项刷新间隔(帧)",
+      "description": "逐帧钩子里「必须逐帧」的部分保持逐帧（例如玩家最终数值要在装备/增益算完之后写）；设置比对、免疫数组还原、统计这些可放宽的工作按序号分相位平摊。1 = 逐帧（最灵敏），60 = 每 60 帧一次（最省）。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "host_only",
+      "title": "联机：仅房主生效",
+      "description": "只在你是房主的那一端生效：netMode == 1（客机）时本模组只读不写、不介入游戏数据；单机与服务器照常。取不到 netMode 句柄时退化为「不限制」。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "write_log",
+      "title": "写入日志文件(日志过大会崩游戏)",
+      "description": "日志总开关：打开后才输出 mod.info/warn/error，关闭时除 setup() 阶段一次性「符号取不到」的警告外一条都不打（逐帧路径尤其如此），也不写任何日志文件。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "debug_log",
+      "title": "详细日志",
+      "description": "只在「写入日志文件」打开时才有意义：输出计划项数、分相位统计等细节，方便排查「某项设置没生效」。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "crash_log",
+      "title": "崩溃取证日志(死前遗言)",
+      "description": "每几秒把本模组最近 60 条状态（阶段标记 / 钩子安装结果 / 异常 / 进世界 / 当前帧号）增量写进私有目录 playerforge_diag.log。内核崩溃日志是**异步刷盘**的，崩溃会丢掉最后几行，所以这份文件是崩溃时唯一可靠的定位依据：一旦闪退，请把 playerforge_diag.log 一起发出来。默认开（只有内容变化时才写盘，开销可忽略）。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "life_max_mult",
+      "title": "生命上限·倍率",
+      "description": "原版生命上限 × 该倍率。100 = 不变，500 = 五倍，1000 = 十倍。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "life_max_add",
+      "title": "生命上限·加值",
+      "description": "在原版生命上限上再加这么多点。实际加值 = 本值 − 1（1 表示不加）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 50,
+      "unit": "点"
+    },
+    {
+      "key": "life_regen_mult",
+      "title": "生命回复·倍率",
+      "description": "装备与增益提供的回血速度 × 该倍率。100 = 不变。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "life_full",
+      "title": "生命自动回满",
+      "description": "每帧把当前生命补到上限。这不是无敌：单次致命伤害仍可能击杀（要无敌请开上帝模式）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "god_mode",
+      "title": "上帝模式",
+      "description": "免疫一切伤害（等同创造模式的上帝模式）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "shadow_dodge",
+      "title": "闪避",
+      "description": "每帧保持闪避状态：每次受到攻击都判定闪避成功、完全不受伤害。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "mana_max_mult",
+      "title": "魔力上限·倍率",
+      "description": "公式：魔力上限 = 原版上限 × (本值 ÷ 100)。原版把上限硬夹在 400，本模组在夹取之后写回，因此可以突破 400；滑块上限 1000% = 10 倍（⚠️ HUD 每 20 点魔力画一颗星，值特别大会掉帧）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "mana_max_add",
+      "title": "魔力上限·加值",
+      "description": "公式：在原版魔力上限上再加 (本值 − 1) 点（1 = 不加）。不再设上限（HUD 星星会变多）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 20,
+      "unit": "点"
+    },
+    {
+      "key": "mana_regen_mult",
+      "title": "魔力回复·倍率",
+      "description": "魔力自然回复速度 × 该倍率。100 = 不变。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "mana_cost_mult",
+      "title": "魔力消耗·倍率",
+      "description": "法术耗蓝 × 该倍率。调到 1 约等于免蓝。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "mana_full",
+      "title": "魔力自动回满",
+      "description": "每帧把当前魔力补到上限。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "move_speed_mult",
+      "title": "移动速度·倍率",
+      "description": "同时作用于步行与冲刺（原版本身就用 moveSpeed 去乘奔跑加速度与最高速）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "move_speed_add",
+      "title": "移动速度·加值",
+      "description": "实际加值 = (本值 − 1)/100，即 101 表示额外 +100% 移速。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "jump_speed_mult",
+      "title": "跳跃速度·倍率",
+      "description": "起跳初速度 × 该倍率（越高跳得越快、也越高）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "jump_height_mult",
+      "title": "跳跃高度·倍率",
+      "description": "跳跃能到达的最大高度 × 该倍率（影响能踩上多高的平台）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "gravity_mult",
+      "title": "重力·倍率",
+      "description": "100 = 原版重力；越小越飘（20 约等于月球）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "dash_on",
+      "title": "冲刺祝福(0=关)",
+      "description": "0 = 关闭。1~6 = 每帧帮你保持在对应冲刺状态：1 塔比(Tabi) / 2 克苏鲁之盾 / 3 日耀 / 4 水晶刺客 / 5 基础冲刺(仙人掌/克苏鲁盾旧版) / 6 校准过的冲刺。移动速度可用上面的「移动速度·倍率」一起调。⚠️ 原版的部分冲刺带无敌帧，联机会让判定与服务器不一致，默认关。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "档"
+    },
+    {
+      "key": "auto_jump",
+      "title": "自动跳跃",
+      "description": "按住跳跃键即可连续起跳，不必反复点按。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "ignore_water",
+      "title": "水中自由移动",
+      "description": "水里也按陆地速度移动，不减速。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "ice_skate",
+      "title": "冰面防滑",
+      "description": "冰面上不再打滑。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "water_walk",
+      "title": "水面行走",
+      "description": "可以在水面、蜂蜜表面行走。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "no_fall_damage",
+      "title": "免疫摔落伤害",
+      "description": "从任何高度落地都不受伤。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "no_knockback",
+      "title": "免疫击退",
+      "description": "受到攻击不会被击退。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "infinite_flight",
+      "title": "无限飞行",
+      "description": "需装备翅膀：每帧把飞行时间补满，飞行时间永不耗尽。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "flight_time_mult",
+      "title": "飞行时间·倍率",
+      "description": "翅膀的飞行时间 × 该倍率（100 = 不变）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 50,
+      "unit": "%"
+    },
+    {
+      "key": "infinite_jump",
+      "title": "无限跳",
+      "description": "空中可无限次起跳（无需二段跳饰品）；点亮跳跃键一下一下点就能一路向上。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "infinite_rocket",
+      "title": "无限火箭",
+      "description": "火箭靴、喷气背包的燃料不耗尽。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "empress_brooch",
+      "title": "翱翔徽章",
+      "description": "获得女皇翱翔徽章的效果：空中悬停、飞行时间不衰减、奔跑加速 +75%。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "tile_range_mult",
+      "title": "交互范围·倍率",
+      "description": "挖掘 / 放置 / 使用 / 开箱的格数范围 × 该倍率（原版横向 5 格、纵向 4 格）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "tile_range_add",
+      "title": "交互范围·加值",
+      "description": "实际加值 = 本值 − 1（格），1 表示不加。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "格"
+    },
+    {
+      "key": "grab_range_mult",
+      "title": "拾取范围·倍率",
+      "description": "物品自动拾取半径 × 该倍率（原版 42 像素）。v1.1.0 曾降级不可用（Player.defaultItemGrabRange 是 const）；v2.0.0 改挂 Player.GetItemGrabRange(Item) 的 postfix 返回值，已重新可用。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "grab_range_add",
+      "title": "拾取范围·加值",
+      "description": "在拾取半径上再加 (本值 − 1) 像素（1 = 不加）。与倍率同时生效。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "像素"
+    },
+    {
+      "key": "damage_all_mult",
+      "title": "全伤害·倍率",
+      "description": "四种伤害的共同倍率，与下面四项分倍率相乘。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "melee_damage_mult",
+      "title": "近战伤害·倍率",
+      "description": "近战武器伤害 × 该倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "ranged_damage_mult",
+      "title": "远程伤害·倍率",
+      "description": "弓 / 枪 / 发射器伤害 × 该倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "magic_damage_mult",
+      "title": "魔法伤害·倍率",
+      "description": "魔法武器伤害 × 该倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "summon_damage_mult",
+      "title": "召唤伤害·倍率",
+      "description": "仆从与哨兵伤害 × 该倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "melee_speed_mult",
+      "title": "近战攻速·倍率",
+      "description": "挥砍速度 × 该倍率（原版对攻速另有上限，约 3 倍）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "whip_speed",
+      "title": "鞭子攻速·倍率",
+      "description": "鞭子攻速倍率：写 Player.whipUseTimeMultiplier（float, 0x2BC）。100 = 不变。★ 与属性工坊的分工：属性工坊负责「对鞭子类物品跳过 useTime/useAnimation 改写」，玩家工坊负责「用玩家侧字段提供加速」——只有这两边配合，鞭子加速才不会把鞭长吃掉。写在 Player.ResetEffects 的 postfix 里（原版在该方法里把它重置为 1）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "whip_speed_add",
+      "title": "鞭子攻速·加值",
+      "description": "实际加值 = (本值 − 1)/100 加到 whipUseTimeMultiplier 上（101 = 额外 +100%）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "whip_range",
+      "title": "鞭子范围·倍率",
+      "description": "鞭子长度倍率：写 Player.whipRangeMultiplier（float, 0x2B8）。100 = 不变。原版鞭长 = 物品模板 useAnimation × 2 × 该倍率 × 其它系数，所以攻速再高也不会缩短鞭子（配合属性工坊跳过 useAnimation 改写）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "whip_range_add",
+      "title": "鞭子范围·加值",
+      "description": "实际加值 = (本值 − 1)/100 加到 whipRangeMultiplier 上（101 = 额外 +100%）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "crit_add",
+      "title": "暴击率·加值",
+      "description": "近战 / 远程 / 魔法暴击率同时 +（本值 − 1）%。原版基础 4%；暴击率本身封顶 100%，滑块上限取 100。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "armor_pen_add",
+      "title": "护甲穿透·加值",
+      "description": "实际加值 = 本值 − 1（点）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "点"
+    },
+    {
+      "key": "minion_mult",
+      "title": "仆从上限·倍率",
+      "description": "公式：仆从上限 = 原版 × (本值 ÷ 100) + 加值。100 = 不变。写在 Player.ResetEffects 的 postfix 里（原版每帧把它重置为 1 + 装备加成，写早了会被覆盖）。⚠️ 仆从有实体与 AI 开销，调到上千倍会严重掉帧。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "minion_add",
+      "title": "仆从上限·加值",
+      "description": "公式：仆从上限 = 原版 × 倍率 ÷ 100 + (本值 − 1)（1 = 不加）。原始数值追加，不随倍率放大；+99 已经很多（仆从有实体与 AI 开销，太多会掉帧）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "个"
+    },
+    {
+      "key": "turret_mult",
+      "title": "哨兵上限·倍率",
+      "description": "公式：哨兵上限 = 原版 × (本值 ÷ 100) + 加值。100 = 不变。同样写在 Player.ResetEffects 的 postfix 里。⚠️ maxTurretsOld 有变化检测，本模组不碰它。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "turret_add",
+      "title": "哨兵上限·加值",
+      "description": "公式：哨兵上限 = 原版 × 倍率 ÷ 100 + (本值 − 1)（1 = 不加）。原始数值追加，不放大。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "个"
+    },
+    {
+      "key": "crit_damage_mult",
+      "title": "暴击伤害·倍率",
+      "description": "暴击时的伤害倍率。原版写死 ×2，本项把它换算成对应倍数（100 = 原版 ×2 不变，200 = ×4，10000 = ×200）。同时覆盖对怪与对玩家的暴击判定。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "ammo_save",
+      "title": "节省弹药",
+      "description": "同时获得 25% 与 20% 两层省弹判定（合计约 40% 不消耗），可与原版省弹装备叠加。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "defense_mult",
+      "title": "防御力·倍率",
+      "description": "防御力 × 该倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "defense_add",
+      "title": "防御力·加值",
+      "description": "实际加值 = 本值 − 1（点）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "点"
+    },
+    {
+      "key": "endurance_add",
+      "title": "伤害减免·加值",
+      "description": "公式：伤害减免 = (本值 − 1)%（1 = 不加）。滑块上限 100%（减免本身封顶）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "thorns_add",
+      "title": "荆棘反伤·加值",
+      "description": "被近身攻击时反弹的伤害 +（本值 − 1）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "点"
+    },
+    {
+      "key": "aggro_add",
+      "title": "仇恨·调整",
+      "description": "实际值 = 本值 − 1001。比 1001 小 → 怪物更不搭理你；比 1001 大 → 更容易被围攻。",
+      "type": "INTEGER",
+      "defaultValue": 1001,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "点"
+    },
+    {
+      "key": "lava_immune",
+      "title": "熔岩免疫",
+      "description": "泡在岩浆里也不掉血。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "fire_walk",
+      "title": "免疫灼烧",
+      "description": "可以在岩浆块上行走且不被点燃（火焰行走）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "water_breathing",
+      "title": "水下呼吸",
+      "description": "不会溺水：呼吸条一直保持满值。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "debuff_immune",
+      "title": "免疫所有减益",
+      "description": "只对原版标记为「减益」的效果生效，正面 buff 不受影响（免疫中毒、燃烧、诅咒、药剂疾病等）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "extra_accessory",
+      "title": "额外饰品栏",
+      "description": "视作装备了恶魔之心：专家模式下多一格饰品栏。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "immune_time_mult",
+      "title": "无敌帧·倍率",
+      "description": "受伤后的无敌时间 × 该倍率（100 = 原版）。原版每帧把 Player.immuneTime 减 1，本模组在 Player.UpdateImmunity 的 postfix 里按倍率补回（保证不会超过倍率上限，不会越滚越大）。⚠️ 联机时无敌帧由服务器判定，改倍率会让两端不一致，默认 100 不动。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "immune_time_add",
+      "title": "无敌帧·加值",
+      "description": "无敌时间额外 + (本值 − 1) 帧（1 = 不加）。与倍率同时生效。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "帧"
+    },
+    {
+      "key": "potion_cooldown_mult",
+      "title": "药水冷却·倍率",
+      "description": "药水病（喝药后的冷却）剩余帧数按该倍率消耗，100 = 原版。在 Player.UpdateArmorSets 的 postfix 里额外多减 potionDelay，并同步 potionDelayTime。⚠️ 联机时冷却由服务器判定，改快会让服务器拒绝你的喝药请求，默认 100 不动。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "min_use_time",
+      "title": "使用时间下限(帧)",
+      "description": "所有 useTime / useAnimation / itemAnimationMax 的写入点统一走 v = clamp(round(base × 攻速/100), 本值, 大值)；1 = 等价旧行为（不夹取）。★ 3 是原版多数武器能正常挥砍的下限：调到 1 时很多武器的挥砍/收招判定走不完，表现为「按了没反应」；鞭子更会因为 itemAnimationMax 太小而直接把 timeToFlyOut 压没。本模组逐帧改 itemAnimationMax 的逻辑（鞭子加速）也共用这个下限。★ 键名与语义与属性工坊一致。",
+      "type": "INTEGER",
+      "defaultValue": 3,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "pick_speed_mult",
+      "title": "挖掘速度·倍率",
+      "description": "挖掘 / 锤击速度 × 该倍率；受原版硬性上限约束（约 3.3 倍）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "tile_speed_mult",
+      "title": "放置速度·倍率",
+      "description": "方块与家具的放置速度 × 该倍率；受原版硬性上限约束（3 倍）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "wall_speed_mult",
+      "title": "墙壁放置速度·倍率",
+      "description": "公式：墙壁放置速度 × (本值 ÷ 100)；原版对放置速度另有硬性上限（约 3 倍）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "fishing_add",
+      "title": "钓鱼技能·加值",
+      "description": "实际加值 = 本值 − 1（点）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "点"
+    },
+    {
+      "key": "luck_add",
+      "title": "幸运·加值",
+      "description": "实际 = (本值 − 1)/100，即 101 表示 +1.00 幸运（原版幸运上限约 +1.4；滑块上限 1000 ≈ +9.99）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 1000,
+      "step": 10,
+      "unit": "×0.01"
+    },
+    {
+      "key": "breath_max_mult",
+      "title": "呼吸上限·倍率",
+      "description": "水下呼吸条的长度 × 该倍率。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 25,
+      "unit": "%"
+    },
+    {
+      "key": "night_vision",
+      "title": "夜视",
+      "description": "屏幕整体变亮，等同夜猫子药水。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "detect_creature",
+      "title": "生物探测",
+      "description": "显示屏幕内所有生物的位置。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "detect_treasure",
+      "title": "宝藏探测",
+      "description": "显示屏幕内的宝箱与矿石。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "danger_sense",
+      "title": "危险感知",
+      "description": "高亮附近的危险源。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "calmed",
+      "title": "平静",
+      "description": "降低刷怪速度（等同和平蜡烛效果）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "invis",
+      "title": "隐身",
+      "description": "进入隐身状态（等同隐身药水）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "grav_control",
+      "title": "重力控制",
+      "description": "可反转重力（等同重力药水）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "acc_flipper",
+      "title": "脚蹼",
+      "description": "水中游得更快（等同脚蹼）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "map_unlock_once",
+      "title": "一次性点亮全图",
+      "description": "打开后，进入世界（或改这一项）时立刻用 WorldMap.UnlockMapSection(sectionX, sectionY) 把全部地图段解锁一遍（大世界约 672 段，一次性跑完不卡），完成后自动把本开关复位、并置 Main.refreshMap = true 刷新小地图。一次性动作，不会每帧重跑。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "map_unlock_auto",
+      "title": "自动点亮(进世界即点亮)",
+      "description": "每次进入世界后自动执行一次上面的「一次性点亮」。与「一次性点亮」区别：本项常开，每进一次世界就点一次。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "map_progress",
+      "title": "地图进度播报",
+      "description": "点亮地图时用聊天栏播报进度（段数、耗时）。与「写入日志文件」无关。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "map_legacy_tiles",
+      "title": "点亮地图·逐格兜底",
+      "description": "★ 兜底路线：不用 UnlockMapSection，而用 WorldMap.Update(x, y, byte light) 逐格写 255。全图 2000 万格，本项**必须分帧**：按「非关键项刷新间隔(帧)」每帧只写一小批，带进度播报、可用「总开关」随时中断。默认关；只有在 UnlockMapSection 取不到时才需要它。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "camera_zoomout",
+      "title": "允许缩小视野(倍率)",
+      "description": "★ 放大倍率上限的缩放系数：hook XNAWorldCameraSettings.get_MinPixelScale()，返回 原版值 × (本值 ÷ 100)。像素比例越小 = 屏幕里塞进越多世界 = 缩得越小（看得更多）。100 = 完全不动（零改动）；50 = 视野范围约翻倍。★ 已知坑：Main.ForcedMinimumZoom(0x9C4) 每帧被 max(1, …) 覆盖，单写它无效，本模组不碰。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "camera_zoomin",
+      "title": "允许放大视野(倍率)",
+      "description": "hook XNAWorldCameraSettings.get_MaxPixelScale()，返回 原版值 × (本值 ÷ 100)。100 = 完全不动。调大可以让双指放大能放得更大（观察细节用）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "key": "camera_world_bigger",
+      "title": "取消世界视野尺寸限制",
+      "description": "hook XNAWorldCameraSettings.get_MaxWorldWidth()/get_MaxWorldHeight()，把返回的整数上限按上面的「缩小视野倍率」反向放大（缩得越小、可渲染的世界越宽）。默认关。取不到这两个 getter 时自动停用并写进自检报告。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "camera_rebuild_zoom",
+      "title": "备选：重建视图矩阵时缩放",
+      "description": "★ 备选路线（默认关）：hook SpriteViewMatrix.Rebuild() 的 prefix，幂等地把 _zoom 乘一次系数，并置 _needsRebuild = true。做了「每个视图矩阵每帧只缩一次」的保护，否则会指数级缩放。只有在上面两个 getter 都取不到、又确实需要缩小时才开。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "light_full_night",
+      "title": "完全夜视(光照不衰减)",
+      "description": "把光照引擎 LightMap 的 LightDecayThroughAir / LightDecayThroughSolid 直接写成 1.0（传播是乘法，1.0 = 完全不衰减）→ 画面与白天无异。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "light_penetration",
+      "title": "光照穿透强度",
+      "description": "把光照衰减的「每格损失」缩小到原来的 (100 − 本值)/100 倍：new = 1 − (1 − old) × (100 − 本值)/100。0 = 原版（不动）；70 = 每格损失只剩 30%，光照传播距离约 3 倍；100 = 不衰减。在 LightingEngine.UpdateLightDecay 的 postfix 里改。默认 0 = 零改动。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "auto_cast",
+      "title": "自动使用/自动挥砍",
+      "description": "hook Player.ItemCheck 的 prefix：把手持物品每帧当作「一直按住使用键」（Player.controlUseItem = true）。拿任意武器/工具都会自动挥砍，拿鱼竿会自动抛竿（收线仍走原版判定）。默认关，怕挂机的服务器请勿开。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "auto_fish_reel",
+      "title": "自动收杆",
+      "description": "在自动使用的基础上，不再干预收线：原版 ItemCheck 会在鱼上钩时自己收线并交鱼。本开关只影响说明文案与自检报告，实际逻辑仍走自动使用。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "auto_face_enemy",
+      "title": "自动朝向最近敌人",
+      "description": "每帧（按「非关键项刷新间隔」分相位）在 Main.npc 里找最近的敌对且存活的 NPC，把 Player.direction 对准它。只改朝向、不瞄准、不改输入、不代替你攻击。带防抖：目标漂移小于 8 像素或每 10 帧才重算一次。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "auto_aim",
+      "title": "自动瞄准(说明用·未实现)",
+      "description": "★ 做不到：手机版 Main.mouseX / mouseY 是**只读属性**（符号表 public static [属性] 只有 get;），没有可写的入口；而且手机端没有鼠标光标。本开关保留为占位，打开只会打一条日志，不会改动任何游戏数据。请用「自动朝向最近敌人」。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "gui_enable",
+      "title": "图形面板",
+      "description": "游戏内面板（mod.gui）的总开关，默认开。关掉后面板不再绘制、也不再响应点击（不影响任何数值改写逻辑）。★ 关掉后要开回来：到 TEFManager 的设置页把本项重新打开（面板里也做了一次二次确认，防止误点把自己锁在外面）。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "gui_layout",
+      "title": "面板布局",
+      "description": "滚动 = 一页内用滚动容器装下全部内容（LuaLoader 1.9.0 及以上）；分页 = 每页固定行数 + 上一页/下一页。本机加载器没有 begin_scroll 时会自动落回分页并在面板上写明，与这里选什么无关。",
+      "type": "CHOICE",
+      "defaultValue": "滚动",
+      "options": [
+        {
+          "value": "滚动",
+          "label": "滚动"
+        },
+        {
+          "value": "分页",
+          "label": "分页"
+        }
+      ]
+    }
+  ]
+}

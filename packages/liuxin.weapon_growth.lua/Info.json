@@ -1,0 +1,115 @@
+{
+  "pkgId": "liuxin.weapon_growth.lua",
+  "name": "全武器成长",
+  "author": "liuxin",
+  "description": "职业共享成长，世界成长最高50%、职业伤害最高20%、混合总伤害成长最高60%；消耗型近战/远程投掷物仅保留越级压制。",
+  "version": "1.7.1",
+  "versionCode": 80,
+  "dependence": [],
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true
+    },
+    "windows": {
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "x64": true,
+      "x86": true
+    }
+  },
+  "settings": [
+    {
+      "key": "growth_mode",
+      "title": "成长模式",
+      "description": "世界：阶段成长最高50%；打怪：职业伤害最高20%；混合：加算最高60%。消耗型投掷物仅压制，不成长、不获取经验。",
+      "type": "CHOICE",
+      "defaultValue": "world",
+      "section": "成长模式",
+      "options": [
+        {
+          "value": "kill",
+          "label": "打怪升级"
+        },
+        {
+          "value": "world",
+          "label": "世界进度模式"
+        },
+        {
+          "value": "mixed",
+          "label": "成长混合模式"
+        }
+      ]
+    },
+    {
+      "key": "enabled",
+      "title": "启用武器成长",
+      "description": "关闭后暂停加成与经验获取，保留存档。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "debug_log",
+      "title": "诊断日志",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "常规",
+      "description": "记录武器分期、成长系数和命中归因；默认关闭。每次击杀经验由独立开关控制，升级提示仍记录。"
+    },
+    {
+      "key": "kill_xp_log",
+      "title": "击杀经验日志",
+      "description": "默认关闭，独立于诊断日志。开启后记录每次击杀经验，日志缓存后每10秒批量保存；其他重要日志可能提前保存，卸载时补存。不影响经验存档。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "常规"
+    },
+    {
+      "key": "suppress_ahead_weapons",
+      "title": "越时期武器压制",
+      "description": "按现有11阶段强度标尺压制越级武器，不依赖DPS样本；同阶段不新增压制。特殊修正待实测校准，未知来源写入日志。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "平衡常数"
+    },
+    {
+      "key": "multiplayer_mode",
+      "title": "联机模式（实验）",
+      "type": "CHOICE",
+      "defaultValue": "diagnostic",
+      "section": "联机实验",
+      "description": "诊断：不改联机伤害；世界实验：仅本机攻击按世界阶段计算，需所有玩家相同配置。服务端仅诊断，等级与经验同步尚未实现。",
+      "options": [
+        {
+          "value": "diagnostic",
+          "label": "只读诊断（推荐先测）"
+        },
+        {
+          "value": "world_experimental",
+          "label": "世界压制实验"
+        },
+        {
+          "value": "off",
+          "label": "关闭联机功能"
+        }
+      ]
+    }
+  ],
+  "brieflyDescribe": "在线每2分钟1券，每日20券；每种Boss首杀10券；新老角色首次使用送10券；保留双模组兼容优化",
+  "features": [
+    "MECHANICS_CHANGE",
+    "PROGRESSION_SYSTEM"
+  ],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "conflicts": []
+}

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "show_player": "true",
+    "show_npc": "true",
+    "only_debuff": "false",
+    "show_timer": "true",
+    "max_icons": "4"
+  }
+}

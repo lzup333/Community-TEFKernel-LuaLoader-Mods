@@ -1,0 +1,297 @@
+{
+  "pkgId": "ailab.lua.omniwheel",
+  "name": "万象轮盘 (OmniWheel)",
+  "author": "DSH AI",
+  "version": "1.0.1",
+  "versionCode": 20261008,
+  "brieflyDescribe": "会自己转的抽奖轮盘：5 个可独立开关的转盘（物品/祝福/弹幕/怪物/治愈）+ 大满贯，18 条聊天指令，27 项设置，并用 LuaLoader 1.6.1 的新反射 API 在运行时自建「编号↔名字」词典。",
+  "description": "万象轮盘把「抽奖」做成一个会自己转的转盘：每隔一段时间从已开启的转盘里随机转到一个，当场兑现成看得见的效果，并在聊天栏用彩色文字播报结果（含游戏内中文名）。①五个转盘可各自开关：物品轮（天降随机物品）、祝福轮（随机增益+时长）、弹幕轮（环形齐射随机弹幕）、怪物轮（默认关闭，可按名单过滤 Boss/城镇 NPC）、治愈轮（按比例回血回蓝）；另有小概率「大满贯」让所有转盘同时开奖。②自由度：27 项 TEFManager 设置（间隔、件数、时长、各类编号上限、允许 Boss、播报、音效、面板…），外加 18 条聊天指令 —— !roll 手动开奖、!give/!buff/!npc/!proj 按名字或编号直接发放、!find 按中文名搜索、!fields 搜英文成员名、!set 当场改设置、!save 写回 config.json、!api 做新 API 体检、!stat 看统计。③新 API：用 patch.get_fields / field_name 枚举 Terraria.ID.ItemID、BuffID、NPCID、ProjectileID 的成员名，用 patch.get_methods / method_name / method_param_count 列出并挑选 Projectile.NewProjectile 的重载（13/12 参之争），用 get_full_name / get_namespace / get_method_by_param_types / get_method_by_signature 做自检，并在 !api 里用 list_create / dictionary_create 当场验证这些 1.6.1 函数在本机是否可用。名字词典的分帧扫描走的是 Terraria.ID.*.Search（非 const 静态字段）与 Lang.GetItemNameValue/GetBuffName/GetNPCNameValue，刻意避开未验证的 const 字面量读取；弹幕与 !sound 仍只按编号。④安全：所有句柄取不到只打日志并关掉该功能，绝不用空句柄调用反射 API；install_hook 全部 pcall 包裹；怪物轮默认关闭并提供中英双语 Boss/城镇 NPC 过滤名单；飘字与游戏内面板默认关闭（1.6.1 未验证路径）。⑤注意：本模组为静态分析产物，未在实机上运行验证过，请先单独安装试玩。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "总开关（自动转盘）",
+      "description": "关掉之后轮盘不再自动转；!roll 手动开奖、!give 等指令仍然可用。想看它转起来就保持开启。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "interval_sec",
+      "title": "转动间隔",
+      "description": "自动转盘每隔多少秒转一次。5 秒 = 连轴转（很吵很乱），600 秒 = 十分钟一次惊喜。默认 20 秒。",
+      "type": "INTEGER",
+      "defaultValue": 20,
+      "min": 5,
+      "max": 600,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "announce",
+      "title": "聊天栏播报",
+      "description": "每次开奖在聊天栏用彩色文字播报结果（含游戏内中文名）。关掉后只剩画面上的效果。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "sound",
+      "title": "抽取音效",
+      "description": "开奖时播放一个随机音效，大满贯会连播两个。音效编号取自 Terraria.ID.SoundID 的常用值。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "jackpot_chance",
+      "title": "大满贯概率",
+      "description": "每次转动的「大满贯」概率（%）：触发时所有已开启的转盘同时开奖并播报彩金提示。0 = 永不触发。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "hot_reload",
+      "title": "自动重读设置",
+      "description": "每约 0.5 秒比对一次模组私有目录的 config.json，在 TEFManager 设置页改完回到游戏即可生效，不需要重启游戏。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "debug_log",
+      "title": "详细日志",
+      "description": "把每次转动、重载、弹幕重载选择等细节写进日志，排查「某项没生效」时打开。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "diag_log",
+      "title": "诊断日志（崩溃排查用）",
+      "description": "把最近 60 行模组日志同时写进模组私有目录的 omniroulette.log。实机崩溃时进程会立刻死掉，加载器日志可能来不及刷盘，这份文件就是「死前遗言」——反馈问题时把它（连同 TEFManager 导出的日志）一起发出来即可。关掉可少一次文件写入。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "codex_scan",
+      "title": "建立名称词典（1.6.1 新 API）",
+      "description": "启动后用 patch.get_fields 枚举 ItemID/BuffID/NPCID 的成员名，再分帧扫描 Lang.GetItemNameValue / GetBuffName / GetNPCNameValue，建立「编号 ↔ 游戏内名字」词典。有了它才能按名字取物（!give 天顶剑）并在播报里显示中文名。扫描分帧进行、不卡顿；全部走非 const 的静态字段与普通方法，不读 const 字面量。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "codex_en",
+      "title": "同时建立英文名词典",
+      "description": "额外调用 IdDictionary.GetName（Terraria.ID.ItemID.Search 静态字段）记录英文成员名，于是 !give Zenith 这类英文名也能用。多花一点扫描时间。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "wheel_item",
+      "title": "物品轮",
+      "description": "开奖时从天上掉下随机物品（数量与编号上限见下面两项）。默认开启，是最直观的一档。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "item_count",
+      "title": "物品轮·每次件数",
+      "description": "一次掉落几件物品（1~20）。大满贯时该数量翻倍。",
+      "type": "INTEGER",
+      "defaultValue": 2,
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "件"
+    },
+    {
+      "key": "item_id_max",
+      "title": "物品轮·编号上限",
+      "description": "随机抽取的物品编号上限。默认 5450（1.4.5.8 的物品总量附近）；调低可以只抽前期的物品，调高有机会抽到更后期的内容。",
+      "type": "INTEGER",
+      "defaultValue": 5450,
+      "min": 10,
+      "max": 6000,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "wheel_buff",
+      "title": "祝福轮",
+      "description": "开奖时给玩家一个随机增益（buff），时长见下一项。增益编号由 BuffID 范围随机抽取，播报里会显示中文名。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "buff_seconds",
+      "title": "祝福轮·时长",
+      "description": "随机增益持续多少秒（游戏内部按 60 帧 = 1 秒换算）。",
+      "type": "INTEGER",
+      "defaultValue": 30,
+      "min": 3,
+      "max": 600,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "buff_id_max",
+      "title": "祝福轮·编号上限",
+      "description": "增益编号随机范围上限，默认 350（1.4.5.8 的 buff 数量附近）。",
+      "type": "INTEGER",
+      "defaultValue": 350,
+      "min": 10,
+      "max": 400,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "wheel_proj",
+      "title": "弹幕轮",
+      "description": "开奖时从玩家身上向四周环形发射随机弹幕（弹幕类型在 ProjectileID 范围内随机）。弹幕没有本地化名字，所以只按编号抽、按编号播报。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "proj_count",
+      "title": "弹幕轮·每次发数",
+      "description": "一次环形发射几发弹幕。发数越多越像烟花，也越吃性能。",
+      "type": "INTEGER",
+      "defaultValue": 6,
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "发"
+    },
+    {
+      "key": "proj_id_max",
+      "title": "弹幕轮·编号上限",
+      "description": "随机弹幕编号上限，默认 1000。",
+      "type": "INTEGER",
+      "defaultValue": 1000,
+      "min": 10,
+      "max": 1500,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "wheel_npc",
+      "title": "怪物轮（默认关闭）",
+      "description": "开奖时在玩家附近随机生成生物。默认关闭：随机编号可能撞上 Boss 或城镇 NPC，所以请自己确认再打开。打开后仍会按下面的名单过滤 Boss 与城镇 NPC。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "npc_count",
+      "title": "怪物轮·每次只数",
+      "description": "一次生成几只生物。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "只"
+    },
+    {
+      "key": "npc_id_max",
+      "title": "怪物轮·编号上限",
+      "description": "随机生物编号上限，默认 400。调高会抽到更后期（也更危险）的生物。",
+      "type": "INTEGER",
+      "defaultValue": 400,
+      "min": 1,
+      "max": 800,
+      "step": 1,
+      "unit": "号"
+    },
+    {
+      "key": "allow_boss",
+      "title": "怪物轮·允许 Boss 与城镇 NPC",
+      "description": "打开后不再过滤 Boss / 城镇 NPC 名单 —— 也就是说可能把月亮领主请到你家门口。慎用。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "wheel_heal",
+      "title": "治愈轮",
+      "description": "开奖时按比例回复生命与法力（回多少见下一项），并播报回复量。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "heal_percent",
+      "title": "治愈轮·回复比例",
+      "description": "按最大生命的百分之多少回复，默认 50%。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "chat_cmd",
+      "title": "聊天指令",
+      "description": "启用 ! 开头的聊天指令（!help / !roll / !give / !find / !set / !api ... 共 17 条）。关掉后模组只做自动转盘。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "float_text",
+      "title": "屏幕飘字（实验性）",
+      "description": "在开奖位置用 CombatText.NewText 飘一行字。它需要 patch.struct_arg + patch.invoke_value_args 构造 Rectangle / Color 值类型实参 —— 这是 1.6.1 里参数形态未经验证的新 API，所以默认关闭。想试就在设置里打开，并先用 !api 看看 struct_arg 探测结果；若画面异常或闪退请立刻关掉这一项。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "gui_panel",
+      "title": "游戏内面板（实验性）",
+      "description": "用 mod.gui（Dear ImGui 后端，1.4.2 起存在、26 个现成 Mod 都没用过）画一个可点的设置面板：开关各转盘、拖动间隔滑块、按钮立刻开奖/保存设置。绘制时机未经验证，默认关闭；也可以用 !gui on 在游戏里随时开关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    }
+  ]
+}

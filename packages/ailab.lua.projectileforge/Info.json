@@ -1,0 +1,915 @@
+{
+  "pkgId": "ailab.lua.projectileforge",
+  "name": "弹幕工坊 (ProjectileForge)",
+  "author": "哇",
+  "version": "2.2.3",
+  "versionCode": 20270107,
+  "brieflyDescribe": "弹幕工坊 v2.2.1：88 项设置。追踪性能重构（弹幕改用 whoAmI 整数下标、每 N 帧只扫一次 Main.npc 的全局共享候选表 + 网格分桶 + 距离裁剪、合成 NPC.CanBeChasedBy、网络同步节流、热路径零 pcall、动态扫描间隔、逐层早退、追踪名额优先玩家），并新增索敌策略/追踪曲线/命中分裂·爆炸·吸血·闪电连锁/弹幕物理组/暴击与无敌帧/全局与逐帧安全阀/武器 ID 白名单，外加 /forge help|stat|check|perf|export|import 聊天命令与进世界自检播报。全部新功能默认关闭或等于原版；倍率类上限提到 10000。并按 §9 强制规范整改聊天子系统：聊天指令 chat_cmd 默认关闭（关闭时完全不碰任何 Chat 类型、不装聊天钩子），聊天文本只从 SayChatCommand.ProcessIncomingMessage(string, byte) 这个唯一安全入口读，源码里 ChatMessage 出现次数为 0；新增「粘贴导入设置串」import_string 作为默认的零聊天依赖导入通道，导出始终落盘 forge_export.txt。 v2.2.1 新增每帧处理上限、自适应分帧、目标切换冷却、速度覆写间隔、全局弹幕预算与实验性 C 快通道（默认关、自检失败自动回退）。",
+  "description": "把「弹幕」做成一座可调的工坊：88 项设置全部在 TEFManager 的模组设置里调，改完回到游戏最多 config_reload_sec 秒（默认 5 秒）生效。\n\n■ 主要公式\n· 最终发数 = 1 + (每发额外副本数 − 1) × 分裂层数展开量；每份副本速度 = 原速度 × (副本速度 ÷ 100)，方向按所选散射模式错开。\n· 弹幕属性 = 原属性 × (对应倍率 ÷ 100)；穿透 = 原穿透 + (穿透加成 − 1)。公式里的倍率类上限一律 10000（=100 倍），非倍率类（帧/秒/点/格/数量）上限保持原样。\n· 副本伤害 = 原弹幕伤害 × (副本伤害 ÷ 100)，可用「副本是否满伤害」改成一律满伤害。\n· 追踪转向强度按扫描间隔做等效复合补偿 1-(1-强度)^间隔；动态扫描间隔 = 基础间隔 × 8 ÷ (速度 + 0.5)，夹在 [基础/4, 基础×2] 内（手感优先档上限就是基础值）。\n\n■ 主要设置（88 项）\n①作用范围与类型过滤（玩家/敌对/召唤物/哨兵/钩爪/浮标/其它 + 白名单·黑名单四个类型槽位）\n②多重射击（副本数、散射模式、散射角、触发概率、分裂层数、每秒上限、每帧上限、副本速度与伤害、副本满伤害）\n③属性改写（伤害、击退、速度、体型、存活时间、穿透加成、体型/穿透逐帧锁定、暴击传递、无视 NPC 无敌帧）\n④追踪机制（开关、性能档、索敌策略、强度、半径、我方/敌方扫描间隔、全局候选表扫描间隔、只在飞行前 N 帧追踪、强度递增、停手距离）\n⑤命中效果（命中分裂、命中爆炸、命中吸血、闪电连锁，各自可调半径/倍率）\n⑥弹幕物理组（无视重力与阻力、穿墙、反弹上限、环绕、归位）\n⑦网络节流（网络同步总开关、最小同步间隔、角度阈值）\n⑧武器 ID 白名单/黑名单（与属性工坊同一语义）\n⑨安全阀（全局弹幕上限 + 只回收本模组副本、每帧副本上限、默认黑名单挡住下落沙类弹幕 31/67/71/179）\n⑩总控与诊断（仅房主生效、非关键刷新间隔、自动重读设置间隔、写日志、详细日志、进世界自检播报、诊断命令、慢域阈值）\n\n■ v2.0.0 针对「性能消耗极大」的重构（§3.7 九条全做）\n· ① 弹幕缓存键从「弹幕对象」改成整数下标 Entity.whoAmI（手机版 Projectile 没有 identity 字段，官方字段表可查）；不再把游戏对象存进 Lua 表，顺带消除了悬垂句柄。\n· ② 全局共享候选目标表：用 Main.get_GameUpdateCount() 做帧计数，每「全局候选表扫描间隔」帧只扫一次 Main.npc，筛出可追踪目标后按「距最近玩家」裁剪（近的必留 + 最近的 K 个）并做网格分桶，所有弹幕共享。\n· ③ 合成一次 NPC.CanBeChasedBy(object, bool) 取代每 NPC 6+ 次反射读；取不到句柄时回退到常量字段句柄 + 先读 active 早退。\n· ④ netUpdate 只在朝向变化超过阈值且距上次同步够帧数时置位（并给总开关）。\n· ⑤ 热路径去掉 pcall（只在安装期/生成副本/聊天文本兜底保留）。\n· ⑥ 追踪名额从 pairs 遍历改成计数器（原 tracked_count() 已删除）。\n· ⑦ 每枚弹幕缓存 lastScanFrame + 由速度决定的 scanInterval；我方弹幕与敌方弹幕用两套基础间隔。\n· ⑧ 开关关闭 → 帧间隔 → active → friendly/hostile → 速度 → 离屏 → 索敌半径，逐层早退。\n· ⑨ 同时追踪上限 60 保留，超限时优先服务玩家自己的弹幕（可踢掉非自己弹幕的名额）。\n\n■ 聊天命令（§3.1 方案 B + §4.6；★ 默认关闭，需要打开设置项「聊天指令」chat_cmd）\n/forge help · /forge stat · /forge check · /forge perf · /forge export [all] · /forge import <串> · /forge import reset\n★ 为什么默认关闭：本工作区唯一有实机证据的崩溃（本模组 v1.0.0 连崩 3 次 SIGABRT）就紧邻聊天系统 —— 反射聊天消息对象类型 ChatMessage 会直接杀掉进程，Lua 侧的 pcall 拦不住。关闭时本模组不解析任何 Chat 类型、不装聊天钩子（默认零风险）。打开后只挂唯一的安全入口 Terraria.Chat.Commands.SayChatCommand.ProcessIncomingMessage(string, byte)（原版处理普通聊天与未知 /命令的默认命令）的 prefix 回调，命中本模组命令时返回 true 跳过原方法，顺手阻止它被当普通聊天广播出去。源码里 ChatMessage 出现次数为 0（验收硬指标）。\n设置串格式：forge:projectileforge|<k>=<v>;…|#<校验和>，每片 ≤320 字符并带 [i/n] 前缀；导入侧暂存分片、齐了才校验并就地改写 config.json（只替换该 key 的值，未知 key 与 schemaVersion 原样保留）。\n■ 默认（零聊天依赖）导入/导出通道（单机与客机都可用）\n· 导入：设置项「粘贴导入设置串」import_string —— 把整串粘贴进去即可；校验通过就就地改写 config.json、立即生效、游戏内播报并自动清空该项；校验和不匹配/格式不对/别的模组的 slug 会被拒绝并播报原因（不清空，方便你改）。\n· 导出：每次导出都会把整串写进模组私有目录的 forge_export.txt 并播报一次，不依赖聊天输入。\n\n■ 性能自测\n聊天栏执行 /forge perf（或 /forge stat）会打印「本帧扫描次数 / 命中弹幕数 / 平均耗时（每次扫描、每次转向）」，以及各项跳过的计数（速度过低/离屏/超出索敌半径/追踪名额已满/下标异常）。\n\n■ 开发方式与免责声明\nAI（DeepSeek 模型）辅助开发的纯 Lua 模组，靠 Hook 加载器暴露的游戏方法实现，不改游戏文件。所有符号都先在 1.4.5.8 手机版官方元数据里核对过（形参个数/const/属性），取不到就只打一次性警告并关掉该功能。\n★ 未经实机验证：本模组只经过静态校验与假内核逻辑测试。本工作区无法启动游戏，全部结论都是静态分析产物。建议先只装这一个模组、从默认设置开始试。\n\n■ v2.2.0 新增（7 项功能 / 88 项设置）\n· 每帧处理上限（0=不限）：逐弹幕外层计数，达上限本帧剩余跳过，不影响副本上限与下一帧。\n· 自适应分帧（默认关）+ 档位密度：N=(n<unit) and 1 or min(tick_interval, floor(n/unit))，按帧号取模跳过。\n· 候选表刷新周期：与原「全局候选扫描间隔」同义，只扩上限到 600 帧并加标注，不新增重复项。\n· 目标切换冷却（默认 30 帧，0=不限）：锁定后 N 帧内不重评，按弹幕 index 缓存。\n· 速度覆写间隔（默认 1=每帧）：只决定多久写一次速度，写成多少仍由副本速度/速度倍率负责。\n· 全局弹幕预算（0=不限）：只统计本模组新增副本/分裂，超预算本帧不再新增，每帧回补。\n· C 快通道（实验，默认关）：field_pointer + mem_read 批量读；偏移取自官方字段表，抽 1 发弹幕对拍 velocity/type/active，不一致自动关闭并写一行日志。\n\n■ 面板\n5 页：状态 / 参数 / 弹幕表 / 一键 / 关于；参数页由 Info.json + DEFAULTS + LIMITS/CHOICES + 分组表驱动。面板内 patch.* 调用恒为 0，弹幕表只读模组已采集的聚合值。\n\n■ v2.2.1 面板几何修复\n· 绘制内容宽度改为「窗口宽 - 2×PAD(24g)」，与加载器 ctx.cw 完全一致，右侧不再压到边框/滚动条外侧。\n· 高度预算扣除窗口顶边 win_y 与安全边距，窗口底部不再被屏幕裁掉。\n· 探测失败时内容高回退值从 380 收到 300，避免小屏溢出。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "总开关",
+      "description": "关闭后本模组完全停手：不再复制弹幕、不再改写属性、不再追踪。设置改动最多 config_reload_sec 秒内热生效，不必重启游戏。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "affect_player_shots",
+      "title": "作用于玩家弹幕",
+      "description": "玩家武器射出的弹幕（friendly 且非 hostile）是否参与复制与属性改写。想强化自己的输出就保持开启。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "affect_enemy_shots",
+      "title": "作用于敌对弹幕",
+      "description": "Boss、怪物、陷阱射出的弹幕（hostile）是否同样被复制/改写。★ 同时开启「启用追踪」后，敌方弹幕会去追玩家（用 enemy_track_interval 那个独立的扫描间隔）。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "affect_minions",
+      "title": "作用于召唤物弹幕",
+      "description": "仆从/召唤物射出的弹幕（minion）是否参与。默认关闭，避免召唤流把弹幕数量推到不可控。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "affect_sentries",
+      "title": "作用于哨兵弹幕",
+      "description": "哨兵（sentry）射出的弹幕是否参与。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "affect_hooks",
+      "title": "作用于钩爪",
+      "description": "钩爪类弹幕（aiStyle == 7）是否参与。默认关闭：复制钩爪通常只会带来视觉噪声。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "affect_bobbers",
+      "title": "作用于钓鱼浮标",
+      "description": "钓鱼浮标（bobber）是否参与。默认关闭，避免一次抛竿变出一堆浮标。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "scope_other",
+      "title": "作用于其它弹幕",
+      "description": "任何弹幕都能落进某一类：没被「玩家/敌对/召唤/哨兵/钩爪/钓鱼浮标」覆盖的（中立、陷阱、环境弹幕等）一律算「其它」，由本开关决定。默认开启。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "filter_mode",
+      "title": "类型过滤方式",
+      "description": "不过滤 / 白名单 / 黑名单（默认 黑名单）。白名单 = 只处理名单里的弹幕类型；黑名单 = 排除名单里的类型。默认黑名单挡住下落沙类弹幕（31 沙块/67 珍珠沙/71 泥沙/179 雪泥），它们落地会变成图格，复制会重复物理结算。名单为空 = 不使用（不会误伤任何弹幕）。",
+      "type": "CHOICE",
+      "defaultValue": "黑名单",
+      "options": [
+        {
+          "value": "不过滤",
+          "label": "不过滤"
+        },
+        {
+          "value": "白名单",
+          "label": "白名单"
+        },
+        {
+          "value": "黑名单",
+          "label": "黑名单"
+        }
+      ]
+    },
+    {
+      "key": "filter_id_1",
+      "title": "过滤名单 1（真实 ID，逗号分隔；默认 31,67,71,179）",
+      "description": "填真实的 ProjectileID，逗号分隔，例如 31,67,71,179。默认值 = 沙块下落 31、珍珠沙块下落 67、泥沙块下落 71、雪泥块下落 179（1.4.5.8 手机版 dump.cs 的 ProjectileID）。空 = 不使用。★ 旧版本的「UI = ID + 1」槽位会自动迁移：旧值 32 会转成真实 ID 31。",
+      "type": "STRING",
+      "defaultValue": "31,67,71,179"
+    },
+    {
+      "key": "filter_id_2",
+      "title": "过滤名单 2（真实 ID，逗号分隔；空 = 不使用）",
+      "description": "真实的 ProjectileID，逗号分隔。与其它名单槽位取并集；空 = 不使用。旧版本的「UI = ID + 1」槽位会自动迁移（旧值 v <= 1 = 空槽，否则真实 ID = v - 1）。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "filter_id_3",
+      "title": "过滤名单 3（真实 ID，逗号分隔；空 = 不使用）",
+      "description": "真实的 ProjectileID，逗号分隔。与其它名单槽位取并集；空 = 不使用。旧版本的「UI = ID + 1」槽位会自动迁移（旧值 v <= 1 = 空槽，否则真实 ID = v - 1）。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "filter_id_4",
+      "title": "过滤名单 4（真实 ID，逗号分隔；空 = 不使用）",
+      "description": "真实的 ProjectileID，逗号分隔。与其它名单槽位取并集；空 = 不使用。旧版本的「UI = ID + 1」槽位会自动迁移（旧值 v <= 1 = 空槽，否则真实 ID = v - 1）。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "extra_copies",
+      "title": "每发额外副本数",
+      "description": "公式：每发弹幕额外生成的副本数（本值 − 1）。本值 1 = 不生成副本（只做属性改写）。副本会各自沿不同方向出生，不再压在原来的弹幕上。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "份"
+    },
+    {
+      "key": "spread_mode",
+      "title": "散射模式",
+      "description": "副本的散开方式：1 = 扇形（默认）；2 = 环形（360° 等分）；3 = 随机方位；4 = 同向（全部沿原方向）。4 档依次对应内部模式 0/1/2/3，设置里最小只能填 1。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "档"
+    },
+    {
+      "key": "spread_angle_deg",
+      "title": "散射角",
+      "description": "副本之间张开的总角度。设置里 1 = 0°（副本完全重合、与原弹幕同向），1~360 依次对应 0~359 度：填 31 = 30°。",
+      "type": "INTEGER",
+      "defaultValue": 31,
+      "min": 1,
+      "max": 360,
+      "step": 5,
+      "unit": "°"
+    },
+    {
+      "key": "trigger_chance_percent",
+      "title": "触发概率",
+      "description": "每一发弹幕触发复制的概率。100% = 每发都分裂；降低它可以让多重射击变成“偶尔来一次”的手感。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 100,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "chain_depth",
+      "title": "连锁层数",
+      "description": "公式：副本自己还能再分裂的层数 = 本值 − 1。1 = 只有一层副本；2 = 副本各自再分裂一次；3 = 再套一层…第 2 层及以后会整体错开半格，看得见、不会与第 1 层重叠。层数 × 份数是组合爆炸，慎调。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "层"
+    },
+    {
+      "key": "max_copies_per_second",
+      "title": "每秒副本上限",
+      "description": "公式：每秒最多生成这么多副本（本值 − 1）。默认 100 → 内部 99 份/秒，是接近不限的默认值。这是总量阀门之一：拉满时手机可能掉帧。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "份/秒"
+    },
+    {
+      "key": "max_copies_per_frame",
+      "title": "每帧副本上限",
+      "description": "★ §4.4-7 的逐帧安全阀：同一帧内最多新增这么多副本（与「每秒上限」叠加生效，防止一帧内爆发几百枚）。默认 100 = 事实上不限。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "份/帧"
+    },
+    {
+      "key": "copy_velocity_percent",
+      "title": "副本速度",
+      "description": "公式：副本速度 = 原弹幕速度 × (本值 ÷ 100)，再乘散射方向（100 = 一样快）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "copy_damage_percent",
+      "title": "副本伤害",
+      "description": "公式：副本伤害 = 原弹幕伤害 × (本值 ÷ 100)（默认 101 → 内部 100 = 与原弹幕相同，因为设置项从 1 起算）。",
+      "type": "INTEGER",
+      "defaultValue": 101,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "copy_full_damage",
+      "title": "副本是否满伤害",
+      "description": "关闭（默认）= 按上面的「副本伤害」倍率；开启 = 副本一律满伤害（忽略该倍率）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "skip_stationary",
+      "title": "跳过静止弹幕",
+      "description": "初速为 0 的弹幕（原地生成的立场、光环等）不参与复制，避免一堆完全重叠的静止弹幕。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "damage_percent",
+      "title": "伤害倍率",
+      "description": "公式：新弹幕伤害 × (本值 ÷ 100)：100 = 不变，200 = 双倍。上限 10000 = 100 倍（游戏对伤害还有自己的夹取，再高未必有效果）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "knockback_percent",
+      "title": "击退倍率",
+      "description": "公式：弹出击退 = 原击退 × (本值 ÷ 100)（默认 101 → 内部 100 = 不变）。上限 10000 = 100 倍。",
+      "type": "INTEGER",
+      "defaultValue": 101,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "velocity_percent",
+      "title": "速度倍率",
+      "description": "公式：弹幕速度 × (本值 ÷ 100)：100 = 不变，200 = 双倍。上限 10000 = 100 倍。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "scale_percent",
+      "title": "体型倍率",
+      "description": "公式：弹幕体型 × (本值 ÷ 100)：100 = 不变，200 = 双倍大。上限 10000 = 100 倍。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "lifetime_percent",
+      "title": "存活时间倍率",
+      "description": "公式：弹幕存活时间 × (本值 ÷ 100)：100 = 不变，200 = 多活一倍时间。上限 10000 = 100 倍。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "pierce_bonus",
+      "title": "穿透加成",
+      "description": "公式：穿透次数 = 原穿透 + (本值 − 1)：1 = 不加（设置项从 1 起算）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "次"
+    },
+    {
+      "key": "lock_scale",
+      "title": "锁定体型",
+      "description": "每帧把体型重新写回目标值，防止原版 AI 把体型改回去。开启后逐帧有少量开销，只在需要时打开。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "lock_pierce",
+      "title": "锁定穿透",
+      "description": "每帧把穿透次数写回目标值，命中后立即补回 = 事实上的无限穿透。对少数依赖穿透计数的 AI 可能有副作用。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "apply_overrides_to_copies",
+      "title": "属性改写作用于副本",
+      "description": "开启：副本按上面的伤害/体型/寿命/速度/击退/穿透倍率一起改写。关闭：副本保持原版数值，只有“副本伤害/副本速度”两个倍率对它生效。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "crit_transfer",
+      "title": "暴击传递",
+      "description": "★ §4.4-6：开启后，本模组生成的副本/命中分裂/闪电连锁弹幕会把 Projectile.bonusCritChance 写成「源弹幕的 bonusCritChance + 暴击加成」。默认关闭 = 不干预原版。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "crit_bonus",
+      "title": "暴击加成",
+      "description": "公式：bonusCritChance 加值 = 本值 − 1（1 = 不加，设置项从 1 起算）。只在「暴击传递」开启时生效。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "点"
+    },
+    {
+      "key": "ignore_npc_immunity",
+      "title": "无视 NPC 无敌帧",
+      "description": "★ §4.4-6：开启后给弹幕写 usesLocalNPCImmunity = true 并把 localNPCHitCooldown 设为下面的帧数，让同一枚弹幕能更密集地连续命中同一个 NPC。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "local_immunity_frames",
+      "title": "本地命中冷却(帧)",
+      "description": "就是 Projectile.localNPCHitCooldown：数值越小、同一目标被连续命中的间隔越短（1 = 几乎每帧都能命中，最激进）。只在「无视 NPC 无敌帧」开启时写入。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 600,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "homing_enabled",
+      "title": "启用追踪",
+      "description": "让范围内的弹幕自动转向目标：我方弹幕追 NPC，敌方弹幕（需同时开启「作用于敌对弹幕」）追玩家。默认关闭时逐帧零反射开销。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "perf_mode",
+      "title": "性能档位",
+      "description": "★ 性能优先（默认）= 全局共享候选目标表 + 动态扫描间隔 + 候选裁剪到 K 个，最省性能；手感优先 = 同一份代码只换参数：全局扫描频率提高 4 倍、单枚弹幕的间隔上限收紧、候选裁剪放宽，转向更跟手但更费性能。两档都不影响原版弹幕行为。",
+      "type": "CHOICE",
+      "defaultValue": "性能优先",
+      "options": [
+        {
+          "value": "性能优先",
+          "label": "性能优先"
+        },
+        {
+          "value": "手感优先",
+          "label": "手感优先"
+        }
+      ]
+    },
+    {
+      "key": "homing_priority",
+      "title": "索敌策略",
+      "description": "最近 = 只按距离；Boss优先 = 先追 Boss 再按距离；血量最高 = 先追当前血量最高的；混合 = 参考 homing-projectile 的优先级链：Boss > 精英(稀有度≥1) > 距离更近 > 最大血量更高。",
+      "type": "CHOICE",
+      "defaultValue": "最近",
+      "options": [
+        {
+          "value": "最近",
+          "label": "最近"
+        },
+        {
+          "value": "Boss优先",
+          "label": "Boss优先"
+        },
+        {
+          "value": "血量最高",
+          "label": "血量最高"
+        },
+        {
+          "value": "混合",
+          "label": "混合"
+        }
+      ]
+    },
+    {
+      "key": "homing_strength",
+      "title": "追踪强度",
+      "description": "公式：每次转向的强度 = 本值 ÷ 100（100 = 一次就对准目标）。实际转向会按「扫描间隔」做等效复合补偿 1-(1-强度)^间隔，所以间隔变大时单次转向不会失控地把弹道锁死。",
+      "type": "INTEGER",
+      "defaultValue": 18,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "homing_range",
+      "title": "索敌半径",
+      "description": "追踪的索敌半径（像素）。原版屏幕宽约 1920 像素；半径外直接放弃当前目标（松开一个追踪名额）。",
+      "type": "INTEGER",
+      "defaultValue": 1500,
+      "min": 100,
+      "max": 10000,
+      "step": 50,
+      "unit": "像素"
+    },
+    {
+      "key": "track_interval",
+      "title": "追踪扫描间隔(帧)",
+      "description": "★ 我方弹幕追 NPC 的基础扫描间隔：每枚弹幕按这个间隔去共享候选表里找目标，并按自身速度动态调整（速度越快扫得越勤；慢的/静止的可拉长到 2 倍，快的缩到 1/4）。数值越大越省性能、转向越顿。",
+      "type": "INTEGER",
+      "defaultValue": 6,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "enemy_track_interval",
+      "title": "敌方弹幕扫描间隔(帧)",
+      "description": "★ 敌方弹幕追玩家用**另一套**基础扫描间隔（与上面那项分开设置）。只作用于「作用于敌对弹幕 + 启用追踪」都打开的情况。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "global_scan_interval",
+      "title": "候选表刷新周期(帧)",
+      "description": "★ 每 N 帧只扫一次 Main.npc，所有弹幕共享候选表。v2.2.0 起本项同时作为 npc_list_refresh_interval 的同义设置（不新增重复项），上限扩到 600。性能优先档用本值，手感优先档自动缩到 1/4。",
+      "type": "INTEGER",
+      "defaultValue": 20,
+      "min": 1,
+      "max": 600,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "target_switch_cooldown",
+      "title": "目标切换冷却(帧)",
+      "description": "锁定目标后 N 帧内不重新评估；0 = 不限制。冷却按弹幕 index 缓存，换目标成功时重置。默认 30。",
+      "type": "INTEGER",
+      "defaultValue": 30,
+      "min": 0,
+      "max": 600,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "homing_flight_frames",
+      "title": "只在飞行前 N 帧追踪",
+      "description": "★ §4.4-3 追踪曲线：弹幕出生后只追踪前 N 帧，之后不再转向。设置页填的是 N + 1（1 = 不限，设置项从 1 起算）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 600,
+      "step": 10,
+      "unit": "帧"
+    },
+    {
+      "key": "homing_ramp",
+      "title": "追踪强度随时间递增",
+      "description": "★ §4.4-3 追踪曲线：开启后转向强度在出生后 60 帧内从 0 线性升到 100%，弹道更自然（默认关闭 = 一开始就是全强度）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "homing_stop_distance",
+      "title": "停手距离",
+      "description": "★ §4.4-3：到目标的距离小于本值就停止转向（避免贴着目标绕圈）。设置页填的是像素 + 1（1 = 用原版 24 像素死区，手感不变）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 2000,
+      "step": 5,
+      "unit": "像素"
+    },
+    {
+      "key": "hit_split_copies",
+      "title": "命中分裂份数",
+      "description": "★ §4.4-4：弹幕命中后以命中点为中心、按环形散开生成这么多份同类型弹幕。设置页填的是份数 + 1（1 = 关闭，默认关闭）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "份"
+    },
+    {
+      "key": "hit_explosion_radius",
+      "title": "命中爆炸半径",
+      "description": "★ §4.4-4：命中时对命中点半径内的其它 NPC 各造成一次溅射伤害（伤害见下一项）。设置页填的是半径 + 1（1 = 关闭，默认关闭）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 1000,
+      "step": 10,
+      "unit": "像素"
+    },
+    {
+      "key": "hit_explosion_damage_percent",
+      "title": "命中爆炸伤害",
+      "description": "公式：溅射伤害 = 弹幕伤害 × (本值 ÷ 100)，最小 1。上限 10000 = 100 倍。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "hit_lifesteal_percent",
+      "title": "命中吸血比例",
+      "description": "★ §4.4-4：命中时治疗弹幕主人「弹幕伤害 × 本值 ÷ 100」点生命。设置页填的是比例 + 1（1 = 关闭，默认关闭）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "hit_lightning_chain",
+      "title": "闪电连锁跳数",
+      "description": "★ §4.4-4：命中后从命中点开始，每次跳到半径内「还没被打过」的最近一个 NPC，伤害逐跳衰减 20%。设置页填的是跳数 + 1（1 = 关闭，默认关闭）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "跳"
+    },
+    {
+      "key": "hit_lightning_damage_percent",
+      "title": "闪电连锁伤害",
+      "description": "公式：第一跳伤害 = 弹幕伤害 × (本值 ÷ 100)，之后每跳 × 0.8。上限 10000 = 100 倍。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 10000,
+      "step": 5,
+      "unit": "%"
+    },
+    {
+      "key": "hit_lightning_radius",
+      "title": "闪电连锁半径",
+      "description": "闪电连锁每一跳的搜索半径（像素）。",
+      "type": "INTEGER",
+      "defaultValue": 400,
+      "min": 50,
+      "max": 2000,
+      "step": 50,
+      "unit": "像素"
+    },
+    {
+      "key": "physics_no_gravity",
+      "title": "无视重力与阻力",
+      "description": "★ §4.4-5：开启后把弹幕锁成「出生方向 + 出生速度」的绝对直线（位置按帧外推），同时消掉重力与空气阻力 —— 注意这是覆盖式的，也会盖住原版 AI 对速度的改动，并且与「环绕/归位/反弹」不叠加。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "physics_pass_wall",
+      "title": "穿墙",
+      "description": "★ §4.4-5：把 Projectile.tileCollide 写成 false（生成时写一次、开启期间逐帧维持）。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "physics_bounce_limit",
+      "title": "反弹次数上限",
+      "description": "★ §4.4-5：用「速度方向反转」近似判定一次反弹（本代加载器读不到原版内部的反弹计数），超过本值就回收这枚弹幕。设置页填的是次数 + 1（1 = 关闭，默认关闭）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "次"
+    },
+    {
+      "key": "physics_orbit_percent",
+      "title": "环绕强度",
+      "description": "★ §4.4-5：每帧把速度方向绕锁定目标旋转「本值 ÷ 100」度（配合追踪会绕着目标转圈）。设置页填的是度×100 + 1（1 = 关闭，默认关闭；需要先锁定目标）。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "0.01°"
+    },
+    {
+      "key": "physics_return_home",
+      "title": "归位",
+      "description": "★ §4.4-5：离开出生点超过索敌半径后，转向朝出生点飞回去。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "net_sync",
+      "title": "网络同步",
+      "description": "★ §4.4-8：关闭后本模组一个网络字段（netUpdate）都不写。默认开启，但只在「朝向变化超过下面的角度阈值」且「距上次同步 ≥ 下面的帧数」时才置位（这是 §3.7-4 的网络节流）。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "net_update_min_frames",
+      "title": "网络同步最小间隔(帧)",
+      "description": "★ §3.7-4：同一枚弹幕两次置位 netUpdate 之间至少隔这么多帧。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "net_angle_deg",
+      "title": "网络同步角度阈值",
+      "description": "★ §3.7-4：朝向变化小于这个角度就不置位 netUpdate（阈值越大越省网络、转向在联机下的同步越粗）。",
+      "type": "INTEGER",
+      "defaultValue": 15,
+      "min": 1,
+      "max": 360,
+      "step": 1,
+      "unit": "°"
+    },
+    {
+      "key": "weapon_filter_mode",
+      "title": "武器名单方式",
+      "description": "按「发射这枚弹幕的武器物品 ID」过滤，与属性工坊的白/黑名单同一语义。不过滤（默认）/ 白名单 / 黑名单。取不到武器时按「不限制」放行（并记入诊断）。名单为空 = 不使用（白名单空列表也不会把全部弹幕拦掉）。",
+      "type": "CHOICE",
+      "defaultValue": "不过滤",
+      "options": [
+        {
+          "value": "不过滤",
+          "label": "不过滤"
+        },
+        {
+          "value": "白名单",
+          "label": "白名单"
+        },
+        {
+          "value": "黑名单",
+          "label": "黑名单"
+        }
+      ]
+    },
+    {
+      "key": "weapon_id_1",
+      "title": "武器名单 1（真实 ItemID，逗号分隔；空 = 不使用）",
+      "description": "真实的 ItemID，逗号分隔，例如 95,190。与其它武器名单槽位取并集；空 = 不使用。★ 旧版本的「UI = ID + 1」会自动迁移：旧值 v <= 1 = 空槽，否则真实 ID = v - 1。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "weapon_id_2",
+      "title": "武器名单 2（真实 ItemID，逗号分隔；空 = 不使用）",
+      "description": "真实的 ItemID，逗号分隔，例如 95,190。与其它武器名单槽位取并集；空 = 不使用。★ 旧版本的「UI = ID + 1」会自动迁移：旧值 v <= 1 = 空槽，否则真实 ID = v - 1。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "weapon_id_3",
+      "title": "武器名单 3（真实 ItemID，逗号分隔；空 = 不使用）",
+      "description": "真实的 ItemID，逗号分隔，例如 95,190。与其它武器名单槽位取并集；空 = 不使用。★ 旧版本的「UI = ID + 1」会自动迁移：旧值 v <= 1 = 空槽，否则真实 ID = v - 1。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "weapon_id_4",
+      "title": "武器名单 4（真实 ItemID，逗号分隔；空 = 不使用）",
+      "description": "真实的 ItemID，逗号分隔，例如 95,190。与其它武器名单槽位取并集；空 = 不使用。★ 旧版本的「UI = ID + 1」会自动迁移：旧值 v <= 1 = 空槽，否则真实 ID = v - 1。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "global_projectile_cap",
+      "title": "全局弹幕上限",
+      "description": "★ §4.4-7 安全阀：世界里活跃弹幕超过本值就回收**本模组自己生成的副本**（绝不回收原版弹幕）直到回到上限内。默认 1000 = 原版上限（Main.maxProjectiles，const 不可读，值抄自官方字段表）= 完全不干预、零开销。",
+      "type": "INTEGER",
+      "defaultValue": 1000,
+      "min": 100,
+      "max": 3000,
+      "step": 50,
+      "unit": "枚"
+    },
+    {
+      "key": "max_checks_per_frame",
+      "title": "每帧处理上限(0=不限)",
+      "description": "逐弹幕循环外层计数：本帧处理到上限后，剩余弹幕本帧跳过，不影响副本生成上限，也不影响下一帧。0 = 不限。默认 0（保持 v2.1.0 行为）。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 100000,
+      "step": 100,
+      "unit": "枚"
+    },
+    {
+      "key": "adaptive_frame_skip",
+      "title": "自适应分帧",
+      "description": "按活跃弹幕数自动降频：n<档位密度时 N=1；否则 N=min(tick_interval, floor(n/档位密度))，N>1 时按帧号取模跳过。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "adaptive_unit",
+      "title": "自适应档位密度",
+      "description": "每多少发活跃弹幕升一档（N 公式里的 unit）。默认 200，范围 1~1000。只在「自适应分帧」打开时生效。",
+      "type": "INTEGER",
+      "defaultValue": 200,
+      "min": 1,
+      "max": 1000,
+      "step": 10,
+      "unit": "枚/档"
+    },
+    {
+      "key": "speed_override_interval",
+      "title": "速度覆写间隔(帧)",
+      "description": "追踪时多久写一次速度。1 = 每帧（等价 v2.1.0）；5 = 每 5 帧写一次。写成多少仍由副本速度/速度倍率负责，本项只控制写入频率。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "global_shot_budget",
+      "title": "全局弹幕预算(0=不限)",
+      "description": "本模组每帧最多新增多少发副本/分裂；超预算本帧不再新增，已有弹幕照常飞，每帧回补。只统计本模组新增，绝不算原版弹幕。0 = 不限。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": 0,
+      "max": 100000,
+      "step": 10,
+      "unit": "枚/帧"
+    },
+    {
+      "key": "use_fastpath",
+      "title": "C 快通道(实验)",
+      "description": "用 field_pointer + mem_read 一次批量读 position/velocity/type/active。偏移取自官方字段表；开启后抽 1 发弹幕与托管路径对拍，不一致自动关闭并写一行日志。默认关；关闭时 mem_read 调用 0 次。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "self_check",
+      "title": "进世界自检播报",
+      "description": "★ §4.6-1：进入世界的第一帧把每个功能域的「句柄/钩子/本帧命中」在聊天栏播报一次（每域一行，最多 12 行）。这是判断“为什么没生效”最快的手段。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "diag_report_cmd",
+      "title": "诊断报告命令",
+      "description": "★ §4.6：触发详细报告与统计的聊天命令（默认 forge stat，可留空 = 只用默认；带不带前导 / 都认）。",
+      "type": "STRING",
+      "defaultValue": "forge stat"
+    },
+    {
+      "key": "diag_slow_ms",
+      "title": "慢域阈值(毫秒)",
+      "description": "★ §4.6：某个域的平均耗时超过本值就在报告里标 SLOW。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 1000,
+      "step": 5,
+      "unit": "ms"
+    },
+    {
+      "key": "chat_cmd",
+      "title": "聊天指令 (/forge …)",
+      "description": "开启后才安装聊天钩子，/forge help|stat|check|perf|export|import 才可用。★ 默认关闭：本工作区唯一有实机证据的崩溃点（本模组 v1.0.0 的 SIGABRT ×3）就在聊天子系统的相邻路径上，聊天命令只是可选便利功能，所以默认零风险。开启后输入 /forge help 看命令表；关闭时请改用「粘贴导入设置串」与 forge_export.txt。★ 联机客机上自己的聊天先送服务器，命令可能收不到，导入/导出两条通道都不依赖聊天。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "import_string",
+      "title": "粘贴导入设置串",
+      "description": "默认（零聊天依赖）的导入通道，单机与客机都可用：把导出的设置串整串粘贴到这里即可。检测到非空就校验校验和 → 就地改写 config.json（只替换已知 key，未知 key 与 schemaVersion 原样保留）→ 游戏内播报结果 → 自动清空本项。校验和不匹配或串格式不对会拒绝并播报原因，不清空（方便你改）。不需要分片，粘贴长度不受聊天框限制。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "host_only",
+      "title": "联机：仅房主生效",
+      "description": "开启时，如果当前是联机客机（Main.netMode == 1），本模组只读不写：不生成副本、不改写任何弹幕字段（改了也会被服务器回滚并造成不同步）。房主/单机/服务器（netMode 0 或 2）照常生效。读不到 netMode 时退化成不限制。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "tick_interval",
+      "title": "非关键项刷新间隔(帧)",
+      "description": "必须逐帧的工作（复制弹幕、属性改写、转向）不受影响；可放宽的非关键刷新（失效追踪名额压缩、副本记录压缩、全局上限检查、统计聚合）按帧号分桶平摊，每帧只跑一个桶。默认 10；填 1 = 逐帧。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "config_reload_sec",
+      "title": "自动重读设置间隔(秒)",
+      "description": "在 TEFManager 里改完设置后，最多这么多秒生效，不必重启游戏；同一节拍顺带刷新 netMode / 玩家编号缓存。默认 5。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "write_log",
+      "title": "写入日志文件(日志过大会崩游戏)",
+      "description": "日志总开关，默认关闭：关闭时除 setup() 阶段一次性「符号取不到」的警告外，一条日志都不写。想排查问题时再打开；长时间开启会让日志文件迅速变大。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "debug_log",
+      "title": "详细日志",
+      "description": "write_log 打开后才有意义：额外打印副本生成、共享候选表扫描等细节（每秒最多 1 条）。排查「没生效」时打开，平时保持关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "gui_enable",
+      "title": "图形面板总开关",
+      "description": "关闭后 mod.on_gui 直接 return（不绘制、不响应）。要关回来：在 TEFManager 设置页把本项打开，或改成 true。默认开。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "gui_layout",
+      "title": "面板布局风格",
+      "description": "滚动 = 一页内用滚动容器（LuaLoader 1.9.0 的 begin_scroll/end_scroll）；分页 = 每组/每页固定行数 + 上一页/下一页。老加载器没有滚动容器时自动回落分页，并在面板标题下写一行说明。",
+      "type": "CHOICE",
+      "defaultValue": "滚动",
+      "options": [
+        {
+          "value": "滚动",
+          "label": "滚动"
+        },
+        {
+          "value": "分页",
+          "label": "分页"
+        }
+      ]
+    }
+  ]
+}

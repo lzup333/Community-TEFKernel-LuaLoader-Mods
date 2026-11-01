@@ -1,0 +1,32 @@
+{
+  "pkgId": "star.buildwand",
+  "name": "建造魔杖 (Wand of Building)",
+  "author": "竹溪寒",
+  "version": "2.1.1",
+  "versionCode": 8,
+  "brieflyDescribe": "沿朝向铺任意可放置方块或平台，长度 1-200 可调，自动盘点背包与四个储蓄容器里的材料",
+  "description": "建造用魔杖：沿角色朝向铺一排任意可放置方块或平台，长度 1-200 可在面板用按钮或滑杆调节，保留 10/20/50 快捷档。面板按物品类型列出背包全部 59 格与猪猪储蓄罐、保险箱、护卫熔炉、虚空保险库里的可铺材料，点选即可切换；材料优先取魔杖内部存储，不足才用背包/容器，一次只用一种材料。只落在空位，不覆盖、不破坏已有的方块、墙与家具，瞄准处有半透明实时预览。全程纯触摸操作，联机时落位与扣料都由服务端校验后再广播。",
+  "features": [
+    "BUILDING",
+    "UTILITY",
+    "QUALITY_OF_LIFE",
+    "MULTIPLAYER_ENHANCED"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true,  "arm": true,  "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": true,  "x86": true  },
+    "linux":   { "arm64": false, "arm": false, "x64": true,  "x86": true  },
+    "mac":     { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios":     { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

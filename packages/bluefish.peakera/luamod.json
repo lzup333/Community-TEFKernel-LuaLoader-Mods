@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.peakera",
+  "version": "4.0.0",
+  "version_code": 400,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "回归巅峰"
+}

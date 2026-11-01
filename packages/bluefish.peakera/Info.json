@@ -1,0 +1,52 @@
+{
+  "pkgId": "bluefish.peakera",
+  "name": "巅峰时代",
+  "author": "蓝色大肥鱼",
+  "version": "4.0.0",
+  "versionCode": 400,
+  "brieflyDescribe": "回归巅峰",
+  "description": "力量又回来了(◣_◢)\n幽灵兜帽套回归10％生命偷取，生命偷取无限制，不再降低40％魔法伤害\n黑曜石套回归鞭范围50％，鞭速度50％，召唤伤害加成25％\n泰拉刃回归115伤害、14使用时间、近战速度加成不再降低\n刃杖回归0％标记伤害惩罚",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true
+}

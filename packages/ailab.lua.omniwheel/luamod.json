@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "ailab.lua.omniwheel",
+  "version": "1.0.1",
+  "version_code": 2,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

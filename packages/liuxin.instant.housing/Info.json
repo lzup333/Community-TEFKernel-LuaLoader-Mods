@@ -1,0 +1,74 @@
+{
+  "pkgId": "liuxin.instant.housing",
+  "name": "一键建造",
+  "author": "liu xin",
+  "description": "房屋样式、蓝图框选复制与镜像粘贴；可独立选择物块/家具、背景墙、电线、液体进行粘贴或区域清理，并可撤回最近施工。支持地狱平台、战斗平台与地狱直通车。",
+  "version": "1.1.0",
+  "versionCode": 37,
+  "dependence": [],
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false
+    },
+    "windows": {
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "x64": false,
+      "arm64": false
+    }
+  },
+  "brieflyDescribe": "框选复制与分层清理、蓝图库、房屋及地狱平台建造。",
+  "features": [
+    "MECHANICS_CHANGE"
+  ],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "clearBlocks",
+      "title": "默认清理物块/家具",
+      "description": "框选复制页中区域清理的默认开关；仍可在游戏中临时调整。保存后重新进入游戏生效。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "区域清理"
+    },
+    {
+      "key": "clearWalls",
+      "title": "默认清理背景墙",
+      "description": "框选复制页中区域清理的默认开关；仍可在游戏中临时调整。保存后重新进入游戏生效。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "区域清理"
+    },
+    {
+      "key": "clearWires",
+      "title": "默认清理电线",
+      "description": "框选复制页中区域清理的默认开关；仍可在游戏中临时调整。保存后重新进入游戏生效。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "区域清理"
+    },
+    {
+      "key": "clearLiquid",
+      "title": "默认清理液体",
+      "description": "框选复制页中区域清理的默认开关；仍可在游戏中临时调整。保存后重新进入游戏生效。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "区域清理"
+    }
+  ]
+}

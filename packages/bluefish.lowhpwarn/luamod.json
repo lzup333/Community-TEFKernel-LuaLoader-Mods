@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.lowhpwarn",
+  "version": "2.0.0",
+  "version_code": 26,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "玩家头顶显示药水冷却，残血时视野边缘红框提示"
+}

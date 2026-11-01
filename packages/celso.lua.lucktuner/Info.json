@@ -1,0 +1,40 @@
+{
+  "pkgId": "celso.lua.lucktuner",
+  "name": "幸运调节（Lua）",
+  "author": "liuxin",
+  "version": "1.0",
+  "versionCode": 3,
+  "brieflyDescribe": "通过滑块调节玩家额外幸运值。",
+  "description": "在 TEFManager 模组设置中调整额外幸运值。0 保持原版；设置 25 表示额外 +0.25 幸运值。",
+  "features": ["MECHANICS_CHANGE", "UTILITY"],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": true, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "linux": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "mac": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios": { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "luck_bonus_hundredths",
+      "title": "幸运值加成",
+      "description": "每格代表 0.01 幸运值。0 保持原版；25 表示额外 +0.25；负值降低幸运。保存后重新加载本模组生效。",
+      "type": "INTEGER",
+      "defaultValue": 0,
+      "min": -100,
+      "max": 100,
+      "step": 1,
+      "unit": "×0.01"
+    }
+  ]
+}

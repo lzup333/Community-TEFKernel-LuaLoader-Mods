@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "jingjing.lua.whale",
+  "version": "2.0.0",
+  "version_code": 202610290,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

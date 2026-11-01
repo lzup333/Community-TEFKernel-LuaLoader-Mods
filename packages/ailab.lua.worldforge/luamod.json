@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "ailab.lua.worldforge",
+  "version": "10.4.0",
+  "version_code": 20270323,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

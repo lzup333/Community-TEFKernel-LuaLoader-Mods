@@ -1,0 +1,40 @@
+{
+  "pkgId": "eternal.future.reversebarrage",
+  "name": "反方向的弹幕",
+  "author": "eternalfuture-e38299",
+  "version": "1.0.0",
+  "versionCode": 100,
+  "brieflyDescribe": "让弹幕飞回它来的地方",
+  "description": "- 只逆转自己发射的伤害弹幕\n- 弹幕终点被拉近到所有者附近（最远 900 像素）\n- 弹幕从终点飞回发射点，飞回后沿飞回方向继续飞行，交还游戏原逻辑\n- 不改伤害数值，游戏自身碰撞仍按原伤害判定\n- 排除装饰类弹幕、剩余时间过短的弹幕",
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.5.8.6",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true
+    },
+    "windows": {
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": true,
+      "x64": true
+    },
+    "ios": {
+      "arm64": true
+    }
+  },
+  "dependency": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

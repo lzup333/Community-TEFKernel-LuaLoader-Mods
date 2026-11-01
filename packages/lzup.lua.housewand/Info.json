@@ -1,0 +1,11 @@
+{
+  "pkgId": "lzup.lua.housewand",
+  "name": "房屋魔杖",
+  "author": "lzup",
+  "version": "0.1.0",
+  "versionCode": 1,
+  "description": "用100个木头合成房屋魔杖，预览并生成一间木屋。\n仅支持Android单人模式",
+  "targetGameVersion": "1.4.5.8",
+  "support": { "android": { "arm64": true, "arm": false, "x64": false, "x86": false } },
+  "dependence": []
+}

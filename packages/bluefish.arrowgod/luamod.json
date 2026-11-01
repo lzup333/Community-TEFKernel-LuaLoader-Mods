@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.arrowgod",
+  "version": "1.0.7",
+  "version_code": 8,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "你就是箭神\n鸟妖附身符、凤凰箭袋、炽天使项链追踪效果强化。"
+}

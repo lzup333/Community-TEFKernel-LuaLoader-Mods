@@ -1,0 +1,8 @@
+{
+  "name": "Community-TEFKernel-LuaLoader-Mods",
+  "schemaVersion": 1,
+  "packageType": "Mod",
+  "loader": "lzup333.lualoader",
+  "index": "index.json",
+  "distribution": "dist/"
+}

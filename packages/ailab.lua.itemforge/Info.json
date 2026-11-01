@@ -1,0 +1,792 @@
+{
+  "pkgId": "ailab.lua.itemforge",
+  "name": "属性工坊 (ItemForge)",
+  "author": "哇",
+  "version": "2.1.3",
+  "versionCode": 20261228,
+  "brieflyDescribe": "属性工坊：73 项设置，按分类调整所有物品的使用速度、伤害、击退、暴击、体型、弹速、工具力、范围、堆叠上限/售价/稀有度等属性，只在物品创建时改写一次，游戏过程中零逐帧开销；v2.0.0 新增鞭子类跳过改写、使用时间下限、ID 白/黑名单、最高词缀、研究自动解锁、消耗品分类不消耗、启动自检与 /forge 诊断命令；并按 §9 强制规范整改聊天子系统 —— 聊天指令 chat_cmd 默认关闭（关闭时完全不碰任何 Chat 类型），聊天文本只从 SayChatCommand.ProcessIncomingMessage 读，源码里 ChatMessage 出现次数为 0；新增「粘贴导入设置串」import_string 作为默认的零聊天依赖导入通道（单机与客机都可用），导出始终落盘 forge_export.txt。",
+  "description": "把「物品属性」做成一座可调的工坊：73 项设置全部在 TEFManager 的模组设置里调，改完由「自动重读设置间隔」驱动（默认 5 秒）生效。\n\n■ 主要公式\n· 所有属性都是「原版数值 × (倍率 ÷ 100)」，再乘一次全局倍率：\n  最终 = 原版 × (全局倍率 ÷ 100) × (该类倍率 ÷ 100)。\n· 使用速度是「间隔」：倍率 200% = 使用间隔减半 = 快一倍。\n· 物品按「工具 → 武器 → 弹药 → 放置 → 其他」的优先级归入唯一一类，只被改一次。\n· 游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果；倍率/百分比类的滑块上限已统一为 10000（= 100 倍），默认仍是 100。\n\n■ 分类与属性\n①分类：镀子、斧头、锤子、放置类、近战、远程(含弹药)、魔法、召唤、钓竿、其他。\n②属性：使用速度、伤害、击退、暴击、大小、弹速、魔力消耗、工具力、钓鱼力、放置范围、弹幕体型。\n③经济：堆叠上限 maxStack、售价 value、稀有度 rare 三个全物品倍率。\n④开关：工具/武器/放置类自动连用；无限使用（放置类 / 药水 / 炸弹 / 召唤物 / 材料 / 其它，共 6 个分类开关）。\n\n■ v2.0.0 新增（逐条）\n1. 【★ 鞭子类跳过攻速改写】鞭长正比于物品模板的 useAnimation，以前直接缩放它会把鞭长吃掉。现在先用 ItemID.Sets.SummonerWeaponThatScalesWithAttackSpeed 判定，取不到集合时用内置鞭子弹幕编号表兜底，命中则跳过 useTime/useAnimation 改写。\n2. 【使用时间下限 min_use_time】所有 useTime/useAnimation 对意图一致地按 此值下限夹取，默认 3帧，1 = 旧行为。\n3. 【ID 白/黑名单】精确控制改哪几把武器；黑名单优先于白名单。\n4. 【最高词缀】对每个可附词缀物品自动打上该类最高档词缀（走 Item.GetRollablePrefixes() + Item.Prefix(int)），已有词缀不碰。\n5. 【研究自动解锁】旅程模式下逐个物品 ID 调 RegisterItemSacrifice(id, 9999)，分帧执行。\n6. 【消耗品分类不消耗】将原来的「放置类无限使用」扩展为 6 个分类开关，仍然只写 consumable=false。\n7. 【启动自检与诊断命令】进世界首帧在聊天栏播报 12 个功能域的句柄/钩子状态；输入 /forge stat 看详细统计，/forge check 重跑自检，/forge export|import 导出导入设置串。\n8. 【★ 聊天指令默认关闭（chat_cmd = false）】本工作区唯一有实机证据的崩溃（ProjectileForge v1.0.0 连崩 3 次 SIGABRT）就紧邻聊天系统：反射聊天消息对象类型 ChatMessage 会直接杀掉进程，Lua 侧的 pcall 拦不住。因此聊天功能整体做成开关：关闭时本模组不解析任何 Chat 类型、不装聊天钩子；打开后只挂唯一的安全入口 Terraria.Chat.Commands.SayChatCommand.ProcessIncomingMessage(string, byte)（原版处理普通聊天与未知 /命令的默认命令），用 prefix 回调，命中本模组命令时返回 true 跳过原方法（顺手阻止它被当普通聊天广播）。本版源码里 ChatMessage 出现次数为 0（测试有静态断言）。\n9. 【★ 粘贴导入设置串 import_string + forge_export.txt】默认的零聊天依赖通道：把设置串粘贴进「粘贴导入设置串」设置项即可校验并就地改写 config.json、立即生效、游戏内播报结果并自动清空该项；导出始终写进模组私有目录的 forge_export.txt 并播报一次。单机与客机都可用，不依赖聊天输入。\n\n■ 安全设计：写入是幂等的 —— 只在数值仍是原版时才动手，被前缀或其它模组改过的一律不碰，因此不会叠加、也不会洗掉「传奇」前缀的加成；任何符号取不到都只打日志并跳过该功能。\n\n■ 本代加载器做不到的功能（README 有完整说明）：\n· 【按 Item.DamageType 分组】手机版 1.4.5.8 的 Item 上根本没有 DamageType/DamageClass 字段（全量字段表与 dump.cs 均无），无法按伤害类型分组。\n· 【图鉴自动解锁】入口 BestiaryUnlocksTracker.Kills.RegisterKill(NPC) 需要真实 NPC 实例，Lua 侧无法构造，未实现（研究解锁已实现）。\n· 【结构体按值参数的方法】libffi 只支持标量参数，这类方法挂不上钩子；本模组实现中已主动避开（例：Projectile.NewProjectile 只挂 13 参重载）。\n· 【const 字段】读出来是 nil，不能读也不能写（本模组只读可写字段）。\n\n■ 开发方式：AI（DeepSeek 模型）辅助开发的纯 Lua 模组，靠 Hook 加载器暴露的游戏方法实现。所有符号都先在 1.4.5.8 手机版反编译符号表与 PC 源码里核对过，取不到就只打日志并关掉该功能。\n\n■ 未经实机验证：本模组只经过静态校验与假内核逻辑测试，请先只装这一个模组、从默认设置开始试。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "总开关",
+      "description": "关闭后本模组完全停手：不再改写任何物品属性；背包里已经被改写的物品会在下次被游戏重新创建（重进世界/重铸/拾取）或下一次背包刷新时恢复原版。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "global_percent",
+      "title": "全局倍率",
+      "description": "公式：最终倍率 = 下面每一项的倍率 × (本值 ÷ 100)。100 = 不加成；把整套配置整体放大/缩小就改这一项。上限 10000 = 100 倍。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "hot_reload",
+      "title": "自动重读设置",
+      "description": "这是「是否自动重读」的总闸。打开后，每「自动重读设置间隔」秒比对一次设置文件，在 TEFManager 里改完设置回到游戏即可生效，不必重启游戏或重载模组。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "config_reload_sec",
+      "title": "自动重读设置间隔(秒)",
+      "description": "每隔这么多秒比对一次 TEFManager 的设置文件，同一节拍刷新联机身份（netMode）缓存与「进世界首帧自检」的门控。「自动重读设置」关掉时不再重读设置，但联机身份仍按此节拍刷新。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "tick_interval",
+      "title": "非关键项刷新间隔(帧)",
+      "description": "逐帧钩子里「必须逐帧」的部分保持逐帧；设置比对、背包刷新、兜底扫描、研究解锁、进世界门控这些可放宽的工作按此间隔分桶平摊，每帧只跑一桶。1 = 逐帧（最灵敏），60 = 每 60 帧一次（最省）。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "host_only",
+      "title": "联机：仅房主生效",
+      "description": "只在你是房主的那一端生效：netMode == 1（客机）时本模组只读不写、不介入游戏数据；单机与服务器照常。取不到 netMode 句柄时退化为「不限制」。客机无法自动继承房主设置，请用 /forge export + /forge import 手动同步。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "write_log",
+      "title": "写入日志文件(日志过大会崩游戏)",
+      "description": "日志总开关：打开后才输出 mod.info/warn/error，关闭时除 setup() 阶段一次性「符号取不到」的警告外一条都不打（逐帧 / 每物品的高频路径尤其如此），也不写任何日志文件。聊天栏报告不受此开关影响。默认关闭。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "refresh_inventory",
+      "title": "改设置后立即刷新背包",
+      "description": "设置变化后立刻按新倍率重写背包（含热键栏）里已有的物品。关闭后，只有新创建、重铸、重新读档得到的物品才会用新倍率，改设置需要重进世界才看得到效果。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "debug_log",
+      "title": "详细日志",
+      "description": "输出每个物品类型的分类结果、瞭子判定、弹幕体型改写等细节，方便排查“某项设置没生效”的问题。仅在「写入日志文件」打开时有意义。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "self_check",
+      "title": "启动自检播报",
+      "description": "进世界后的第一帧，把每个功能域的「句柄/钩子/本帧命中」在聊天栏一次性播报（最多 12 行，不刷屏），直接回答“为什么没生效”。默认开。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "diag_report_cmd",
+      "title": "诊断报告命令",
+      "description": "在聊天栏输入这串字符即可打印详细诊断报告（每域 calls/hits/errs/最近错误）。留空 = 只用默认的 /forge stat。",
+      "type": "STRING",
+      "defaultValue": "forge stat"
+    },
+    {
+      "key": "diag_slow_ms",
+      "title": "诊断：慢域阈值(毫秒)",
+      "description": "单域平均耗时超过该毫秒数，就在 /forge stat 的报告里标上 SLOW，方便定位性能瓶颈。",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "unit": "毫秒"
+    },
+    {
+      "key": "chat_cmd",
+      "title": "聊天指令 (/forge …)",
+      "description": "开启后才安装聊天钩子、/forge help|stat|check|export|import 才可用。★ 默认关闭：本工作区唯一有实机证据的崩溃点（ProjectileForge v1.0.0 SIGABRT ×3）就在聊天子系统的相邻路径上，而聊天命令只是可选便利功能，所以默认零风险。开启后输入 /forge help 看命令列表；关闭时请改用「粘贴导入设置串」与 forge_export.txt。★ 联机客机上自己的聊天先送服务器，命令可能收不到，因此导入/导出两条通道都不依赖聊天。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "import_string",
+      "title": "粘贴导入设置串",
+      "description": "默认（零聊天依赖）的导入通道，单机与客机都可用：把导出的设置串整串粘贴到这里即可。模组检测到非空就校验校验和 → 就地改写 config.json（只替换已知 key，未知 key 与 schemaVersion 原样保留）→ 游戏内播报结果 → 自动清空本项。校验和不匹配或串格式不对会拒绝并播报原因，不清空（方便你改）。不需要分片，粘贴长度不受聊天框限制。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "tool_auto",
+      "title": "工具自动连用",
+      "description": "强制镀子 / 斧头 / 锤子 / 钓竿开启自动连用（按住即连续使用）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "weapon_auto",
+      "title": "武器自动连用",
+      "description": "强制近战 / 远程 / 魔法 / 召唤武器开启自动连用。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "place_auto",
+      "title": "放置类自动连用",
+      "description": "强制方块 / 墙 / 家具等放置类物品开启自动连用，按住即连续放置。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "place_infinite",
+      "title": "放置类无限使用",
+      "description": "把放置类物品的消耗属性关掉：放下方块、墙、家具不再扣除背包数量。下面五个开关是同一手法的分类扩展。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "inf_potion",
+      "title": "无限：药水/增益",
+      "description": "药水与增益类消耗品不再被消耗（判定：Item.potion 或 healLife/healMana/buffType > 0）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "inf_bomb",
+      "title": "无限：炸弹/投掷物",
+      "description": "炸弹、手雷、飞刀等投掷消耗品不再被消耗（判定：有 shoot 与伤害、且不是近战/远程/魔法/召唤武器）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "inf_summon",
+      "title": "无限：召唤物",
+      "description": "怪物/召唤物品（如史莱姆王冠，Item.makeNPC > 0）不再被消耗。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "inf_material",
+      "title": "无限：材料",
+      "description": "标记为材料（Item.material）的消耗品不再被消耗（注意：合成仍会正常扣除，本项只影响使用/投掷）。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "inf_other",
+      "title": "无限：其它消耗品",
+      "description": "上面四类之外的其它消耗品不再被消耗。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "best_prefix",
+      "title": "最高词缀（所有物品）",
+      "description": "对每一个可附词缀的物品（含工具/武器/辅助品）自动打上该类最高档词缀（剑类传奇、枪弓虚幻、魔法神话、召唤残忍等）。实现：GetRollablePrefixes() 取该物可附词缀数组的最后一档 → Item.Prefix(int)。ヅ已有词缀的物品一律不碰（不覆盖玩家自己刷出的词缀）。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "research_unlock",
+      "title": "研究自动解锁（旅程模式）",
+      "description": "逐个物品 ID 调用研究轨迹器的 RegisterItemSacrifice(itemId, 9999)，相当于把整个物品图鉴的研究全部做完。分帧执行（每次最多 200 个 ID，上限 6200），首次开启可能有一次性小卡顿。仅旅程模式有意义。默认关。",
+      "type": "SWITCH",
+      "defaultValue": false
+    },
+    {
+      "key": "id_whitelist",
+      "title": "只改这些物品 ID",
+      "description": "逗号或空格分隔的物品 ID 列表（例：65, 1291 757）。非空时只改表内物品，其余一律不碰；留空 = 全部物品。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "id_blacklist",
+      "title": "排除这些物品 ID",
+      "description": "逗号或空格分隔的物品 ID 列表；优先级高于白名单（同时在两侧时一定不改）。",
+      "type": "STRING",
+      "defaultValue": ""
+    },
+    {
+      "key": "min_use_time",
+      "title": "使用时间下限(帧)",
+      "description": "所有 useTime / useAnimation 的写入点统一按 此值下限夹取：v = clamp(round(原值 × 速度倍率/100), min_use_time, 大值)。3 是原版多数武器能正常挥砍的下限，调到 1 反而会让部分武器卡住（挥砍/收招判定走不完）；同时也保护工具/放置类，避免镀子在 1 帧时挖不动方块。1 = 等于旧行为。",
+      "type": "INTEGER",
+      "defaultValue": 3,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "maxstack_mult",
+      "title": "堆叠上限倍率",
+      "description": "公式：堆叠上限 = 原版 maxStack × (本值 ÷ 100)，写入时夹到 1~9999。联机下堆叠上限不一致可能引起物品分裂，请两端保持一致。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "value_mult",
+      "title": "售价倍率",
+      "description": "公式：售价 = 原版 value × (本值 ÷ 100)（value 是整数，写前先读原版基础值做幂等）。注意这是存档字段，改太大会影响画面上的价格显示与卖出收益。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "rare_mult",
+      "title": "稀有度倍率",
+      "description": "公式：稀有度 = 原版 rare × (本值 ÷ 100)，写入时夹到 -1~11（原版 rare = -1 表示灰色，不会被改成白色）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "pick_speed",
+      "title": "镐·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "pick_power",
+      "title": "镐·挖掘力",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "pick_damage",
+      "title": "镐·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "pick_range",
+      "title": "镐·范围",
+      "description": "公式：范围 = 以原版 5 格基础范围为基准的倍率（原版 tileBoost 也算进去）。100 = 不变，上限 10000。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "axe_speed",
+      "title": "斧·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "axe_power",
+      "title": "斧·砍伐力",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "axe_damage",
+      "title": "斧·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "axe_range",
+      "title": "斧·范围",
+      "description": "公式：范围 = 以原版 5 格基础范围为基准的倍率（原版 tileBoost 也算进去）。100 = 不变，上限 10000。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "hammer_speed",
+      "title": "锤·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "hammer_power",
+      "title": "锤·锤击力",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "hammer_damage",
+      "title": "锤·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "hammer_range",
+      "title": "锤·范围",
+      "description": "公式：范围 = 以原版 5 格基础范围为基准的倍率（原版 tileBoost 也算进去）。100 = 不变，上限 10000。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "place_speed",
+      "title": "放置·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "place_range",
+      "title": "放置·范围",
+      "description": "公式：范围 = 以原版 5 格基础范围为基准的倍率（原版 tileBoost 也算进去）。100 = 不变，上限 10000。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "melee_speed",
+      "title": "近战·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "melee_damage",
+      "title": "近战·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "melee_knockback",
+      "title": "近战·击退",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "melee_crit",
+      "title": "近战·暴击率",
+      "description": "公式：暴击率 = 原版暴击率 × (本值 ÷ 100)，写入时夹到 0~100（原版硬性上限）。100 = 不变。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "melee_scale",
+      "title": "近战·大小",
+      "description": "公式：体型 = 原版体型 × (本值 ÷ 100)，写入时夹到 0.05~12。100 = 不变，200 = 双倍大。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "melee_proj_scale",
+      "title": "近战·弹幕体型",
+      "description": "公式：体型 = 原版体型 × (本值 ÷ 100)，写入时夹到 0.05~12。100 = 不变，200 = 双倍大。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "ranged_speed",
+      "title": "远程·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "ranged_damage",
+      "title": "远程·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "ranged_knockback",
+      "title": "远程·击退",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "ranged_crit",
+      "title": "远程·暴击率",
+      "description": "公式：暴击率 = 原版暴击率 × (本值 ÷ 100)，写入时夹到 0~100。100 = 不变。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "ranged_velocity",
+      "title": "远程·弹速",
+      "description": "公式：弹速 = 原版弹速 × (本值 ÷ 100)。100 = 不变。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "ranged_proj_scale",
+      "title": "远程·弹幕体型",
+      "description": "公式：体型 = 原版体型 × (本值 ÷ 100)，写入时夹到 0.05~12。100 = 不变，200 = 双倍大。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "magic_speed",
+      "title": "魔法·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "magic_damage",
+      "title": "魔法·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "magic_knockback",
+      "title": "魔法·击退",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "magic_crit",
+      "title": "魔法·暴击率",
+      "description": "公式：暴击率 = 原版暴击率 × (本值 ÷ 100)，写入时夹到 0~100。100 = 不变。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "magic_velocity",
+      "title": "魔法·弹速",
+      "description": "公式：弹速 = 原版弹速 × (本值 ÷ 100)。100 = 不变。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "magic_mana",
+      "title": "魔法·魔力消耗",
+      "description": "公式：魔力消耗 = 原版消耗 × (本值 ÷ 100)。100 = 不变，1 = 只花 1%。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "magic_proj_scale",
+      "title": "魔法·弹幕体型",
+      "description": "公式：体型 = 原版体型 × (本值 ÷ 100)，写入时夹到 0.05~12。100 = 不变，200 = 双倍大。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "summon_speed",
+      "title": "召唤·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）★ 瞭子类武器会跳过改写（否则瞭长会被吃掉）。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "summon_damage",
+      "title": "召唤·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "summon_knockback",
+      "title": "召唤·击退",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "summon_scale",
+      "title": "召唤·大小",
+      "description": "公式：体型 = 原版体型 × (本值 ÷ 100)，写入时夹到 0.05~12。100 = 不变，200 = 双倍大。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "summon_proj_scale",
+      "title": "召唤·仆从体型",
+      "description": "公式：体型 = 原版体型 × (本值 ÷ 100)，写入时夹到 0.05~12。100 = 不变，200 = 双倍大。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 10,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "fish_speed",
+      "title": "钓竿·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "fish_power",
+      "title": "钓竿·钓鱼力",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "other_speed",
+      "title": "其他·使用速度",
+      "description": "公式：使用速度 = 原版使用间隔 ÷ (本值 ÷ 100)：100 = 不变，200 = 快一倍（间隔减半），上限 10000 = 100 倍。最终不会低于「使用时间下限」。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "other_damage",
+      "title": "其他·伤害",
+      "description": "公式：对应属性 = 原版值 × (本值 ÷ 100)。100 = 不变，上限 10000 = 100 倍。（游戏对很多数值有硬性夹取，滑块调得再高也未必带来对应效果）",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 10000,
+      "step": 1,
+      "unit": "%"
+    },
+    {
+      "key": "gui_enable",
+      "title": "图形面板",
+      "description": "游戏内面板（mod.gui）的总开关，默认开。关掉后面板不再绘制、也不再响应点击（不影响任何物品改写逻辑）。★ 关掉后要开回来：到 TEFManager 的设置页把本项重新打开（面板里也有一次二次确认，防止误点把自己锁在外面）。",
+      "type": "SWITCH",
+      "defaultValue": true
+    },
+    {
+      "key": "gui_layout",
+      "title": "面板布局",
+      "description": "滚动 = 一页内用滚动容器装下全部内容（LuaLoader 1.9.0 及以上）；分页 = 每页固定行数 + 上一页/下一页。本机加载器没有 begin_scroll 时会自动落回分页并在面板上写明，与这里选什么无关。",
+      "type": "CHOICE",
+      "defaultValue": "滚动",
+      "options": [
+        {
+          "value": "滚动",
+          "label": "滚动"
+        },
+        {
+          "value": "分页",
+          "label": "分页"
+        }
+      ]
+    }
+  ]
+}

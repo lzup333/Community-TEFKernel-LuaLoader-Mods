@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.dotflow",
+  "version": "1.3.7",
+  "version_code": 21,
+  "api_version": 1,
+  "multiplayer_safe": true,
+  "description": "dot才是正道\n感谢沫黎雅的大力支持。"
+}

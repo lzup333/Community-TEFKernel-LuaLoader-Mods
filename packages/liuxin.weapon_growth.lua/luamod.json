@@ -1,0 +1,8 @@
+{
+  "main": "main_nogui_162.lua",
+  "pkg_id": "liuxin.weapon_growth.lua",
+  "version": "1.7.1",
+  "version_code": 80,
+  "api_version": 1,
+  "multiplayer_safe": true
+}

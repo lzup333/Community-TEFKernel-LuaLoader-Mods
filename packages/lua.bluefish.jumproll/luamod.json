@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "lua.bluefish.jumproll",
+  "version": "2.2.0",
+  "version_code": 202,
+  "api_version": 1,
+  "multiplayer_safe": true
+}

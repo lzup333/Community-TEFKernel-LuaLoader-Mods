@@ -1,0 +1,52 @@
+{
+  "pkgId": "lua.weaponout.back",
+  "name": "武器背显 (WeaponOutBack)",
+  "author": "lzup",
+  "version": "1.0.1",
+  "versionCode": 20261008,
+  "brieflyDescribe": "把角色手持的武器背在背上,",
+  "description": "武器背显，需搭配 LuaLoader 1.5.0 及以上加载器。\n移植自 KernelLoader 原生版。\n协议：MIT License，Copyright (c) 2026 lzup。",
+  "features": [],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

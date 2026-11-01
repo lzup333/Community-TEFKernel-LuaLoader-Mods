@@ -1,0 +1,54 @@
+{
+  "pkgId": "liuxin.lua.bosschecklist",
+  "name": "Boss清单",
+  "author": "liuxin",
+  "version": "1.2",
+  "versionCode": 17,
+  "brieflyDescribe": "Boss图鉴：世界进度、召唤提示与主要掉落。",
+  "description": "Boss图鉴，26项Boss与事件，348个物品/材料图标。召唤、掉落、攻略、材料分页，专家大师分类、收藏、世界进度读取。 支持浅金白天/黑金夜间皮肤，自动随游戏昼夜切换，也可手动固定。",
+  "features": [
+    "UI_IMPROVEMENT",
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

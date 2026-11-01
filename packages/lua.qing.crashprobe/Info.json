@@ -1,0 +1,27 @@
+{
+  "pkgId": "lua.qing.crashprobe",
+  "name": "加载模组，进世界就闪退",
+  "author": "qing",
+  "version": "1.0.0",
+  "versionCode": 100,
+  "brieflyDescribe": "加载即闪退",
+  "description": "进世界就闪退",
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependency": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

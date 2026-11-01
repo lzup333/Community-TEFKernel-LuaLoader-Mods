@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "iframe": "true",
+    "add_buff": "true",
+    "trail": "true",
+    "dash_roll": "true",
+    "jump_roll": "true"
+  }
+}

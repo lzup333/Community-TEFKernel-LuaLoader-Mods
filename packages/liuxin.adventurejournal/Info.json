@@ -1,0 +1,230 @@
+{
+  "pkgId": "liuxin.adventurejournal",
+  "name": "冒险手记",
+  "author": "liuxin",
+  "version": "1.0.2",
+  "versionCode": 9,
+  "brieflyDescribe": "离家记录冒险，归家留下手记。",
+  "description": "自动统计战斗、采掘与收获，记录到访地点、Boss和稀有装备，按世界与人物保存旅行日志。\n\n五种总结语气，三种信息模式，归家生成离线小结。",
+  "features": [],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8.6",
+  "minGameVersion": "1.4.5.0",
+  "maxGameVersion": "1.4.5.8.6",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "summary_tone",
+      "title": "冒险总结语气",
+      "description": "五种独立叙述风格：平实日记、温暖鼓励、轻松吐槽、史诗旁白、冷静短句。按真实地点、战果与装备组织小记；语气和信息量独立，不联网。",
+      "type": "CHOICE",
+      "defaultValue": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "平实记录"
+        },
+        {
+          "value": "2",
+          "label": "温暖鼓励"
+        },
+        {
+          "value": "3",
+          "label": "轻松吐槽"
+        },
+        {
+          "value": "4",
+          "label": "史诗叙事"
+        },
+        {
+          "value": "5",
+          "label": "简短冷静"
+        }
+      ],
+      "section": "总结语气"
+    },
+    {
+      "key": "announcements",
+      "title": "游戏内提示总开关",
+      "description": "关闭后仍后台记录和保存；其他提示开关受此项控制。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "提示与总结"
+    },
+    {
+      "key": "return_announcements",
+      "title": "归家冒险总结",
+      "description": "回到家并停留后显示本次冒险总结。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "提示与总结"
+    },
+    {
+      "key": "daily_announcements",
+      "title": "每日旅行总结",
+      "description": "每次游戏黎明汇总上一天。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "提示与总结"
+    },
+    {
+      "key": "rare_announcements",
+      "title": "稀有收获提示",
+      "description": "首次获得绿色及以上品质的装备或饰品时提示。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "提示与总结"
+    },
+    {
+      "key": "summary_style",
+      "title": "总结信息样式",
+      "description": "三种模式均有总结。简洁：关键数据与一句小结；简介：主要经历、到访地点与旅途小记；详细：完整统计、事件、地点与更完整的小记。",
+      "type": "CHOICE",
+      "defaultValue": "2",
+      "options": [
+        {
+          "value": "1",
+          "label": "简洁"
+        },
+        {
+          "value": "2",
+          "label": "简介"
+        },
+        {
+          "value": "3",
+          "label": "详细"
+        }
+      ],
+      "section": "提示与总结"
+    },
+    {
+      "key": "record_rare",
+      "title": "记录稀有装备与饰品",
+      "description": "记录绿色及以上品质装备；按世界和人物去重，已有装备不补报。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "记录内容"
+    },
+    {
+      "key": "record_zones",
+      "title": "记录到访地点",
+      "description": "结合环境与深度识别地下丛林等地点，连续约2秒确认；同一天、同次冒险去重，保留首次到访顺序。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "记录内容"
+    },
+    {
+      "key": "record_boss",
+      "title": "记录击败Boss",
+      "description": "保存Boss击败事件，不改动Boss机制。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "记录内容"
+    },
+    {
+      "key": "depart_distance",
+      "title": "出门距离",
+      "description": "距离出生点达到该值后开始确认出门；至少比回家范围大20格。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 30,
+      "max": 300,
+      "step": 1,
+      "unit": "格",
+      "section": "冒险识别"
+    },
+    {
+      "key": "home_distance",
+      "title": "回家范围",
+      "description": "有床时使用角色出生点；无床时使用世界出生点。",
+      "type": "INTEGER",
+      "defaultValue": 45,
+      "min": 10,
+      "max": 150,
+      "step": 1,
+      "unit": "格",
+      "section": "冒险识别"
+    },
+    {
+      "key": "depart_seconds",
+      "title": "离家确认时间",
+      "description": "持续远离家超过该时间后开始冒险。",
+      "type": "INTEGER",
+      "defaultValue": 2,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "秒",
+      "section": "冒险识别"
+    },
+    {
+      "key": "home_seconds",
+      "title": "归家停留时间",
+      "description": "在家范围内存活停留该时间后结束冒险。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "秒",
+      "section": "冒险识别"
+    },
+    {
+      "key": "autosave_seconds",
+      "title": "自动保存间隔",
+      "description": "定期保存旅行记录，重要事件另行保存。",
+      "type": "INTEGER",
+      "defaultValue": 30,
+      "min": 5,
+      "max": 120,
+      "step": 1,
+      "unit": "秒",
+      "section": "保存设置"
+    },
+    {
+      "key": "debug_log",
+      "title": "诊断日志",
+      "description": "默认关闭，仅控制运行诊断信息，不影响手记正文与统计。开启后每10秒批量保存；错误信息仍记录，卸载时补存。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "诊断"
+    }
+  ]
+}

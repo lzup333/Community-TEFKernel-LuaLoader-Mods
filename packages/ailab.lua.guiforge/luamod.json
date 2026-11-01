@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "ailab.lua.guiforge",
+  "version": "2.0.0",
+  "version_code": 20261015,
+  "api_version": 1,
+  "multiplayer_safe": true
+}

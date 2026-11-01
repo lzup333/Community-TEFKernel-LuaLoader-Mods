@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "celso.lua.spawncontrol",
+  "version": "1.0.5",
+  "version_code": 6,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

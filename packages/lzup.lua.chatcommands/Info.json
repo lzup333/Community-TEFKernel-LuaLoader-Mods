@@ -1,0 +1,27 @@
+{
+  "pkgId": "lzup.lua.chatcommands",
+  "name": "聊天指令助手扩展包 (ChatCommands)",
+  "author": "lzup",
+  "version": "3.0.0",
+  "versionCode": 20261011,
+  "brieflyDescribe": "聊天指令助手：时间/传送/秒杀/标记/物品/生物",
+  "description": "指令清单：\n【物品】/get <物品名|ID> [数量]\n【生物】/sp(/spawn) <生物名|ID> [数量]支持中文，英文和ID \n【传送】/tp <x> <y> 传送到坐标\n【传送】/tp here <1a/2a/3a> 把指定玩家拉过来\n【查询】/pos 查询当前坐标\n【标记】/标记 <名字> 记录位置\n【传送】/去标记 <名字> 传回标记点\n【时间】/time 12:00 设置24小时制时间\n【时间】/time day 或 /time night 切换白天夜 支持中文获取物品和召唤生物   晚\n【战斗】/kill 或 /秒杀 秒杀全屏敌人\n【战斗】/god [on/off] 无敌开关\n【恢复】/heal 回满生命法力\n多人标签：1a=房主 2a=第二位 3a=第三位",
+  "features": ["ASSISTANCE"],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": false, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": true, "x86": true },
+    "linux": { "arm64": false, "arm": false, "x64": true, "x86": false },
+    "mac": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios": { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true
+}

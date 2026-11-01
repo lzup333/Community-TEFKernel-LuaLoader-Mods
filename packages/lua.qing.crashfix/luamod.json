@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "lua.qing.crashfix",
+  "version": "1.0.0",
+  "version_code": 100,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

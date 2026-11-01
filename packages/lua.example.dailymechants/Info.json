@@ -1,0 +1,65 @@
+{
+  "pkgId": "lua.example.dailymechants",
+  "name": "每日商人刷新",
+  "author": "AI",
+  "version": "1.0.0",
+  "versionCode": 1,
+  "brieflyDescribe": "每天黎明：旅行商人保底到访；洞穴层保底刷出骷髅商人。",
+  "description": "把两位随机商人变成每日保底。\n① 旅行商人：每天凌晨4:30（游戏时间）检查，若场上没有旅商则在黎明瞬间生成一位。\n② 骷髅商人：每天黎明时若你身处洞穴层/地下层且附近没有骷髅商人，就在你身边补一只。\n两块可独立开关。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": true, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "linux": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "mac": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios": { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "travel_enabled",
+      "title": "旅行商人每天到访",
+      "description": "每天黎明检查：若场上没有旅行商人，则立即生成一位。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "旅行商人"
+    },
+    {
+      "key": "skeleton_enabled",
+      "title": "骷髅商人每天刷新",
+      "description": "每天黎明检查：若你在洞穴层且附近没有骷髅商人，则在你身边生成一只。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "骷髅商人"
+    },
+    {
+      "key": "skeleton_require_cavern",
+      "title": "骷髅商人仅洞穴层触发",
+      "description": "开启时只有你在洞穴层/地下层才会生成；关闭后地表也会刷（方便测试）。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "骷髅商人"
+    },
+    {
+      "key": "skeleton_scan_radius_tiles",
+      "title": "骷髅商人检查半径",
+      "description": "黎明时扫描这个半径（图格）内是否已有骷髅商人，有就跳过。建议 120（约两屏）。",
+      "type": "INTEGER",
+      "defaultValue": 120,
+      "min": 20,
+      "max": 500,
+      "step": 10,
+      "unit": "格",
+      "section": "骷髅商人"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "liuxin.lua.bosschecklist",
+  "version": "1.2",
+  "version_code": 17,
+  "api_version": 1,
+  "multiplayer_safe": true
+}

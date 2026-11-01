@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "lock_dummy": "true",
+    "count_trap": "true",
+    "count_debuff": "true"
+  }
+}

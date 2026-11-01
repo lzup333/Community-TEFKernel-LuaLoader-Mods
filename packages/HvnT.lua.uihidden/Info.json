@@ -1,0 +1,52 @@
+{
+  "pkgId": "HvnT.lua.uihidden",
+  "name": "UI隐藏（Hide UI）",
+  "author": "HvnT",
+  "version": "1.3.5",
+  "versionCode": 135,
+  "brieflyDescribe": "隐藏生命/魔力、操作按键、手机显示信息栏、对话/小地图、设置、背包开关等。",
+  "description": "手机版 Terraria 优化模组 v1.3.5\n\n■悬浮按钮显示「UI」，可自由拖动。\n\n■可分别隐藏：\n  - 生命值 / 魔力值\n  - 操作按键\n  - 增益 / 弹药 / 货币\n  - 聊天\n  - 手机显示（右侧信息栏）\n  - 对话键 / 小地图\n  - 设置\n  - 背包开关\n  - 快捷栏 / 背包\n\n■附「全部隐藏」「全部显示」快捷按钮，设置自动保存。\n\n■无法隐藏（已实测确认）：\n  - 大地图\n  - 光标",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "liuxin.bossdirectionhint",
+  "version": "3.0",
+  "version_code": 34,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

@@ -1,0 +1,84 @@
+{
+  "pkgId": "operit.weaponiframe",
+  "name": "武器无敌帧自定义 (WeaponIFrame)",
+  "author": "蓝色大肥鱼",
+  "version": "1.7.0",
+  "versionCode": 16,
+  "brieflyDescribe": "原版 / 局部无敌帧 / 取消无敌帧 三档模式（按武器可独立配置）",
+  "description": "通过弹幕免疫机制自定义\"无敌帧\"。\n支持三种模式 (default_mode):\n  0=原版(不干预, 沿用游戏原版无敌帧);\n  1=局部无敌帧(保持原版无敌帧数, 类型改为局部: usesLocalNPCImmunity=true, 冷却沿用弹幕原版局部冷却值(原版通常1/6秒≈10帧), 未设置的补10帧, 每颗弹幕独立冷却, 不受全局免疫表限制, 多弹幕密集连续命中);\n  2=取消无敌帧(无敌帧数固定为1帧, usesLocalNPCImmunity + localNPCHitCooldown=1, 每颗弹幕独立冷却, 多弹幕密集连续命中, 伤害不被原版无敌帧吞掉)。\n配置项: default_mode 默认模式(0/1/2)、weapon_overrides 按武器独立配置(物品ID:模式0/1/2, 逗号分隔)。模组装载即生效, 无总开关(v1.6.7起移除「启用模组」)。\n按武器配置通过弹幕AI(Projectile.AI)回调时实时读取玩家手持武器(Main.player)实现: 单独配置的武器按其模式生效, 未列出的武器用 default_mode。推荐配合高射速/多弹幕武器体验最明显效果。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "default_mode",
+      "title": "默认无敌帧模式",
+      "description": "未单独配置的武器统一使用的模式: 0=原版无敌帧(不干预)、1=局部无敌帧(保持原版无敌帧数, 类型改局部免疫)、2=取消无敌帧(无敌帧数固定1帧)",
+      "type": "CHOICE",
+      "defaultValue": "2",
+      "options": [
+        {
+          "value": "0",
+          "label": "原版无敌帧"
+        },
+        {
+          "value": "1",
+          "label": "局部无敌帧"
+        },
+        {
+          "value": "2",
+          "label": "取消无敌帧"
+        }
+      ],
+      "section": "通用"
+    },
+    {
+      "key": "weapon_overrides",
+      "title": "按武器独立配置",
+      "description": "逗号分隔的 物品ID:模式。模式0=原版无敌帧/1=局部无敌帧/2=取消无敌帧。例: 757:2,4:0 表示泰拉刃(ID757)取消无敌帧、铁阔剑(ID4)原版; 未列出的武器用上面的默认模式。",
+      "type": "STRING",
+      "defaultValue": "",
+      "section": "武器覆盖"
+    }
+  ]
+}

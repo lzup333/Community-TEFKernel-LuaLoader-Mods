@@ -1,0 +1,237 @@
+{
+  "pkgId": "liuxin.originrewrite.lua",
+  "name": "起源重构：拟态",
+  "author": "liuxin",
+  "version": "2.4",
+  "versionCode": 2026101434,
+  "brieflyDescribe": "三档难度；随机行动与拟态弹幕、猎杀契约和个人领奖。",
+  "description": "        请使用 lua 加载器 1.8.0 以上版本。\n为普通敌怪加入三级重构、随机行动技能与拟态弹幕，提供三档难度、猎杀契约和随机奖励。支持单机与实验性多人联机。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "DIFFICULTY_MOD"
+  ],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8.5",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.5.8.5",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": [
+    {
+      "key": "difficulty",
+      "title": "模组难度",
+      "description": "轻松：低频单发、较弱强化；普通：标准组合与轮换；疯狂：高频招式、更多高阶体。独立于世界难度，联机以房主设置为准。保存后重启游戏。",
+      "type": "CHOICE",
+      "defaultValue": "normal",
+      "options": [
+        {
+          "value": "easy",
+          "label": "轻松"
+        },
+        {
+          "value": "normal",
+          "label": "普通"
+        },
+        {
+          "value": "crazy",
+          "label": "疯狂"
+        }
+      ],
+      "section": "难度"
+    },
+    {
+      "key": "taskDisplay",
+      "title": "任务展示方式",
+      "description": "GUI：使用独立羊皮纸任务界面，关闭任务与领奖信息提示。信息提示：使用聊天播报和指令，关闭任务GUI。只影响本机显示，不改变任务、存档或奖励；保存后重启游戏。",
+      "type": "CHOICE",
+      "defaultValue": "gui",
+      "options": [
+        {
+          "value": "gui",
+          "label": "GUI任务界面"
+        },
+        {
+          "value": "notice",
+          "label": "信息提示"
+        }
+      ],
+      "section": "任务"
+    },
+    {
+      "key": "performance",
+      "title": "性能模式",
+      "description": "高质量：最多16只完整文字、最大尺寸完整细节特效与文字阴影，性能消耗较高；标准4只、省电2只、极简1只。战斗机制不变，保存后重启。",
+      "type": "CHOICE",
+      "defaultValue": "standard",
+      "options": [
+        {
+          "value": "quality",
+          "label": "高质量"
+        },
+        {
+          "value": "standard",
+          "label": "标准"
+        },
+        {
+          "value": "low",
+          "label": "省电"
+        },
+        {
+          "value": "minimal",
+          "label": "极简"
+        }
+      ],
+      "section": "性能"
+    },
+    {
+      "key": "headText",
+      "title": "头顶招式文字",
+      "description": "显示当前招式，终焉体随轮换更新。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "视觉"
+    },
+    {
+      "key": "footEffects",
+      "title": "脚下分级特效",
+      "description": "绿色碎晶环、蓝色断裂符文、红色空间裂隙；随场景光照变暗。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "视觉"
+    },
+    {
+      "key": "coloredNames",
+      "title": "彩色名称",
+      "description": "按重构体等级着色悬停名称。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "视觉"
+    },
+    {
+      "key": "effectSize",
+      "title": "脚下特效大小",
+      "description": "按异化、灾变、终焉递增。小48/56/64，标准64/72/80，大80/88/96像素。",
+      "type": "CHOICE",
+      "defaultValue": "standard",
+      "options": [
+        {
+          "value": "small",
+          "label": "小"
+        },
+        {
+          "value": "standard",
+          "label": "标准"
+        },
+        {
+          "value": "large",
+          "label": "大"
+        }
+      ],
+      "section": "视觉"
+    },
+    {
+      "key": "notices",
+      "title": "信息栏播报",
+      "description": "所有模组聊天提示的总开关。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "信息"
+    },
+    {
+      "key": "bossDialog",
+      "title": "Boss战斗对话",
+      "description": "登场、半血、击败及玩家败北；战斗期间优先显示。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "信息"
+    },
+    {
+      "key": "skillNotices",
+      "title": "重构体出现播报",
+      "description": "显示重构体等级、战斗风格与完整招式组合。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "信息"
+    },
+    {
+      "key": "environmentNotices",
+      "title": "环境变化提示",
+      "description": "显示地点、时间及天气变化。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "信息"
+    },
+    {
+      "key": "correctDeathSource",
+      "title": "显示实际击杀来源",
+      "description": "拟态弹幕死亡信息显示释放招式的重构体名称。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "信息"
+    },
+    {
+      "key": "maxActive",
+      "title": "重构体上限",
+      "description": "用户上限与难度上限取较小值：轻松4、普通8、疯狂12；前期保护还会进一步限制。",
+      "type": "INTEGER",
+      "defaultValue": 12,
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "unit": "只",
+      "section": "重构体上限"
+    },
+    {
+      "key": "bossAutoAI",
+      "title": "Boss自动战斗（实验）",
+      "description": "单机实验：主要Boss补充移动AI。新增吞噬怪分裂头调度、血肉墙短推进、女皇夜间换位、邪教徒空档换位、月领主暴露核心转向。保留原版攻击/部件；未实测Boss仍需日志核验。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "战斗"
+    },
+    {
+      "key": "beeSurfaceTest",
+      "title": "蜂王地表测试",
+      "description": "仅单机测试：允许丛林地表触发蜂王新增移动。原版地表狂暴仍生效，召唤条件不变；正式游玩建议关闭。保存后重启。",
+      "type": "SWITCH",
+      "defaultValue": false,
+      "section": "测试"
+    }
+  ]
+}

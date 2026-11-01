@@ -1,0 +1,52 @@
+{
+  "pkgId": "lzup.lua.gravitynoflip",
+  "name": "重力药水屏幕不翻转 (gravitynoflip)",
+  "author": "lzup333",
+  "version": "1.0.0",
+  "versionCode": 20260929,
+  "brieflyDescribe": "喝重力药水，世界照旧，重力照翻。",
+  "description": "使用重力药水/重力球反转重力时，屏幕与角色保持正常朝向，不再上下翻转，但重力效果保留。由经典 EFMod (C++) 版移植为 LuaLoader 脚本，并针对 Terraria 1.4.5.8 做了适配。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

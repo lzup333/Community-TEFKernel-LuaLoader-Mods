@@ -1,0 +1,52 @@
+{
+  "pkgId": "lua.qing.dmgprobe",
+  "name": "Boss/事件伤害详情",
+  "author": "qing",
+  "version": "1.1.0",
+  "versionCode": 110,
+  "brieflyDescribe": "实时统计伤害详情",
+  "description": "-实时统计Boss的伤害详情：\n- 事件击杀数、怪物明细、参与武器\n-支持永久记录\n- 自动存档，退出重进自动接续\n- 改世界名不丢数据\n-游戏内输入 /a 查看全部指令",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependency": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

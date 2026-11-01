@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "lzup.murasama",
+  "version": "0.3.8",
+  "version_code": 11,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

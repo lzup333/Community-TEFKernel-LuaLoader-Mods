@@ -1,0 +1,52 @@
+{
+  "pkgId": "HvnT.lua.crimson",
+  "name": "血色 (Crimson)",
+  "author": "HvnT",
+  "version": "1.0.0",
+  "versionCode": 20261024,
+  "brieflyDescribe": "永夜与血月……",
+  "description": "世界规则类模组：装载后世界永远保持夜晚，并永远保持血月事件。服务端/主机运行时自动同步给客户端，支持多人。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

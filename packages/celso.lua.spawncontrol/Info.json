@@ -1,0 +1,62 @@
+{
+  "pkgId": "celso.lua.spawncontrol",
+  "name": "万灵繁生（Lua）",
+  "author": "liuxin",
+  "version": "1.1",
+  "versionCode": 20261003,
+  "brieflyDescribe": "分别调整普通怪物、事件怪物的生成上限与生成间隔，并设置 Boss 召唤数量（1–10只）。",
+  "description": "分别调整普通怪物、事件怪物的生成上限与生成间隔，并设置 Boss 召唤数量（1–10只）",
+  "features": ["MECHANICS_CHANGE", "DIFFICULTY_MOD"],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": true, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "linux": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "mac": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios": { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "ordinary_multiplier",
+      "title": "普通怪物生成倍率",
+      "description": "非事件期间提高自然生成上限并缩短生成间隔；实际数量仍受游戏生成条件影响。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "×"
+    },
+    {
+      "key": "event_multiplier",
+      "title": "事件怪物生成倍率",
+      "description": "血月、日食、史莱姆雨、入侵、南瓜月、霜月、撒旦军队和月柱期间的自然生成上限与间隔倍率。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "×"
+    },
+    {
+      "key": "boss_summon_count",
+      "title": "Boss 召唤数量",
+      "description": "每次使用Boss召唤物生成的Boss数量；1只为原版数量，最多10只。一次原版召唤只追加一次，已有Boss时原版召唤限制仍生效。",
+      "type": "INTEGER",
+      "defaultValue": 2,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "只"
+    }
+  ]
+}

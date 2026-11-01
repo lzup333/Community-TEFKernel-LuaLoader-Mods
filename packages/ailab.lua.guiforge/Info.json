@@ -1,0 +1,93 @@
+{
+  "pkgId": "ailab.lua.guiforge",
+  "name": "界面工坊 (GuiForge)",
+  "author": "哇",
+  "version": "2.0.0",
+  "versionCode": 20261015,
+  "brieflyDescribe": "LuaLoader 1.8.0 的 mod.gui 实测台 + 全功能示范：1.8.0 新增的 14 项（图片/皮肤/配色/绝对定位/set_title 紧凑入口）与 1.7.1 原有的 22 项共 36 项 API 全部摆上界面，逐项可点、可看、可验证。不碰任何游戏符号。",
+  "description": "定位：**GUI 实测台 + 开发范本**，不是玩法模组。装上去就有一块面板，每页对应一组 API，用来回答「1.8.0 到底多了什么、哪些能用、哪些坑还在」。\n\n■ 9 页面板\n1) 概览 —— 运行时逐个探测 mod.gui 的 36 个函数，直接告诉你在**这台设备上**到底存在几项（1.7.1=22 / 1.8.0=36）；帧计数与纯 Lua 帧率。\n2) 控件 —— text / text_wrapped / button / checkbox / slider / same_line / separator / spacing / collapsing_header(两层) / progress_bar / input_text。\n3) 自绘 —— set_style 四套配色、rect（含 <24px 走纯色路径）、text_at 五种字号（0.5/1/1.5/2/3，>4 不绘制）、button_at 自定义尺寸、set_content_height。**整页绝对坐标**。\n4) 图片 —— load_image / image_status 逐项状态表、image 拉伸与颜色调制、image(...,source) 从 128x128 图集裁 4 个象限。\n5) 进阶 —— nine_slice 三种目标尺寸（含 edge 与 <2*border 的退化情形）、image_button、mask.png 验证命中区是矩形、white.png 做纯色矩形、release_image 生命周期。\n6) 窗口 —— get_pos / set_pos / set_width(±40) / 危险的宽度滑块（复现 1.7.1 的抖动） / set_cursor / set_visible / is_visible / show / hide / set_collapsed / is_collapsed / toggle_collapsed / set_title(+紧凑收起入口) / 状态存取。\n7) 键盘 —— input_text 的字节数与字符数读数、中文初值后按 del 的实测（退格是 pop_back，按字节删）、把窗口移到底部测键盘遮挡。\n8) 穿刺 —— 1.7.1 上「点面板会挖地」的复测页：按钮计数 + 三条人工确认勾选 + 写探测日志。\n9) 速查 —— 36 项签名与最容易踩的坑。\n\n■ 资源\nResources/lib/ui/ 下自带 7 张 PNG（white/panel/button/icon/atlas/mask/stretch），全部是本仓库用 Python + zlib 现场生成的，无第三方素材。\n图片路径写 lib/ui/x.png；加载器只允许模组私有目录内、仅 PNG、单张 <=2048x2048 且 <=16 MiB、最多 128 张 / 64 MiB。\n\n■ 版本要求\nLuaLoader 1.7.0+。1.8.0 才有第 3~5 页的进阶能力；在旧加载器上本模组会**自动降级**（页面顶部会列出缺失的函数名），不会报错。\n\n■ 仍未实机验证\n本工作区无法启动游戏，所有结论来自 LuaLoader 1.8.0 上游源码（参考库/上游/LuaLoader-1.8.0/）与假 GUI 逻辑测试；实机结论以你的实测为准。",
+  "features": [
+    "UI_IMPROVEMENT",
+    "UTILITY"
+  ],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "显示面板",
+      "description": "关掉后不再绘制完整面板，只留一个「重新启用」按钮（防止把自己锁死）。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "面板"
+    },
+    {
+      "key": "auto_restore",
+      "title": "隐藏后自动恢复",
+      "description": "窗口一旦被 hide() / set_visible(false) 藏起来就点不到按钮了，这里兜底自动恢复。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "面板"
+    },
+    {
+      "key": "auto_restore_sec",
+      "title": "自动恢复等待秒数",
+      "description": "3~300 秒。",
+      "type": "INTEGER",
+      "defaultValue": 20,
+      "section": "面板",
+      "min": 3,
+      "max": 300,
+      "step": 1,
+      "unit": "秒"
+    },
+    {
+      "key": "remember_window",
+      "title": "记住窗口位置与宽度",
+      "description": "退出时把位置/宽度/当前页/配色写到私有目录的 guiforge-state.txt（落盘前夹到安全框，重启必定能自救）。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "面板"
+    }
+  ]
+}

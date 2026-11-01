@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "liuxin.burst.effects",
+  "version": "1.0.0",
+  "version_code": 8,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "ailab.lua.itemforge",
+  "version": "2.1.3",
+  "version_code": 20261228,
+  "api_version": 1,
+  "multiplayer_safe": false
+}
