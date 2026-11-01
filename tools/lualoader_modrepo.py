@@ -350,6 +350,11 @@ def _parser() -> argparse.ArgumentParser:
     sync.add_argument("--remote", default="origin")
     sync.add_argument("--branch", default="main")
     sync.add_argument("--push", action="store_true", help="push after local commit")
+    repo_add = sub.add_parser("repo-add")
+    repo_add.add_argument("url")
+    install = sub.add_parser("install")
+    install.add_argument("pkg_id")
+    install.add_argument("--target", type=Path)
     return parser
 
 
@@ -417,6 +422,34 @@ def main(argv: list[str] | None = None) -> int:
         except (OSError, RuntimeError, subprocess.CalledProcessError) as exc:
             print(f"sync failed: {exc}", file=sys.stderr)
             return 2
+    if args.command == "repo-add":
+        config = Path("~/.config/lualoader/modrepo.json").expanduser()
+        config.parent.mkdir(parents=True, exist_ok=True)
+        data = {}
+        if config.exists():
+            try:
+                data = json.loads(config.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                data = {}
+        repositories = data.setdefault("repositories", [])
+        if args.url not in repositories:
+            repositories.append(args.url)
+        config.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(f"added repository {args.url} to {config}")
+        return 0
+    if args.command == "install":
+        source = repo / "packages" / args.pkg_id
+        if not source.is_dir():
+            print(f"package not found: {args.pkg_id}", file=sys.stderr)
+            return 2
+        target_root = (args.target or Path("~/.local/share/lualoader-modrepo/installed")).expanduser()
+        target = target_root / args.pkg_id
+        if target.exists():
+            print(f"install target exists: {target}; remove it explicitly before reinstalling", file=sys.stderr)
+            return 2
+        shutil.copytree(source, target)
+        print(f"installed {args.pkg_id} -> {target}")
+        return 0
     return 1
 
 

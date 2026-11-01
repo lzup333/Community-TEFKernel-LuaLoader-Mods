@@ -1,0 +1,13 @@
+{
+  "source": "/home/lzup/下载/Mods",
+  "accepted": 91,
+  "nativeSkipped": 11,
+  "rejected": 6,
+  "duplicateCandidates": 14,
+  "duplicatePolicy": "保留版本较高且 main.lua 较新的候选；同版本保留先入包",
+  "rejectedReasons": [
+    "Info.json.pkgId 与 luamod.json.pkg_id 不一致",
+    "缺少 Info.json"
+  ],
+  "nativeDetection": "仅扫描实际 .so/.dll/.dylib/.so.* 文件"
+}
