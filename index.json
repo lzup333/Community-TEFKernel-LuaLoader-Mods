@@ -1,7 +1,7 @@
 {
-  "loaderMinVersionCode": 36,
-  "loaderMinVersion": "2.3.2",
-  "updatedAt": "2026-11-01T06:26:48.886728Z",
+  "loaderMinVersionCode": 37,
+  "loaderMinVersion": "2.3.3",
+  "updatedAt": "2026-11-01T06:31:29.649264Z",
   "mods": [
     {
       "pkgId": "HvnT.lua.crimson",

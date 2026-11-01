@@ -88,8 +88,8 @@ class ModRepoTests(unittest.TestCase):
             self.assertTrue((repo / "packages/example.mod/Resources/lib/main.lua").is_file())
             self.assertTrue((repo / "dist/example.mod.tefpkg").is_file())
             index = rebuild_index(repo)
-            self.assertEqual(index["loaderMinVersionCode"], 36)
-            self.assertEqual(index["loaderMinVersion"], "2.3.2")
+            self.assertEqual(index["loaderMinVersionCode"], 37)
+            self.assertEqual(index["loaderMinVersion"], "2.3.3")
             self.assertEqual(index["mods"][0]["pkgId"], "example.mod")
             self.assertEqual(index["mods"][0]["downloadUrl"],
                              "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/example.mod.tefpkg")

@@ -239,7 +239,7 @@ def _prompt_duplicate(pkg: PackageInfo, existing: dict, source: Path) -> str:
 def _load_index(repo: Path) -> dict:
     path = repo / "index.json"
     if not path.exists():
-        return {"updatedAt": "", "loaderMinVersionCode": 36, "loaderMinVersion": "2.3.2", "mods": []}
+        return {"updatedAt": "", "loaderMinVersionCode": 37, "loaderMinVersion": "2.3.3", "mods": []}
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
@@ -287,8 +287,8 @@ def import_packages(repo_dir: Path, inputs: Iterable[Path], *, interactive: bool
             report.errors.append(f"rejected: {source}: {exc}")
     index["mods"] = sorted(by_id.values(), key=lambda item: item.get("pkgId", ""))
     index.pop("packages", None)
-    index.setdefault("loaderMinVersionCode", 36)
-    index.setdefault("loaderMinVersion", "2.3.2")
+    index["loaderMinVersionCode"] = 37
+    index["loaderMinVersion"] = "2.3.3"
     index["updatedAt"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     (repo / "index.json").write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return report
@@ -336,8 +336,8 @@ def rebuild_index(repo_dir: Path) -> dict:
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
             continue
     result = {
-        "loaderMinVersionCode": int(current.get("loaderMinVersionCode", 36)),
-        "loaderMinVersion": current.get("loaderMinVersion", "2.3.2"),
+        "loaderMinVersionCode": 37,
+        "loaderMinVersion": "2.3.3",
         "updatedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "mods": packages,
     }
