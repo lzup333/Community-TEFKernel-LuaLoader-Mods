@@ -1,8 +1,28 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-02T13:45:18.893452Z",
+  "updatedAt": "2026-11-02T14:06:30.429964Z",
   "mods": [
+    {
+      "pkgId": "bluefish.stargod",
+      "name": "我就是星神",
+      "author": "蓝色大肥鱼",
+      "version": "1.0.3",
+      "versionCode": 103,
+      "brieflyDescribe": "300颗够吗？",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.stargod.tefpkg",
+      "downloadCount": 0,
+      "publishedAt": "2026-11-02T14:03:03.069829Z",
+      "fileSize": "574.5 KiB",
+      "sha256": "21be56c599cfebd6ce18a4dc8a373404a28e8ae0fbbf48539c21a9d8d9e97c6c",
+      "updateLog": ""
+    },
     {
       "pkgId": "moliy.fusionstone",
       "name": "聚变石",
@@ -1852,26 +1872,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "39.3 KiB",
       "sha256": "06bc1674848cd481045544c341271e5671470264675c2172d30c7cbe15de278a",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "bluefish.stargod",
-      "name": "我就是星神",
-      "author": "蓝色大肥鱼",
-      "version": "1.0.3",
-      "versionCode": 103,
-      "brieflyDescribe": "300颗够吗？",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.stargod.tefpkg",
-      "downloadCount": 0,
-      "publishedAt": "2026-11-02T14:03:03.069829Z",
-      "fileSize": "574.5 KiB",
-      "sha256": "21be56c599cfebd6ce18a4dc8a373404a28e8ae0fbbf48539c21a9d8d9e97c6c",
       "updateLog": ""
     }
   ]
