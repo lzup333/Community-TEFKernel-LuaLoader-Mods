@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-02T19:57:11.870594Z",
+  "updatedAt": "2026-11-02T23:54:29.607231Z",
   "mods": [
     {
       "pkgId": "bluefish.stargod",
@@ -9,7 +9,7 @@
       "author": "蓝色大肥鱼",
       "version": "1.0.3",
       "versionCode": 103,
-      "brieflyDescribe": "[新][下载量:3]\n300颗够吗？",
+      "brieflyDescribe": "[新][下载量:4]\n300颗够吗？",
       "features": [],
       "sizeCategory": "TINY",
       "stableVerified": false,
@@ -17,7 +17,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.stargod.tefpkg",
-      "downloadCount": 3,
+      "downloadCount": 4,
       "publishedAt": "2026-11-02T14:03:03.069829Z",
       "fileSize": "574.5 KiB",
       "sha256": "21be56c599cfebd6ce18a4dc8a373404a28e8ae0fbbf48539c21a9d8d9e97c6c",
@@ -29,7 +29,7 @@
       "author": "Moliy",
       "version": "1.0.1",
       "versionCode": 2,
-      "brieflyDescribe": "[新][下载量:2]\n闪亮石强化：再生上限 40 -> 4000 HP/s（四档档位可调），移动/受伤/用物品/流血都不再重置爬升。",
+      "brieflyDescribe": "[新][下载量:3]\n闪亮石强化：再生上限 40 -> 4000 HP/s（四档档位可调），移动/受伤/用物品/流血都不再重置爬升。",
       "features": [
         "MECHANICS_CHANGE",
         "QUALITY_OF_LIFE"
@@ -40,7 +40,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.fusionstone.tefpkg",
-      "downloadCount": 2,
+      "downloadCount": 3,
       "publishedAt": "2026-11-02T13:41:18.642701Z",
       "fileSize": "6.7 KiB",
       "sha256": "e87132b33ff416d84776a85d88292a6741a57ce273c922a3bf74e7769827a201",
@@ -52,7 +52,7 @@
       "author": "Moliy",
       "version": "1.0.0",
       "versionCode": 1,
-      "brieflyDescribe": "[新][下载量:0]\n翱翔之证强化：移动速度、跳跃速度、水平加速度各 1–50 倍可调，无限飞行与火箭靴无限可单独开关。",
+      "brieflyDescribe": "[新][下载量:1]\n翱翔之证强化：移动速度、跳跃速度、水平加速度各 1–50 倍可调，无限飞行与火箭靴无限可单独开关。",
       "features": [
         "MECHANICS_CHANGE",
         "QUALITY_OF_LIFE"
@@ -63,7 +63,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.soarersglory.tefpkg",
-      "downloadCount": 0,
+      "downloadCount": 1,
       "publishedAt": "2026-11-02T13:41:18.641386Z",
       "fileSize": "7.4 KiB",
       "sha256": "cd9da4528467b27d92dfdb722fc6d7df30161787b5bc4ea6874a91a4deebdc0c",
@@ -87,6 +87,26 @@
       "publishedAt": "2026-11-02T05:57:44.030142Z",
       "fileSize": "224.4 KiB",
       "sha256": "646239377ce9ff5bf5f41885b9a00f8615f5d875502aac9195ee0116bb7b1ddd",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "bluefish.arrowgod",
+      "name": "我就是箭神",
+      "author": "蓝色大肥鱼",
+      "version": "1.0.7",
+      "versionCode": 8,
+      "brieflyDescribe": "[新][下载量:2]\n鸟妖附身符系列强化",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": true,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.arrowgod.tefpkg",
+      "downloadCount": 2,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "274.7 KiB",
+      "sha256": "4e6bf69e08a765ab4fafcf4a950d0cb85f9346e630108cea705c7a1546b6ce3e",
       "updateLog": ""
     },
     {
@@ -195,23 +215,26 @@
       "updateLog": ""
     },
     {
-      "pkgId": "bluefish.arrowgod",
-      "name": "我就是箭神",
-      "author": "蓝色大肥鱼",
-      "version": "1.0.7",
-      "versionCode": 8,
-      "brieflyDescribe": "[新][下载量:1]\n鸟妖附身符系列强化",
-      "features": [],
+      "pkgId": "ailab.lua.itemforge",
+      "name": "属性工坊 (ItemForge)",
+      "author": "哇",
+      "version": "2.1.3",
+      "versionCode": 20261228,
+      "brieflyDescribe": "[新][下载量:1]\n属性工坊：73 项设置，按分类调整所有物品的使用速度、伤害、击退、暴击、体型、弹速、工具力、范围、堆叠上限/售价/稀有度等属性，只在物品创建时改写一次，游戏过程中零逐帧开销；v2.0.0 新增鞭子类跳过改写、使用时间下限、ID 白/黑名单、最高词缀、研究自动解锁、消耗品分类不消耗、启动自检与 /forge 诊断命令；并按 §9 强制规范整改聊天子系统 —— 聊天指令 chat_cmd 默认关闭（关闭时完全不碰任何 Chat 类型），聊天文本只从 SayChatCommand.ProcessIncomingMessage 读，源码里 ChatMessage 出现次数为 0；新增「粘贴导入设置串」import_string 作为默认的零聊天依赖导入通道（单机与客机都可用），导出始终落盘 forge_export.txt。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "UTILITY"
+      ],
       "sizeCategory": "TINY",
-      "stableVerified": true,
+      "stableVerified": false,
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.arrowgod.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.itemforge.tefpkg",
       "downloadCount": 1,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "274.7 KiB",
-      "sha256": "4e6bf69e08a765ab4fafcf4a950d0cb85f9346e630108cea705c7a1546b6ce3e",
+      "fileSize": "58.1 KiB",
+      "sha256": "9c4e11947d35a34a39472cf13546849f91160769085a5e0451eabdf36ff94011",
       "updateLog": ""
     },
     {
@@ -232,6 +255,46 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "58.7 KiB",
       "sha256": "a8651f9de53024abd3fa0ec4d085ef4fb5357b1b13107e3763c4c55324dc5b4f",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "bluefish.sentinelgod",
+      "name": "我就是哨兵神",
+      "author": "蓝色大肥鱼",
+      "version": "1.2.2",
+      "versionCode": 15,
+      "brieflyDescribe": "[新][下载量:1]\n投石索系列强化",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": true,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.sentinelgod.tefpkg",
+      "downloadCount": 1,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "582.6 KiB",
+      "sha256": "e8765f05ec57dd6fcab917b79434632956bd140a2e6b81506958279399dd4700",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "bluefish.synergystone",
+      "name": "我就是协击神",
+      "author": "蓝色大肥鱼",
+      "version": "1.0.2",
+      "versionCode": 3,
+      "brieflyDescribe": "[新][下载量:1]\n碎裂之石系列强化",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": true,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.synergystone.tefpkg",
+      "downloadCount": 1,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "588.4 KiB",
+      "sha256": "7664754693828e35a7e1530132ed80b036d8d8488f04a4a07efcd736b3945223",
       "updateLog": ""
     },
     {
@@ -340,6 +403,26 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "5.8 KiB",
       "sha256": "ab5c03f9219061c0c564b19de76d122344744e39456d41882023835471c94461",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "lua.weaponout.back",
+      "name": "武器背显 (WeaponOutBack)",
+      "author": "lzup",
+      "version": "1.0.1",
+      "versionCode": 20261008,
+      "brieflyDescribe": "[新][下载量:1]\n把角色手持的武器背在背上,",
+      "features": [],
+      "sizeCategory": "SMALL",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.weaponout.back.tefpkg",
+      "downloadCount": 1,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "6.2 KiB",
+      "sha256": "170dd52f2fd6e7055afda823107d88905fe64ac1747334e621f4322a95972aba",
       "updateLog": ""
     },
     {
@@ -463,6 +546,29 @@
       "updateLog": ""
     },
     {
+      "pkgId": "moliy.sporeparasite",
+      "name": "孢子寄生",
+      "author": "Moliy",
+      "version": "1.1.0",
+      "versionCode": 6,
+      "brieflyDescribe": "[新][下载量:1]\n孢子囊强化：弹幕移速最高 6 倍、孢子生产 1-50 倍、悬浮体上限 10-100",
+      "features": [
+        "UTILITY",
+        "QUALITY_OF_LIFE"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.sporeparasite.tefpkg",
+      "downloadCount": 1,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "6.4 KiB",
+      "sha256": "700c73a7f73f45d2f4219d9e2b57341cb2b0315451f93e9c4cbc610326d9b380",
+      "updateLog": ""
+    },
+    {
       "pkgId": "ring.lua.nolies",
       "name": "去泥🐴骗伤咳咳拒绝骗伤",
       "author": "ring",
@@ -569,29 +675,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "19.9 KiB",
       "sha256": "4b5b01464188183b504dc2cec7dce3415b41624680461dc4d8777d770ad5c318",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "ailab.lua.itemforge",
-      "name": "属性工坊 (ItemForge)",
-      "author": "哇",
-      "version": "2.1.3",
-      "versionCode": 20261228,
-      "brieflyDescribe": "[新][下载量:0]\n属性工坊：73 项设置，按分类调整所有物品的使用速度、伤害、击退、暴击、体型、弹速、工具力、范围、堆叠上限/售价/稀有度等属性，只在物品创建时改写一次，游戏过程中零逐帧开销；v2.0.0 新增鞭子类跳过改写、使用时间下限、ID 白/黑名单、最高词缀、研究自动解锁、消耗品分类不消耗、启动自检与 /forge 诊断命令；并按 §9 强制规范整改聊天子系统 —— 聊天指令 chat_cmd 默认关闭（关闭时完全不碰任何 Chat 类型），聊天文本只从 SayChatCommand.ProcessIncomingMessage 读，源码里 ChatMessage 出现次数为 0；新增「粘贴导入设置串」import_string 作为默认的零聊天依赖导入通道（单机与客机都可用），导出始终落盘 forge_export.txt。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "UTILITY"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.itemforge.tefpkg",
-      "downloadCount": 0,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "58.1 KiB",
-      "sha256": "9c4e11947d35a34a39472cf13546849f91160769085a5e0451eabdf36ff94011",
       "updateLog": ""
     },
     {
@@ -747,26 +830,6 @@
       "updateLog": ""
     },
     {
-      "pkgId": "bluefish.sentinelgod",
-      "name": "我就是哨兵神",
-      "author": "蓝色大肥鱼",
-      "version": "1.2.2",
-      "versionCode": 15,
-      "brieflyDescribe": "[新][下载量:0]\n投石索系列强化",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": true,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.sentinelgod.tefpkg",
-      "downloadCount": 0,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "582.6 KiB",
-      "sha256": "e8765f05ec57dd6fcab917b79434632956bd140a2e6b81506958279399dd4700",
-      "updateLog": ""
-    },
-    {
       "pkgId": "bluefish.skateboard",
       "name": "我的滑板鞋",
       "author": "MIMO",
@@ -804,26 +867,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "193.3 KiB",
       "sha256": "124761bad2c9abab0d5957e6469e8eaac83a388f15ecd1529ac1363e25b96e11",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "bluefish.synergystone",
-      "name": "我就是协击神",
-      "author": "蓝色大肥鱼",
-      "version": "1.0.2",
-      "versionCode": 3,
-      "brieflyDescribe": "[新][下载量:0]\n碎裂之石系列强化",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": true,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.synergystone.tefpkg",
-      "downloadCount": 0,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "588.4 KiB",
-      "sha256": "7664754693828e35a7e1530132ed80b036d8d8488f04a4a07efcd736b3945223",
       "updateLog": ""
     },
     {
@@ -1307,26 +1350,6 @@
       "updateLog": ""
     },
     {
-      "pkgId": "lua.weaponout.back",
-      "name": "武器背显 (WeaponOutBack)",
-      "author": "lzup",
-      "version": "1.0.1",
-      "versionCode": 20261008,
-      "brieflyDescribe": "[新][下载量:0]\n把角色手持的武器背在背上,",
-      "features": [],
-      "sizeCategory": "SMALL",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.weaponout.back.tefpkg",
-      "downloadCount": 0,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "6.2 KiB",
-      "sha256": "170dd52f2fd6e7055afda823107d88905fe64ac1747334e621f4322a95972aba",
-      "updateLog": ""
-    },
-    {
       "pkgId": "lzup.lua.alwaysdrown",
       "name": "永远溺水 (AlwaysDrown)",
       "author": "lzup333",
@@ -1786,29 +1809,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "4.5 KiB",
       "sha256": "2c12126539521b87e789517fa4230b93ac76941c65435cf40a8b604118827db9",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "moliy.sporeparasite",
-      "name": "孢子寄生",
-      "author": "Moliy",
-      "version": "1.1.0",
-      "versionCode": 6,
-      "brieflyDescribe": "[新][下载量:0]\n孢子囊强化：弹幕移速最高 6 倍、孢子生产 1-50 倍、悬浮体上限 10-100",
-      "features": [
-        "UTILITY",
-        "QUALITY_OF_LIFE"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.sporeparasite.tefpkg",
-      "downloadCount": 0,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "6.4 KiB",
-      "sha256": "700c73a7f73f45d2f4219d9e2b57341cb2b0315451f93e9c4cbc610326d9b380",
       "updateLog": ""
     },
     {
