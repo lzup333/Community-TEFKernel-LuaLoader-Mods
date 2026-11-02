@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "ghost": "true",
+    "obsidian": "true",
+    "terra": "true",
+    "blade": "true",
+    "typhoon": "true",
+    "phantasm": "true",
+    "holy": "true",
+    "unholy": "true",
+    "jester": "true",
+    "crystal": "true",
+    "chloro": "true"
+  }
+}

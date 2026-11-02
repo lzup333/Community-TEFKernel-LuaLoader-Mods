@@ -1,4 +1,4 @@
-mod.meta = { pkg_id = "bluefish.peakera", version = "5.0.0", version_code = 500, api_version = 1 }
+mod.meta = { pkg_id = "bluefish.peakera", version = "8.0.0", version_code = 800, api_version = 1 }
 -- 巅峰时代 / 作者：蓝色大肥鱼
 -- 力量又回来了
 -- ---------------------------------------------------------------------------
@@ -20,8 +20,65 @@ mod.meta = { pkg_id = "bluefish.peakera", version = "5.0.0", version_code = 500,
 
 local patch = mod.patch
 
+-- 【测试版专用】日志落盘到项目目录；正式版这里是空的
 -- 转正版：不写任何文件（日志实现留空，改回落盘只需恢复 logf 内部）
 local function logf(_) end
+
+-- ============ 模组设置 ============
+-- 开关由 TEFManager「模组设置」界面写入 Resources/config.json（schemaVersion:1 + values），
+-- 声明在 Info.json 的 settings 数组里。这里启动时读一次，覆盖下面的默认值。
+-- 读不到 / 解析失败 / 字段缺失 → 一律回落到默认值 true（默认全开）。
+local CFG = {
+    ghost     = true,   -- 幽灵套：吸血固定 10% + 无上限 + 不再降 40% 魔法伤害
+    obsidian  = true,   -- 黑曜石套：鞭范围/鞭速度/召唤伤害
+    terra     = true,   -- 泰拉刃：伤害 115 / 使用时间 14 / 攻速不打折
+    blade     = true,   -- 刃杖：取消 33% 标记伤害惩罚
+    typhoon   = true,   -- 利刃台风：伤害 90 / 使用时间 20 / 双发 / 3 秒
+    phantasm  = true,   -- 幻影弓：50 → 70
+    holy      = true,   -- 圣箭：神圣之星 100% 伤害 + 穿透 2
+    unholy    = true,   -- 邪箭：穿透后不衰减
+    jester    = true,   -- 小丑之箭：穿透后不衰减
+    crystal   = true,   -- 水晶子弹：3 个碎片
+    chloro    = true,   -- 叶绿弹：9 → 15
+}
+
+local function cfg_truthy(v)
+    if type(v) == "boolean" then return v end
+    if type(v) == "string" then return (v == "true" or v == "1") end
+    return nil
+end
+
+local function load_config()
+    local ok, text = pcall(function() return mod.read_file("config.json") end)
+    if not ok or not text then
+        logf("[cfg] config.json 读取失败，全部使用默认值（开）")
+        return
+    end
+    local okj, dkjson = pcall(require, "dkjson")
+    if not okj or type(dkjson) ~= "table" then
+        logf("[cfg] dkjson 不可用，全部使用默认值（开）")
+        return
+    end
+    local okp, raw = pcall(dkjson.decode, text)
+    if not okp or type(raw) ~= "table" or type(raw.values) ~= "table" then
+        logf("[cfg] config.json 解析失败，全部使用默认值（开）")
+        return
+    end
+    local v = raw.values
+    local okc, err = pcall(function()
+        for k in pairs(CFG) do
+            local val = cfg_truthy(v[k])
+            if val ~= nil then CFG[k] = val end
+        end
+    end)
+    if not okc then logf("[cfg] 应用配置异常: " .. tostring(err)) end
+    logf(string.format(
+        "[cfg] ghost=%s obs=%s terra=%s blade=%s typh=%s phant=%s holy=%s unholy=%s jester=%s crystal=%s chloro=%s",
+        tostring(CFG.ghost), tostring(CFG.obsidian),
+        tostring(CFG.terra), tostring(CFG.blade), tostring(CFG.typhoon),
+        tostring(CFG.phantasm), tostring(CFG.holy), tostring(CFG.unholy),
+        tostring(CFG.jester), tostring(CFG.crystal), tostring(CFG.chloro)))
+end
 
 -- ============ 常量 ============
 local GHOST_HEAL_RATE   = 0.10        -- 吸血比例固定 10%（原版 0.2 - numHits*0.05，打 5 下就没）
@@ -91,6 +148,19 @@ local TYPHOON_USE_TIME     = 20      -- 目标使用时间（同时用于 useAni
 local TYPHOON_TIMELEFT     = 540     -- 目标射弹 timeLeft（= 3 秒）
 local typhoon_proj_logged  = false
 
+-- ============ 圣箭（物品 516 / 箭矢射弹 91 / 神圣之星 92）============
+-- 2026-11-01 核实：移动版圣箭伤害与 PC 一致（都是 13），**伤害不需要改**。
+-- 只做两项：
+--   ① 星星伤害：Projectile.cs:76773-76777 在 Kill() 里
+--        int num673 = damage;  if (type == 91) num673 /= 3;   ← 只有圣箭才除以 3
+--      在 Kill 之前把圣箭的 damage ×3，整数除法后正好还原成原值（3d/3 = d，精确无误差）
+--      Kill() 内 type==91 的分支只在这一处用到 damage（其余分支互斥），无副作用
+--   ② 星星穿透：Projectile.cs:1682-1693  type 92 的 SetDefaults 里 penetrate = 1，只能打一个目标
+local HOLY_ARROW_PROJ    = 91
+local HOLY_STAR_PROJ     = 92
+local HOLY_STAR_PEN      = 2        -- 星星穿透 1 → 2（能打第二个目标）
+local holy_logged        = {}       -- 每类只记一次日志
+
 -- ============ 句柄 ============
 local T_Main, T_Player, T_Proj
 local f_proj_type, f_proj_damage, f_proj_timeleft
@@ -105,10 +175,18 @@ local m_get_selecteditem
 local f_item_usetime, f_item_useanimation
 local f_pl_ghostheal   -- 幽灵兜帽套装生效标志（由套装奖励置位）
 local f_pl_armor, f_item_type   -- 护甲数组（Item[20]）与物品 type 字段
-local f_main_gamemenu, f_main_players, f_myplayer
+local f_main_gamemenu, f_main_players, f_myplayer, f_main_proj
 local m_get_myplayer, m_newtext
 local m_get_gamemenu
 local m_newproj        -- Projectile.NewProjectile（静态方法，用于一次发多枚）
+local f_proj_penetrate -- 圣箭星星穿透用
+local f_proj_maxpen    -- 星星的 maxPenetrate 也要同步（SetDefaults 末行会写 maxPenetrate=penetrate，postfix 改 penetrate 追不上）
+local f_proj_pos       -- 水晶子弹补发碎片要读坐标
+local f_proj_vel       -- 同上，读速度
+local f_proj_owner     -- 同上，碎片要继承主人
+local m_proj_kill      -- Projectile.Kill()，圣箭死亡时生成星星
+local m_damage_pve     -- Projectile.Damage_PVE(ref Rectangle, float)，邪箭/小丑之箭穿透衰减
+local m_proj_src       -- Projectile.GetProjectileSource_FromThis()，补发碎片要 IEntitySource
 
 -- ============ 状态 ============
 local ready = false
@@ -207,6 +285,7 @@ end
 -- lifeSteal 只扣 1%，等效额度上限 ×100，即「无限制」
 local function ghost_heal_prefix(inst, args, result)
     if not ready or not inst then return false end
+    if not CFG.ghost then return false end   -- 开关关闭：完全交回原版
     local dmg = args and args[1]
     if type(dmg) ~= "number" or dmg <= 1 then return true end
     if not get_b(f_proj_magic, inst, false) then return true end
@@ -353,6 +432,59 @@ local function held_item(pl)
     return nil
 end
 
+-- ============ 幻影弓（物品 3540）============
+-- PC 1.4.5.8 Item.cs:31729 case 3540：damage = 50 / useTime 12 / shootSpeed 20 / shoot 630
+-- 与泰拉刃、利刃台风同一套做法：钩 GetWeaponDamage 按 70/50 缩放返回値，
+-- 词缀加成天然保留，不写任何物品数据。
+-- 注意：弓的最终伤害 = GetWeaponDamage(弓) + 弹药伤害（PickAmmo 里相加），
+-- 这里只放大「弓」的那一部分，弹药贡献不变，正是「弓的伤害 50→70」的本意。
+local PHANTASM_ID          = 3540
+local PHANTASM_DAMAGE      = 70      -- 目标伤害
+local PHANTASM_BASE_DAMAGE = 50      -- 原版伤害（缩放基准）
+local phantasm_logged      = false
+
+-- ============ 邪箭 / 小丑之箭：取消穿透后的伤害递减 ============
+-- PC 1.4.5.8 Projectile.cs:13560-13565，位置在 Damage_PVE_Inner 的 switch (type) 里：
+--     case 5:  damage = (int)((double)damage * 0.9);    ← 小丑之箭，穿透后 -10%
+--     case 4:  damage = (int)((double)damage * 0.95);   ← 邪箭，穿透后 -5%
+-- 这段是在「本次命中结算完之后」给下一次命中留的衰减值。
+--
+-- 做法：钩 Projectile.Damage_PVE(ref Rectangle, float) 的 prefix + postfix。
+--   prefix  —— 记下本次命中结算前的 damage（模块级标量，用完即清）
+--   postfix —— 把被衰减过的 damage 还原成刚记下的那个值
+-- 这样一次命中多个目标也能精确还原（d0 是整次调用的起点），
+-- 且不需要按槽位存状态，没有 whoAmI 复用和内存残留的问题。
+local ARROW_UNHOLY = 4
+local ARROW_JESTER = 5
+local pve_d0       = nil      -- 本次 Damage_PVE 调用前的伤害
+local arrow_logged = {}
+
+-- ============ 水晶子弹：碎片 2 → 3 ============
+-- PC 1.4.5.8 Projectile.cs:76802-76810，在 Kill() 的 else if (type == 89) 分支里：
+--     if (type == 89 && owner == Main.myPlayer)
+--         for (int num677 = 0; num677 < 2; num677++)      ← 固定 2 个
+--             NewProjectile(..., 90, (int)((double)damage * 0.5), 0f, owner);
+-- 做法：在 Kill 的 prefix 里先自己补发 1 个碎片（90），原版随后照发 2 个 → 共 3 个。
+-- 为什么放 prefix 不放 postfix：prefix 时射弹对象一定有效，能读 position / velocity / damage / owner；
+-- postfix 时对象可能已被回收，读字段会拿到垃圾值。
+-- 调的是 13 参重载（PC 只有 11 参与 13 参两个版本，原版这句走的就是 13 参）：
+--   (spawnSource, X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1, ai2, modifer)
+local CRYSTAL_BULLET_PROJ = 89
+local CRYSTAL_SHARD_PROJ  = 90
+local crystal_logged      = false
+local crystal_reenter     = false
+
+-- ============ 叶绿弹：伤害 9 → 15 ============
+-- 叶绿弹是「弹药」，物品 1179 / 射弹 207，Item.cs:14482 里 damage = 9。
+-- 弹药伤害在 PickAmmo 里是「加到武器伤害上」的（Player.cs:54196 Damage += ammo.damage × 倍率），
+-- 所以这里不能在 SetDefaults 里改模板（背包里的存量弹药不会重新 SetDefaults），
+-- 也不能在 NewProjectile 的 prefix 里改 args（args 是值拷贝，改了不生效）。
+-- 做法：钩 NewProjectile 的 postfix，拿到返回的射弹下标，直接改 Main.projectile[i].damage += 6。
+-- 这样「弹药贡献」正好从 9 变成 15，武器本身的伤害一点不动。
+local CHLORO_PROJ   = 207
+local CHLORO_ADD    = 6        -- 15 - 9
+local chloro_logged = false
+
 -- ① 伤害：钩 GetWeaponDamage 的返回值
 -- 原版 = (int)(item.damage × meleeDamage)，item.damage 里已经含了词缀加成，
 -- 所以乘一个固定比例 115/85，等于「词缀也按 115 这个新基准重算」，且一点数据都不动。
@@ -362,11 +494,19 @@ local function weapon_damage_postfix(inst, args, result)
     if not it then return nil end
     if type(result) ~= "number" or result <= 0 then return nil end
     local t = get_i(f_item_type, it, -1)
-    if t == TERRA_ID then
+    if CFG.terra and t == TERRA_ID then
         return math.floor(result * TERRA_DAMAGE / TERRA_BASE_DAMAGE + 0.5)
-    elseif t == TYPHOON_ITEM_ID then
+    elseif CFG.typhoon and t == TYPHOON_ITEM_ID then
         -- 利刃台风 85 → 90：同样按比例缩放，词缀加成天然保留
         return math.floor(result * TYPHOON_DAMAGE / TYPHOON_BASE_DAMAGE + 0.5)
+    elseif CFG.phantasm and t == PHANTASM_ID then
+        -- 幻影弓 50 → 70
+        local nv = math.floor(result * PHANTASM_DAMAGE / PHANTASM_BASE_DAMAGE + 0.5)
+        if not phantasm_logged then
+            phantasm_logged = true
+            logf(string.format("[phantasm] GetWeaponDamage %s → %s", tostring(result), tostring(nv)))
+        end
+        return nv
     end
     return nil
 end
@@ -380,7 +520,7 @@ local function itemcheck_prefix(inst)
     local itype = get_i(f_item_type, it, -1)
 
     -- 利刃台风：使用时间 40 → 20（同样是临时改、用完还原，不写物品数据）
-    if itype == TYPHOON_ITEM_ID then
+    if CFG.typhoon and itype == TYPHOON_ITEM_ID then
         local idx = get_i(f_pl_whoami, inst, -1)
         if idx < 0 then return false end
         local ut2 = get_i(f_item_usetime, it, -1)
@@ -396,7 +536,7 @@ local function itemcheck_prefix(inst)
         return false
     end
 
-    if itype ~= TERRA_ID then return false end
+    if not CFG.terra or itype ~= TERRA_ID then return false end
     local idx = get_i(f_pl_whoami, inst, -1)
     if idx < 0 then return false end
     local ut = get_i(f_item_usetime, it, -1)
@@ -455,6 +595,7 @@ local blade_fixed = false
 local blade_retry = 0
 
 local function fix_blade_multiplier()
+    if not CFG.blade then blade_fixed = true return end   -- 开关关闭：标记完成，不再重试
     if blade_fixed then return end
     local okT, T_PID = pcall(patch.get_type, "Terraria.ID", "ProjectileID")
     if not (okT and T_PID) then return end
@@ -486,6 +627,7 @@ end
 -- ============ 泰拉刃：把 BonusMeleeSpeedMultiplier[757] 写成 1.0 ============
 -- 与刃杖同一套机制（同为 float[] 静态数组），只是换了个类型和下标。
 local function fix_terra_speed()
+    if not CFG.terra then terra_speed_fixed = true return end   -- 开关关闭：标记完成，不再重试
     if terra_speed_fixed then return end
     local okT, T_IID = pcall(patch.get_type, "Terraria.ID", "ItemID")
     if not (okT and T_IID) then return end
@@ -540,7 +682,7 @@ local function do_update(pl)
     local spectre_hood = is_spectre_hood(pl)
     if spectre_hood then
         hood_miss = 0
-        restore_md(pl, "Update")
+        if CFG.ghost then restore_md(pl, "Update") end
     else
         -- 单帧判定失败可能只是数组读取抖动，连续 30 帧才算真的没穿
         hood_miss = hood_miss + 1
@@ -549,7 +691,7 @@ local function do_update(pl)
 
 
     -- ③ 黑曜石套：鞭范围 / 鞭速度 / 召唤伤害（Update 末尾再兜一次，保证同帧生效）
-    apply_obsidian(pl)
+    if CFG.obsidian then apply_obsidian(pl) end
 
     -- ④ 泰拉刃：万一某帧 ItemCheck 中途异常没走到还原，这里兜住，避免 14 被带进存档
     if next(terra_backup) ~= nil then
@@ -576,8 +718,8 @@ local function do_update(pl)
         blade_retry = blade_retry + 1
         if blade_retry >= 120 then
             blade_retry = 0
-            pcall(fix_blade_multiplier)
-            pcall(fix_terra_speed)
+            if CFG.blade then pcall(fix_blade_multiplier) end
+            if CFG.terra then pcall(fix_terra_speed) end
         end
     end
 
@@ -603,8 +745,8 @@ end
 -- ============ Hook: Player.UpdateArmorSets（套装奖励生效点，最可能在这里扣 0.4）============
 local function armorsets_postfix(inst, args, result)
     if not ready or not inst then return end
-    pcall(restore_md, inst, "UpdateArmorSets")
-    pcall(apply_obsidian, inst)
+    if CFG.ghost then pcall(restore_md, inst, "UpdateArmorSets") end
+    if CFG.obsidian then pcall(apply_obsidian, inst) end
 end
 
 local function update_postfix(inst, args, result)
@@ -617,17 +759,38 @@ local function update_postfix(inst, args, result)
     end
 end
 
--- ============ 利刃台风：射弹持续时间 300 → 540（= 3 秒）============
+-- ============ 射弹 SetDefaults：利刃台风持续时间 + 神圣之星穿透 ============
 -- 走 Projectile.SetDefaults(int Type) 的 postfix：此时 SetDefaults 刚跑完，
--- 而 NewProjectile 后续只设 position/owner/velocity/damage，不再碰 timeLeft，所以写完不会被覆盖。
+-- 而 NewProjectile 后续只设 position/owner/velocity/damage，不再碰 timeLeft / penetrate，写完不会被覆盖。
 local function proj_setdefaults_postfix(inst, args, result)
     if not ready or not inst then return end
     local ok, err = pcall(function()
-        if get_i(f_proj_type, inst, -1) ~= TYPHOON_PROJ_ID then return end
-        set_i(f_proj_timeleft, inst, TYPHOON_TIMELEFT)
-        if typhoon_proj_logged then return end
-        typhoon_proj_logged = true
-        logf("[typhoon] timeLeft → " .. tostring(get_i(f_proj_timeleft, inst, -1)))
+        local t = get_i(f_proj_type, inst, -1)
+
+        if CFG.typhoon and t == TYPHOON_PROJ_ID then
+            set_i(f_proj_timeleft, inst, TYPHOON_TIMELEFT)
+            if not typhoon_proj_logged then
+                typhoon_proj_logged = true
+                logf("[typhoon] timeLeft → " .. tostring(get_i(f_proj_timeleft, inst, -1)))
+            end
+            return
+        end
+
+        -- 神圣之星：penetrate 1 → 2，命中第一个目标后不消失，能打到第二个
+        -- 注意：SetDefaults 的最后一行是 maxPenetrate = penetrate，所以 maxPenetrate 现在还是 1，
+        -- 两个字段必须一起改，否则 maxPenetrate != penetrate 会让免疫/音效判定走偏。
+        if CFG.holy and t == HOLY_STAR_PROJ then
+            local old = get_i(f_proj_penetrate, inst, -1)
+            local oldMax = get_i(f_proj_maxpen, inst, -1)
+            set_i(f_proj_penetrate, inst, HOLY_STAR_PEN)
+            set_i(f_proj_maxpen, inst, HOLY_STAR_PEN)
+            if not holy_logged.pen then
+                holy_logged.pen = true
+                logf(string.format("[holy] star penetrate %s→%s  maxPenetrate %s→%s",
+                    tostring(old), tostring(get_i(f_proj_penetrate, inst, -1)),
+                    tostring(oldMax), tostring(get_i(f_proj_maxpen, inst, -1))))
+            end
+        end
     end)
     if not ok then logf("[typhoon] setdefaults err " .. tostring(err)) end
 end
@@ -644,7 +807,7 @@ local np_armed   = false     -- 首次遇到 409 只上膛，第二次起才多�
 local function newproj_prefix(inst, args, result)
     if np_reenter then return false end
     if not args or not m_newproj then return false end
-    if args[6] ~= TYPHOON_PROJ_ID then return false end
+    if not CFG.typhoon or args[6] ~= TYPHOON_PROJ_ID then return false end
 
     if not np_armed then
         np_armed = true
@@ -664,6 +827,132 @@ local function newproj_prefix(inst, args, result)
         args[10], args[11], args[12], args[13])
     np_reenter = false
     return false                           -- 放行原调用，原方法自己发第一枚
+end
+
+-- ============ 叶绿弹：伤害 9 → 15 ============
+-- NewProjectile 的 args 是值拷贝，prefix 里改 args[7] 不会影响原方法；
+-- 只能等它返回射弹下标后，从 Main.projectile[idx] 上直接改字段。
+-- 注意：内核不允许同一方法装两个钩子，所以这个 postfix 必须和利刃台风的 prefix
+-- 挂在同一个 hook(m_newproj, {...}) 调用里。
+local function newproj_postfix(inst, args, result)
+    if not ready or not f_main_proj or not f_proj_damage then return end
+    if not CFG.chloro or not args or args[6] ~= CHLORO_PROJ then return end
+    if type(result) ~= "number" or result < 0 then return end
+    pcall(function()
+        local arr = patch.get_field_value(f_main_proj, nil, "object")
+        if not arr then return end
+        local p = patch.array_at(arr, result)
+        if not p or not patch.is_valid(p) then return end
+        local d = get_i(f_proj_damage, p, -1)
+        if d and d > 0 then
+            set_i(f_proj_damage, p, d + CHLORO_ADD)
+            if not chloro_logged then
+                chloro_logged = true
+                logf(string.format("[chloro] proj idx=%s damage %s → %s",
+                    tostring(result), tostring(d), tostring(d + CHLORO_ADD)))
+            end
+        end
+    end)
+end
+
+-- ============ 水晶子弹：补发第 3 个碎片 ============
+-- 原版 Kill 里固定发 2 个碎片（type 90），这里在 Kill 之前先补 1 个 → 共 3 个。
+-- 速度算法照抄原版：vec = -velocity * rand(40,70)*0.01 + rand(-20,21)*0.4
+-- C# 的 Random.Next(min,max) 左闭右开，所以是 40~69、-20~20。
+local function crystal_extra_shard(inst)
+    if crystal_reenter then return end
+    if not (m_newproj and m_proj_src and f_proj_pos and f_proj_vel and f_proj_owner) then return end
+    crystal_reenter = true
+    local ok, err = pcall(function()
+        local px, py = patch.get_field_vec2(f_proj_pos, inst)
+        local vx, vy = patch.get_field_vec2(f_proj_vel, inst)
+        if type(px) ~= "number" or type(py) ~= "number"
+            or type(vx) ~= "number" or type(vy) ~= "number" then
+            logf("[crystal] vec2 read failed")
+            return
+        end
+        local d = get_i(f_proj_damage, inst, -1)
+        if d <= 0 then
+            logf("[crystal] damage invalid " .. tostring(d))
+            return
+        end
+        local ow = get_i(f_proj_owner, inst, -1)
+        local src = patch.invoke(m_proj_src, inst)
+        if not src then
+            logf("[crystal] source is nil")
+            return
+        end
+        local nx = -vx * (math.random(40, 69) * 0.01) + math.random(-20, 20) * 0.4
+        local ny = -vy * (math.random(40, 69) * 0.01) + math.random(-20, 20) * 0.4
+        local dmg = math.floor(d * 0.5)     -- 原版 (int)((double)damage * 0.5)
+        local ret = patch.invoke(m_newproj, src, px + nx, py + ny, nx, ny,
+            CRYSTAL_SHARD_PROJ, dmg, 0, ow, 0, 0, 0, nil)
+        if not crystal_logged then
+            crystal_logged = true
+            logf(string.format("[crystal] extra shard ret=%s pos=%.1f,%.1f vel=%.2f,%.2f dmg=%s owner=%s",
+                tostring(ret), px, py, nx, ny, tostring(dmg), tostring(ow)))
+        end
+    end)
+    crystal_reenter = false
+    if not ok then logf("[crystal] err " .. tostring(err)) end
+end
+
+-- ============ 圣箭：把「星星伤害 ÷3」还原成 100% ============
+-- Projectile.Kill() 里 type==91 的分支只有这一处用到 damage：
+--     int num673 = damage;  if (type == 91) { num673 /= 3; }
+--     NewProjectile(..., 92, num673, ...)
+-- 在 Kill 之前把圣箭的 damage ×3，整数除法后 num673 = 3d/3 = d，精确还原（无浮点误差）。
+-- 该分支与其它 type 分支互斥，不会影响别的弹幕；弹幕随后即被回收，不需要还原。
+local function proj_kill_prefix(inst, args, result)
+    if not ready or not inst then return false end
+    local ok = pcall(function()
+        local t = get_i(f_proj_type, inst, -1)
+        if CFG.holy and t == HOLY_ARROW_PROJ then
+            local d = get_i(f_proj_damage, inst, -1)
+            if d <= 0 then return end
+            set_i(f_proj_damage, inst, d * 3)
+            if not holy_logged.kill then
+                holy_logged.kill = true
+                logf("[holy] kill: arrow damage " .. tostring(d) .. " → " .. tostring(d * 3))
+            end
+        elseif CFG.crystal and t == CRYSTAL_BULLET_PROJ then
+            crystal_extra_shard(inst)
+        end
+    end)
+    if not ok then return false end
+    return false        -- 永远放行原方法
+end
+
+-- ============ 邪箭 / 小丑之箭：穿透后不衰减 ============
+local function pve_prefix(inst, args, result)
+    pve_d0 = nil
+    if not ready or not inst then return false end
+    local ok = pcall(function()
+        local t = get_i(f_proj_type, inst, -1)
+        local want = (CFG.unholy and t == ARROW_UNHOLY) or (CFG.jester and t == ARROW_JESTER)
+        if not want then return end
+        local d = get_i(f_proj_damage, inst, -1)
+        if d and d > 0 then pve_d0 = d end
+    end)
+    if not ok then pve_d0 = nil end
+    return false        -- 永远放行原方法
+end
+
+local function pve_postfix(inst, args, result)
+    if not pve_d0 then return end
+    local d0 = pve_d0
+    pve_d0 = nil        -- 用完即清，避免残留影响下一次
+    if not ready or not inst then return end
+    pcall(function()
+        local d = get_i(f_proj_damage, inst, -1)
+        if d and d > 0 and d ~= d0 then
+            set_i(f_proj_damage, inst, d0)
+            if not arrow_logged.pen then
+                arrow_logged.pen = true
+                logf(string.format("[arrow] pen-damage %s → restored %s", tostring(d), tostring(d0)))
+            end
+        end
+    end)
 end
 
 -- ============ 钩子安装 ============
@@ -686,6 +975,8 @@ end
 function setup()
     logf("=== setup " .. os.date("%H:%M:%S") .. " ===")
     logf("platform=" .. tostring(mod.platform))
+    -- 先读模组设置（config.json），后面的所有钩子回调都按 CFG 判断是否生效
+    pcall(load_config)
     T_Main   = patch.get_type("Terraria", "Main")
     T_Player = patch.get_type("Terraria", "Player")
     T_Proj   = patch.get_type("Terraria", "Projectile")
@@ -702,6 +993,11 @@ function setup()
     f_proj_magic    = find_field(T_Proj, "magic")
     f_proj_ai       = find_field(T_Proj, "ai")
     f_proj_alpha    = find_field(T_Proj, "alpha")
+    f_proj_penetrate = find_field(T_Proj, "penetrate")
+    f_proj_maxpen    = find_field(T_Proj, "maxPenetrate")
+    f_proj_pos       = find_field(T_Proj, "position")      -- 继承自 Entity
+    f_proj_vel       = find_field(T_Proj, "velocity")      -- 继承自 Entity
+    f_proj_owner     = find_field(T_Proj, "owner")
 
     f_pl_lifesteal   = find_field(T_Player, "lifeSteal")
     f_pl_magicdmg    = find_field(T_Player, "magicDamage")
@@ -737,6 +1033,7 @@ function setup()
 
     f_main_gamemenu = find_field(T_Main, "gameMenu")
     f_main_players  = find_field(T_Main, "player")
+    f_main_proj     = find_field(T_Main, "projectile")   -- Projectile[]，叶绿弹改伤害用
     f_myplayer      = find_field(T_Main, "myPlayer")
     if not f_myplayer then
         m_get_myplayer = patch.get_method(T_Main, "get_myPlayer", 0)
@@ -748,6 +1045,19 @@ function setup()
     m_newproj = patch.get_method(T_Proj, "NewProjectile", 13)
              or patch.get_method(T_Proj, "NewProjectile", 11)
     logf("[typhoon] NewProjectile = " .. tostring(m_newproj))
+
+    -- 圣箭用：Projectile.Kill() 无参
+    m_proj_kill = patch.get_method(T_Proj, "Kill", 0) or patch.get_method(T_Proj, "Kill")
+    logf("[holy] Projectile.Kill = " .. tostring(m_proj_kill))
+
+    -- 邪箭/小丑之箭用：Damage_PVE(ref Rectangle, float) —— 2 参（PE 源码核实）
+    m_damage_pve = patch.get_method(T_Proj, "Damage_PVE", 2) or patch.get_method(T_Proj, "Damage_PVE")
+    logf("[arrow] Projectile.Damage_PVE = " .. tostring(m_damage_pve))
+
+    -- 水晶子弹补发碎片用：GetProjectileSource_FromThis() —— 0 参，返回 IEntitySource
+    m_proj_src = patch.get_method(T_Proj, "GetProjectileSource_FromThis", 0)
+              or patch.get_method(T_Proj, "GetProjectileSource_FromThis")
+    logf("[crystal] GetProjectileSource_FromThis = " .. tostring(m_proj_src))
 
     -- gameMenu 在 PE 版是属性，补上 getter
     pcall(function()
@@ -793,9 +1103,15 @@ function setup()
         patch.get_method(T_Proj, "SetDefaults", 1) or patch.get_method(T_Proj, "SetDefaults"),
         { postfix = proj_setdefaults_postfix }, "Projectile.SetDefaults")
     local typhoon_b = hook(m_newproj,
-        { prefix = newproj_prefix }, "Projectile.NewProjectile")
-    logf(string.format("[typhoon] hooks: setdefaults=%s newproj=%s",
-        tostring(typhoon_a), tostring(typhoon_b)))
+        { prefix = newproj_prefix, postfix = newproj_postfix }, "Projectile.NewProjectile")
+    -- 圣箭：星星伤害还原（Kill 之前把圣箭 damage ×3）
+    local holy_k = hook(m_proj_kill,
+        { prefix = proj_kill_prefix }, "Projectile.Kill")
+    -- 邪箭 / 小丑之箭：穿透后伤害不递减
+    local arrow_h = hook(m_damage_pve,
+        { prefix = pve_prefix, postfix = pve_postfix }, "Projectile.Damage_PVE")
+    logf(string.format("[typhoon] hooks: setdefaults=%s newproj=%s | [holy] kill=%s | [arrow] pve=%s",
+        tostring(typhoon_a), tostring(typhoon_b), tostring(holy_k), tostring(arrow_h)))
 
     -- 泰拉刃：伤害（改返回值）+ 使用时间（临时改完还原）
     -- 两者分开判断：伤害钩子只要认得 Item.type 就能装，不依赖能不能取到手持物品
