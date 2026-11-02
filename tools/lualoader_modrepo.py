@@ -21,6 +21,8 @@ from typing import Iterable
 
 NATIVE_SUFFIXES = (".so", ".dll", ".dylib")
 PKG_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
+RELEASE_TAG = "mod-repository"
+RELEASE_BASE_URL = "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository"
 
 
 class PackageRejected(ValueError):
@@ -182,6 +184,10 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _format_size(size: int) -> str:
+    return f"{size / (1024 * 1024):.2f} MiB" if size >= 1024 * 1024 else f"{size / 1024:.1f} KiB"
+
+
 def _normalize_zip(source: Path, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(output.suffix + ".tmp")
@@ -195,6 +201,18 @@ def _normalize_zip(source: Path, output: Path) -> None:
             info.compress_type = zipfile.ZIP_DEFLATED
             info.external_attr = entry.external_attr
             target.writestr(info, source_zip.read(entry))
+    temporary.replace(output)
+
+
+def _normalize_directory(source: Path, output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = output.with_suffix(output.suffix + ".tmp")
+    with zipfile.ZipFile(temporary, "w", zipfile.ZIP_DEFLATED) as target:
+        for path in sorted(p for p in source.rglob("*") if p.is_file()):
+            name = _safe_name(path.relative_to(source).as_posix())
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            target.writestr(info, path.read_bytes())
     temporary.replace(output)
 
 
@@ -218,7 +236,6 @@ def _extract_package(source: Path, target: Path) -> None:
 def _candidate(repo: Path, pkg: PackageInfo) -> dict:
     dist = repo / "dist" / f"{pkg.pkg_id}.tefpkg"
     info = pkg.info
-    base_url = "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist"
     size = dist.stat().st_size if dist.exists() else 0
     return {
         "pkgId": pkg.pkg_id,
@@ -233,8 +250,9 @@ def _candidate(repo: Path, pkg: PackageInfo) -> dict:
         "experimental": bool(info.get("experimental", False)),
         "deprecated": bool(info.get("deprecated", False)),
         "iconUrl": "",
-        "downloadUrl": f"{base_url}/{pkg.pkg_id}.tefpkg",
-        "fileSize": f"{size / (1024 * 1024):.2f} MiB" if size >= 1024 * 1024 else f"{size / 1024:.1f} KiB",
+        "downloadUrl": f"{RELEASE_BASE_URL}/{pkg.pkg_id}.tefpkg",
+        "downloadCount": 0,
+        "fileSize": _format_size(size),
         "sha256": _sha256(dist) if dist.exists() else "",
         "updateLog": "",
     }
@@ -310,9 +328,28 @@ def import_packages(repo_dir: Path, inputs: Iterable[Path], *, interactive: bool
     return report
 
 
-def rebuild_index(repo_dir: Path) -> dict:
+def pack_packages(repo_dir: Path, output_dir: Path) -> list[Path]:
     repo = Path(repo_dir)
-    current = _load_index(repo)
+    output = Path(output_dir)
+    output.mkdir(parents=True, exist_ok=True)
+    assets = []
+    for info_path in sorted((repo / "packages").glob("*/Info.json")) if (repo / "packages").exists() else []:
+        pkg_id = json.loads(info_path.read_text(encoding="utf-8")).get("pkgId")
+        if not isinstance(pkg_id, str) or not PKG_ID_RE.fullmatch(pkg_id):
+            raise PackageRejected(f"invalid package id in {info_path}")
+        asset = output / f"{pkg_id}.tefpkg"
+        _normalize_directory(info_path.parent, asset)
+        assets.append(asset)
+    return assets
+
+
+def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
+                  asset_hashes: dict[str, str] | None = None,
+                  asset_sizes: dict[str, int] | None = None) -> dict:
+    repo = Path(repo_dir)
+    counts = download_counts or {}
+    hashes = asset_hashes or {}
+    sizes = asset_sizes or {}
     packages = []
     for info_path in sorted((repo / "packages").glob("*/Info.json")) if (repo / "packages").exists() else []:
         package_dir = info_path.parent
@@ -345,13 +382,15 @@ def rebuild_index(repo_dir: Path) -> dict:
                 "experimental": bool(info.get("experimental", False)),
                 "deprecated": bool(info.get("deprecated", False)),
                 "iconUrl": "",
-                "downloadUrl": f"https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/{pkg_id}.tefpkg",
-                "fileSize": f"{size / (1024 * 1024):.2f} MiB" if size >= 1024 * 1024 else f"{size / 1024:.1f} KiB",
-                "sha256": _sha256(dist) if dist.exists() else "",
+                "downloadUrl": f"{RELEASE_BASE_URL}/{pkg_id}.tefpkg",
+                "downloadCount": max(0, int(counts.get(pkg_id, 0))),
+                "fileSize": _format_size(sizes.get(pkg_id, size)),
+                "sha256": hashes.get(pkg_id, _sha256(dist) if dist.exists() else ""),
                 "updateLog": "",
             })
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
             continue
+    packages.sort(key=lambda item: (-item["downloadCount"], item["pkgId"]))
     result = {
         "loaderMinVersionCode": 37,
         "loaderMinVersion": "2.3.3",
@@ -375,6 +414,8 @@ def _parser() -> argparse.ArgumentParser:
     remove = sub.add_parser("remove")
     remove.add_argument("pkg_id")
     sub.add_parser("rebuild-index")
+    pack = sub.add_parser("pack")
+    pack.add_argument("output", type=Path)
     sync = sub.add_parser("sync-github")
     sync.add_argument("--remote-url", help="GitHub repository URL")
     sync.add_argument("--remote", default="origin")
@@ -444,6 +485,10 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "rebuild-index":
         rebuild_index(repo)
+        return 0
+    if args.command == "pack":
+        assets = pack_packages(repo, args.output.expanduser())
+        print("\n".join(str(asset) for asset in assets))
         return 0
     if args.command == "sync-github":
         try:

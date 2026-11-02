@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-02T04:14:36.883375Z",
+  "updatedAt": "2026-11-02T05:38:17.656719Z",
   "mods": [
     {
       "pkgId": "HvnT.lua.crimson",
@@ -16,7 +16,8 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/HvnT.lua.crimson.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/HvnT.lua.crimson.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.6 KiB",
       "sha256": "0669098be2d106bb4741dbc9d7d1a59d3338a4b1f164714b44d177cd925551bb",
       "updateLog": ""
@@ -34,9 +35,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/HvnT.lua.uihidden.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/HvnT.lua.uihidden.tefpkg",
+      "downloadCount": 0,
       "fileSize": "6.4 KiB",
-      "sha256": "2b75dd2ccd36f6f0bade3d8a42963ee04b29dba484556fe766980001a799cd7c",
+      "sha256": "1ebe90c5ac126420b58c04deb8dbc6324a5f00487a7dfc0783d752785bab719b",
       "updateLog": ""
     },
     {
@@ -55,7 +57,8 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/Omni.lua.more_slots.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/Omni.lua.more_slots.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.9 KiB",
       "sha256": "bb3dc2e12835aabb665df9f75cd904ee2fcbbcfbe8456369ee184a5db8a94957",
       "updateLog": ""
@@ -76,9 +79,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ailab.lua.buffstack.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.buffstack.tefpkg",
+      "downloadCount": 0,
       "fileSize": "64.5 KiB",
-      "sha256": "78205a819355673606cb216a0270bf9cd05cd661f2fd53391ae256f143bb9510",
+      "sha256": "08b2306beefdc687a5f2deb85ff44464266ebb429af2508539b90c28b6e53e36",
       "updateLog": ""
     },
     {
@@ -97,9 +101,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ailab.lua.guiforge.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.guiforge.tefpkg",
+      "downloadCount": 0,
       "fileSize": "19.9 KiB",
-      "sha256": "8b0169128ce91c1a0277a04d142c63663444bca3ac1d47d2ff5c0be6998f0789",
+      "sha256": "4b5b01464188183b504dc2cec7dce3415b41624680461dc4d8777d770ad5c318",
       "updateLog": ""
     },
     {
@@ -118,9 +123,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ailab.lua.itemforge.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.itemforge.tefpkg",
+      "downloadCount": 0,
       "fileSize": "58.1 KiB",
-      "sha256": "7c2d553e76b514fffed7b5d9fdc0847ae07bb6634d405056329759427b05a9b7",
+      "sha256": "9c4e11947d35a34a39472cf13546849f91160769085a5e0451eabdf36ff94011",
       "updateLog": ""
     },
     {
@@ -139,9 +145,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ailab.lua.omniwheel.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.omniwheel.tefpkg",
+      "downloadCount": 0,
       "fileSize": "29.3 KiB",
-      "sha256": "95471b42a634690304d7898c7628ab752d7b75e6da67505a4e4ec2e6f6c71bc7",
+      "sha256": "d977e0ca2d428ef8a37a205f721a124326b0c2ad01de7b3a600c3962c8931f84",
       "updateLog": ""
     },
     {
@@ -160,9 +167,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ailab.lua.playerforge.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.playerforge.tefpkg",
+      "downloadCount": 0,
       "fileSize": "77.8 KiB",
-      "sha256": "c08f1fbe7712d4a91b415da9465748aedfe025dc0c516c782a33260c439e0b6a",
+      "sha256": "564f4b6e9285b37dc98eaeefcc8e087a0bc24c4c9d059382f6688f87788e4105",
       "updateLog": ""
     },
     {
@@ -181,9 +189,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ailab.lua.projectileforge.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.projectileforge.tefpkg",
+      "downloadCount": 0,
       "fileSize": "80.2 KiB",
-      "sha256": "d5bcaaa8737690aff44efeb0d8e8ff2cdc9fed012a620050aa41069edc28c0dd",
+      "sha256": "103f358b76b55e5978c5c4390ca93eda213bf39d182fdc8377dc84444dba41dc",
       "updateLog": ""
     },
     {
@@ -202,9 +211,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ailab.lua.worldforge.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.worldforge.tefpkg",
+      "downloadCount": 0,
       "fileSize": "178.3 KiB",
-      "sha256": "e5260c8231de4b58adf65a59093c1200be59a89de804bdd6657874ebd4d13a3f",
+      "sha256": "ef52dc5acb6c738908a51625e13c7688a6a5a5b4fdb960224aacb1f7a4002eb0",
       "updateLog": ""
     },
     {
@@ -220,9 +230,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.arrowgod.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.arrowgod.tefpkg",
+      "downloadCount": 0,
       "fileSize": "274.7 KiB",
-      "sha256": "e278798a6b4ca6c1b8fbed63ae7198d250c39faa655aa0aa6d90f2675185d43c",
+      "sha256": "4e6bf69e08a765ab4fafcf4a950d0cb85f9346e630108cea705c7a1546b6ce3e",
       "updateLog": ""
     },
     {
@@ -238,9 +249,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.betterdps.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.betterdps.tefpkg",
+      "downloadCount": 0,
       "fileSize": "52.6 KiB",
-      "sha256": "8ff9d850e5e464693f44930f5024778ef387acd0a41bed92b3545ee389befd53",
+      "sha256": "819ff1e8abca579eaf76a2dcc457419faad22e3df3664b5d8bacd8c842f68551",
       "updateLog": ""
     },
     {
@@ -256,9 +268,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.buffdisplay.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.buffdisplay.tefpkg",
+      "downloadCount": 0,
       "fileSize": "58.7 KiB",
-      "sha256": "515e33e4ec0e699117025d16b6166f17dfb6f554214ddc2fcf7ed46011a4bf2d",
+      "sha256": "a8651f9de53024abd3fa0ec4d085ef4fb5357b1b13107e3763c4c55324dc5b4f",
       "updateLog": ""
     },
     {
@@ -274,9 +287,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.dotflow.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.dotflow.tefpkg",
+      "downloadCount": 0,
       "fileSize": "89.2 KiB",
-      "sha256": "34ca5bc96daee1bf0897717e644aa7d5fb3c23154c0de7619fe4f8088c3df26a",
+      "sha256": "988560c3d4efec5bb8774dd4a94c49633ddec64c7e3d6956b0f072ee69a9314a",
       "updateLog": ""
     },
     {
@@ -292,9 +306,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.lowhpwarn.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.lowhpwarn.tefpkg",
+      "downloadCount": 0,
       "fileSize": "146.7 KiB",
-      "sha256": "57778bc05bcab6d06d781e2a500b4b1dffaa1a938dc05bde41f2c17ec401c6a5",
+      "sha256": "8d471ea257e17326985973e3f52da5db01267951311d22a33b2cba3c255c1832",
       "updateLog": ""
     },
     {
@@ -310,7 +325,8 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.peakera.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.peakera.tefpkg",
+      "downloadCount": 0,
       "fileSize": "211.5 KiB",
       "sha256": "d48bbf4e5b78c09ab56dde671efb5aa7057a55e46f313f0b800a740c3dadc579",
       "updateLog": ""
@@ -328,9 +344,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.sentinelgod.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.sentinelgod.tefpkg",
+      "downloadCount": 0,
       "fileSize": "582.6 KiB",
-      "sha256": "f87de6e52cc0917128506b0586e3e65488e8866558a50d20f2939dbabfdf76a9",
+      "sha256": "e8765f05ec57dd6fcab917b79434632956bd140a2e6b81506958279399dd4700",
       "updateLog": ""
     },
     {
@@ -346,9 +363,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.skateboard.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.skateboard.tefpkg",
+      "downloadCount": 0,
       "fileSize": "428.6 KiB",
-      "sha256": "b99be60ebadb09d76a02d01d5fc7bbf8650970e99c2069d0312f81fd45e4692e",
+      "sha256": "a5959949b63aaf8eed3f8bcb96ec44def21932492f8d26023e76459d8f3cab44",
       "updateLog": ""
     },
     {
@@ -364,9 +382,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.snakewhip.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.snakewhip.tefpkg",
+      "downloadCount": 0,
       "fileSize": "193.3 KiB",
-      "sha256": "453ddaff04e407b9f290653cb7d2f06403501ef32cacc8e2517c051e61d385a9",
+      "sha256": "124761bad2c9abab0d5957e6469e8eaac83a388f15ecd1529ac1363e25b96e11",
       "updateLog": ""
     },
     {
@@ -382,9 +401,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/bluefish.synergystone.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.synergystone.tefpkg",
+      "downloadCount": 0,
       "fileSize": "588.4 KiB",
-      "sha256": "0f11726151ccdacb73ce1b1df863e2a3fd7f3d4ccb3730ba497fd2241f8e80a9",
+      "sha256": "7664754693828e35a7e1530132ed80b036d8d8488f04a4a07efcd736b3945223",
       "updateLog": ""
     },
     {
@@ -403,7 +423,8 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/celso.lua.dropchain.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/celso.lua.dropchain.tefpkg",
+      "downloadCount": 0,
       "fileSize": "7.8 KiB",
       "sha256": "455cf88142a1da23cdb95048a594272232f2dff5337d006040159d4f28ccc1ad",
       "updateLog": ""
@@ -424,9 +445,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/celso.lua.lucktuner.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/celso.lua.lucktuner.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.8 KiB",
-      "sha256": "4c3fdb510a3d76b0ed2602cb2177709d72fa1dcb8ca0705357b3c672ef109ef7",
+      "sha256": "c07f001b17173375bb828af37be3637c3815d021037d77791a0ddb012c476749",
       "updateLog": ""
     },
     {
@@ -445,9 +467,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/celso.lua.spawncontrol.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/celso.lua.spawncontrol.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.8 KiB",
-      "sha256": "42fa675fa04b988472b2f2b6a92cab0963a4335627b0178c5f6a47f1cb13b639",
+      "sha256": "1f8ad1bbc69845a573e78a34a355a3b655995803d28bfac7a3277454fe5657e7",
       "updateLog": ""
     },
     {
@@ -463,9 +486,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/eternal.future.reversebarrage.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/eternal.future.reversebarrage.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.5 KiB",
-      "sha256": "1a0ec7e49ac0e18857e3f5677c1d2b15c41cf202f4d7fbdee16efd6760d81de5",
+      "sha256": "ce91d6c16d08730c4a3ab9177344e87ce4d7f1ca7a0295f18006a87377891689",
       "updateLog": ""
     },
     {
@@ -481,9 +505,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/jingjing.lua.whale.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/jingjing.lua.whale.tefpkg",
+      "downloadCount": 0,
       "fileSize": "17.4 KiB",
-      "sha256": "bb50911a56036a82e4eba2f8076863f40eba132f4879352fb63116d133146970",
+      "sha256": "9d2a807e89828d0600c914dfe24a6e4aa4e38b18a266a021d9e0a2081a1957af",
       "updateLog": ""
     },
     {
@@ -499,9 +524,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.adventurejournal.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.adventurejournal.tefpkg",
+      "downloadCount": 0,
       "fileSize": "22.4 KiB",
-      "sha256": "61e5f455f1c5fe58a88c8b932de1c0f2328534d45bc71f13a829651d8cbca1bd",
+      "sha256": "de3c9e7a26dcd2e6e188300da4bc46700631c4831b1940b5f2cd6c385e94eac5",
       "updateLog": ""
     },
     {
@@ -520,7 +546,8 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.bossdirectionhint.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.bossdirectionhint.tefpkg",
+      "downloadCount": 0,
       "fileSize": "144.6 KiB",
       "sha256": "ff75072169dbb7b2129cd82bc08e25ab9c81cbf96e734f975bcd110572c10f04",
       "updateLog": ""
@@ -538,9 +565,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.burst.effects.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.burst.effects.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.8 KiB",
-      "sha256": "5e53cc98350db5f6f704ac9fe1bddc5c654750282c7c0f4ca995c11dd02db18a",
+      "sha256": "1ac9156a52ab67ad09c9b53a05670ff99458bdd88f11f6f6eec28e7b8eb9312d",
       "updateLog": ""
     },
     {
@@ -558,9 +586,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.instant.housing.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.instant.housing.tefpkg",
+      "downloadCount": 0,
       "fileSize": "168.8 KiB",
-      "sha256": "8d72dc2be7c7fba6fb33d4a952d19d4c889562f5aab762c21a50f7e8ff284f5f",
+      "sha256": "b36840a41463cb0315d1eb2b6271a3828d92904889406462e7c0d73e38c61782",
       "updateLog": ""
     },
     {
@@ -576,9 +605,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.lua.betterzoom.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.betterzoom.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.6 KiB",
-      "sha256": "81de277590df686dc1cf336109986c7b6ab3c6a8e151e73fb3d4e83f37e75782",
+      "sha256": "b1ad07ce8de6213ca9a4af5a8c413e719bd484df2df71e5f08d08cd4d2da7775",
       "updateLog": ""
     },
     {
@@ -597,9 +627,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.lua.bosschecklist.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.bosschecklist.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.64 MiB",
-      "sha256": "313fe6abd04f4fdec02ad9fb76b83548ea2f02f416a2f975b752012d171e3099",
+      "sha256": "bbcacb7205fb5c4b1425d3cd8812ccf489c0075c9e09e47c67273c6c72348338",
       "updateLog": ""
     },
     {
@@ -615,9 +646,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.lua.mapteleport.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.mapteleport.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.7 KiB",
-      "sha256": "6a42770376680609a0bc2321a38824a5e75038d417aaca3596e5534f89714fb5",
+      "sha256": "83a24239e1d276f754d8ee54c451ab10f314a6d9251dc3bb82343a012c89118f",
       "updateLog": ""
     },
     {
@@ -636,9 +668,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.lua.recipebook.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.recipebook.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.86 MiB",
-      "sha256": "65a343de1a896a5b3471a7e2213aa4ab28661296f99346a120f76f188e358b67",
+      "sha256": "1f272bcbb5af3f6e19e38c5184864892e7ea602f38777100516bfc4e54bc8bd4",
       "updateLog": ""
     },
     {
@@ -656,9 +689,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.monstermorph.probe.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.monstermorph.probe.tefpkg",
+      "downloadCount": 0,
       "fileSize": "1.86 MiB",
-      "sha256": "b64095b68c205e6d824955bfa29cc7bc03b2a7f4e28c9870e2b397a759b63fdf",
+      "sha256": "842be34addfc6b8ecb1631aca6a8e9456c6ac5a546e3e368c527edf74bbb374f",
       "updateLog": ""
     },
     {
@@ -677,9 +711,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.originrewrite.lua.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.originrewrite.lua.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.07 MiB",
-      "sha256": "ef8f993a6126f10d982d17cdff8259ce4b3f10b9e22bdc23cff91bde9bd5d4d4",
+      "sha256": "ae578b500eea102a0bd7e44d201ed68d187ce0cf6d301d05812c86b9c2ba1bfe",
       "updateLog": ""
     },
     {
@@ -698,9 +733,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/liuxin.weapon_growth.lua.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.weapon_growth.lua.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.49 MiB",
-      "sha256": "7cc141f60a2d62198de82ade15cfebf046b50588b89af6badc6585e07e7c08b1",
+      "sha256": "1f32216842cfdd72c5093b6499823aa26af1f01e035c45cb0984259046c26935",
       "updateLog": ""
     },
     {
@@ -716,9 +752,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.bluefish.jumproll.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.bluefish.jumproll.tefpkg",
+      "downloadCount": 0,
       "fileSize": "329.3 KiB",
-      "sha256": "ca16e7c04d5bb9d89d707705bd810d97492512fafe17b23cdf3babf0790390b3",
+      "sha256": "c7fe1a1bb5c5534e43cd9c3ce1b3318f1f3928465cedf4538af5ba38caedb2c9",
       "updateLog": ""
     },
     {
@@ -734,7 +771,8 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.example.dailymechants.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.example.dailymechants.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.6 KiB",
       "sha256": "7489e4fa01c5143f50595a5b9722d01a78a818c89299bbaabb87b88ea60bb56d",
       "updateLog": ""
@@ -752,9 +790,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.autofurniture.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.autofurniture.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.8 KiB",
-      "sha256": "53ddda74a2e0c5e450af2faebe8a27a291bc291dde3b55bc1c544fe7c11d3584",
+      "sha256": "9f934c07bb05fc03d7432352add896cd4fefea96daf0d05fd1b8a754d8711e77",
       "updateLog": ""
     },
     {
@@ -770,9 +809,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.betterexperience.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.betterexperience.tefpkg",
+      "downloadCount": 0,
       "fileSize": "28.0 KiB",
-      "sha256": "d47997df541f234a1a5eb7e5f041be0fb308706c7094b9c46181db5b595409f4",
+      "sha256": "bc5bc92b2ba6a6e34874c29552661f3a3412a8a2933539b7fb2b3274b422f190",
       "updateLog": ""
     },
     {
@@ -788,9 +828,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.craftstation.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.craftstation.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.2 KiB",
-      "sha256": "dd20ff2d5a8ab50e8722892a20ddc69fb483a2f5539e6ee39fc882cff8abb1a4",
+      "sha256": "a56febaa19929e432a968a3ea0c12662a4a873d1dd77b937f5ebdabf35a0c63e",
       "updateLog": ""
     },
     {
@@ -806,9 +847,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.crashfix.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.crashfix.tefpkg",
+      "downloadCount": 0,
       "fileSize": "1.4 KiB",
-      "sha256": "1b5b695ba012d967a54dd0368bdbb8679363deca254b04abca919bafdfdfc2d3",
+      "sha256": "4a03c583a4ab23c13d2862cea5b051baf6e058b01627e3b909cdd83f5036a8f6",
       "updateLog": ""
     },
     {
@@ -824,9 +866,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.crashprobe.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.crashprobe.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.4 KiB",
-      "sha256": "7ee32ec952de92bbac311f93866af73b6340b11fe35830d7306fb42b53dc2963",
+      "sha256": "a293543a1b4988d9a4e3b2b7f2d57126084484f5d0efc84f1cf3719b970db321",
       "updateLog": ""
     },
     {
@@ -842,9 +885,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.dmgprobe.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.dmgprobe.tefpkg",
+      "downloadCount": 0,
       "fileSize": "15.4 KiB",
-      "sha256": "a88e822f128d8e9b6084d18c0b562c7638b407ab8b00ee0bb82275e3475c3fb9",
+      "sha256": "a2f4a0633fd9d8a0df60766089f4607db27e19345024f0ad57f5dd3bfe1fde18",
       "updateLog": ""
     },
     {
@@ -860,9 +904,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.eatworld.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.eatworld.tefpkg",
+      "downloadCount": 0,
       "fileSize": "7.9 KiB",
-      "sha256": "6aaa236376f392d85697bf41dfa284ce748b12aac94bce5d2f41ba5dd6833367",
+      "sha256": "5de8c67df06af76630dba8ae82b67881e61176717b6dba8404237fb9b6b1ebc3",
       "updateLog": ""
     },
     {
@@ -878,9 +923,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.motionplus.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.motionplus.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.8 KiB",
-      "sha256": "7942251f8a577146eeea360c97f83b5cac83dda096f20b054f5fe1a48cdb2e99",
+      "sha256": "ab5c03f9219061c0c564b19de76d122344744e39456d41882023835471c94461",
       "updateLog": ""
     },
     {
@@ -896,9 +942,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.npchome.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.npchome.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.4 KiB",
-      "sha256": "65c59819ffff770edc192223923b10ae10430884a3cfd01aac9b9589740ed419",
+      "sha256": "b734508a9e0c5a741691c75fe11d1dc3a288b719e5a5b1005cd3cc7d0374b0db",
       "updateLog": ""
     },
     {
@@ -914,9 +961,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.pylon.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.pylon.tefpkg",
+      "downloadCount": 0,
       "fileSize": "1.6 KiB",
-      "sha256": "d6c19d30cbc09e41bbcfd31e0c31743a6663b508665873d1837e9e98671007e5",
+      "sha256": "cada1b91cae1ed27ab5d4161c251b88796c6f4564bdef8684fd74b517cce4d12",
       "updateLog": ""
     },
     {
@@ -932,9 +980,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.randdrop.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.randdrop.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.3 KiB",
-      "sha256": "376c19363dca84454d28125ca5041a8eca5a349f6807f5d0fb3b2cdcd4745141",
+      "sha256": "ea6e4caa0b12a788e6d202cbfaaa96a3dfe440c4878c40248beb088325061ff8",
       "updateLog": ""
     },
     {
@@ -950,9 +999,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.qing.reforge.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.reforge.tefpkg",
+      "downloadCount": 0,
       "fileSize": "11.2 KiB",
-      "sha256": "854251479b73910ce0110ed768ce5bef76d3b9b834091f2d291870504e6fca9a",
+      "sha256": "c81d6f3a4156a78b894f75726ba1784e042b8c36cc6531d13c48f85e3996117f",
       "updateLog": ""
     },
     {
@@ -968,9 +1018,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lua.weaponout.back.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.weaponout.back.tefpkg",
+      "downloadCount": 0,
       "fileSize": "6.2 KiB",
-      "sha256": "b572cfb09769f14d511842048ffbfc493d8e1b9cc3f6c0bbe71424e8045ea733",
+      "sha256": "170dd52f2fd6e7055afda823107d88905fe64ac1747334e621f4322a95972aba",
       "updateLog": ""
     },
     {
@@ -986,9 +1037,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.alwaysdrown.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.alwaysdrown.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.9 KiB",
-      "sha256": "a8de8824c36e6be6813a897d2bbd9e0ad7f6f821f4fe18fa1acc2ea70eadba3c",
+      "sha256": "bf0ce42979dca9250f5557ffba82634516699bdb58ec7cd9dce2b9b6e9906902",
       "updateLog": ""
     },
     {
@@ -1004,9 +1056,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.autofisher.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.autofisher.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.4 KiB",
-      "sha256": "c212e65b5c21d4f5b257330bd33470a7b95d63f4676a93c9437dbb1b54afe3cf",
+      "sha256": "2344e65f56c9c45bdb6afe6ce35f875b05186058ef2b2b0fc2034ad8df7cff29",
       "updateLog": ""
     },
     {
@@ -1022,9 +1075,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.back.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.back.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.1 KiB",
-      "sha256": "84a9dfc8b7efd2470a717a5f0f31e0cfbad2e3e142e084947bd1e140cd8a61d4",
+      "sha256": "c46c055ef8f5684dc1ef230619eab1cbc072f04ed74a2cf2dfe5e93d8b42e026",
       "updateLog": ""
     },
     {
@@ -1040,9 +1094,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.backpack.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.backpack.tefpkg",
+      "downloadCount": 0,
       "fileSize": "7.9 KiB",
-      "sha256": "b6886da76ada98e7abbc6b3a7adf192abc874bc42faff28c6ff2ee2a343b54bf",
+      "sha256": "15d15dc731cad97aaaa491bbe73719a2821c5699087c12b53d153a1ddfe868c4",
       "updateLog": ""
     },
     {
@@ -1058,9 +1113,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.chaosgen.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.chaosgen.tefpkg",
+      "downloadCount": 0,
       "fileSize": "6.7 KiB",
-      "sha256": "258f1347af0e31943846fe837a1c8a2852ef1c8b1dfc0b63872235e8cab329af",
+      "sha256": "7cb4fa462cd189567804318bb7fdd8699e4219230310dbcfb5e017771c114724",
       "updateLog": ""
     },
     {
@@ -1078,7 +1134,8 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.chatcommands.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.chatcommands.tefpkg",
+      "downloadCount": 0,
       "fileSize": "103.0 KiB",
       "sha256": "fbebbf7d595f6efb4e36fe3b19eecf8be1a73641c5c3b721ffd1e2bc4837a259",
       "updateLog": ""
@@ -1096,9 +1153,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.combatpets.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.combatpets.tefpkg",
+      "downloadCount": 0,
       "fileSize": "8.8 KiB",
-      "sha256": "080839505b5a2dba20e1772e73d2b065426c1e9972207ab09d5a918ed4b59cb8",
+      "sha256": "05036cbcd010e06337cae7c6843ca4eef75b4ae0b8eaa816219093dad7df71a0",
       "updateLog": ""
     },
     {
@@ -1114,9 +1172,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.creativemenu.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.creativemenu.tefpkg",
+      "downloadCount": 0,
       "fileSize": "53.7 KiB",
-      "sha256": "f38f3f624c6edbc73017178ff2a4cdae492d5a06694a2a95aa7ac62873cdb19e",
+      "sha256": "6804fff996a36705693308be148957f71459b9173fc6fe5b74aaddb3bcc3543a",
       "updateLog": ""
     },
     {
@@ -1132,9 +1191,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.forgottenitem.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.forgottenitem.tefpkg",
+      "downloadCount": 0,
       "fileSize": "6.9 KiB",
-      "sha256": "b4be14a6aca17aabe42389c37ce6382e51484ceeb1c5336b58d53408ef963d68",
+      "sha256": "49976ec9aa6e7327c1209f028354970844e91e9ab229701d9b7db2b621e521d4",
       "updateLog": ""
     },
     {
@@ -1150,9 +1210,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.freecraft.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.freecraft.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.1 KiB",
-      "sha256": "c91d3e5d93dc3e990bffb61745064a7f81f262080b6b91b640875d8e1390968c",
+      "sha256": "1b901a7bd085829d0f6878ca0d2a4f64c5c84958382c536b0884dab94439b44e",
       "updateLog": ""
     },
     {
@@ -1168,9 +1229,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.gravitynoflip.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.gravitynoflip.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.1 KiB",
-      "sha256": "1c70f8b346e1dc679e41b3c482c22d9d732e03e60799ecf8d722ebd99f8b29d8",
+      "sha256": "822193aed29b7404509f42c39d8b7998c9a9659b204a69020fc952caad836cc9",
       "updateLog": ""
     },
     {
@@ -1186,9 +1248,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.healthlock.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.healthlock.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.1 KiB",
-      "sha256": "7f65a3834551f906537b82bdcc7b4ff9e64f3851d725bd39dfe30ac264d3dd07",
+      "sha256": "957859a3440e099abaea183d44378b139926883fcd9af8c95f632cff03ff7b0f",
       "updateLog": ""
     },
     {
@@ -1204,9 +1267,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.homingprojectile.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.homingprojectile.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.8 KiB",
-      "sha256": "4aad6353f9cf605457953f2db880224b2ec60954d5e879de94d829820c57fa59",
+      "sha256": "22a190e883165129ac1a50dfe6330a7d8641e0abdaa5a19845ff5579933fb35c",
       "updateLog": ""
     },
     {
@@ -1222,9 +1286,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.housewand.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.housewand.tefpkg",
+      "downloadCount": 0,
       "fileSize": "30.2 KiB",
-      "sha256": "ab5d98926a827e9a6b2eeefb35859495836d09157aa22ff576adce9ef4ec3faf",
+      "sha256": "7b2033d536f9333ac1dd93a13dd06feae70808b254de8d02a89de76d5d5f3c98",
       "updateLog": ""
     },
     {
@@ -1240,9 +1305,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.lightpenetration.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.lightpenetration.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.0 KiB",
-      "sha256": "56e8e3da4e7bb7b4d3a6ec9a2282d3169690879dab75fd5d584bd830c2e60167",
+      "sha256": "920be46a5d3424196dc93dc91ce23272ee1d25c60583d1553f4df339f9a7e4ee",
       "updateLog": ""
     },
     {
@@ -1258,9 +1324,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.manalock.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.manalock.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.7 KiB",
-      "sha256": "5df0fcb2992695b16dd07176abe800045720c0ab29ec2a4b0f9d9aaef52d131c",
+      "sha256": "9f5b0c63f814058fb952a73e3a3e0f801fa6dc798ccf67bb6f161cae85c18f7b",
       "updateLog": ""
     },
     {
@@ -1276,9 +1343,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.multiprojectile.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.multiprojectile.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.6 KiB",
-      "sha256": "ab565ce825fdb6cd3889b5d22fa270dfa1fd481244adc8fa41994df78a7e2f4c",
+      "sha256": "d7b528f42dc96e31ef053b90a1d50890cffddc2ff93d94d88c68479568f4f1b7",
       "updateLog": ""
     },
     {
@@ -1294,9 +1362,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.nightvision.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.nightvision.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.0 KiB",
-      "sha256": "06a261571e8da1f3722fa18e3e241444ffd51bdac19bf6e090bfc167ff2621d1",
+      "sha256": "5bb5af82b806478cf54b141b013bd3f83dec695d834ed23650a15eeefcd2130a",
       "updateLog": ""
     },
     {
@@ -1312,9 +1381,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.platformwand.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.platformwand.tefpkg",
+      "downloadCount": 0,
       "fileSize": "25.1 KiB",
-      "sha256": "1656bc81b8e60a1dca20351b825e2fab156d2e3879ce47cffb81598557dea240",
+      "sha256": "c0971fd4174258f40815db95096e44c1ac8c91dd9bc09944d21a714a4fed0656",
       "updateLog": ""
     },
     {
@@ -1330,9 +1400,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.pocketgear.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.pocketgear.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.6 KiB",
-      "sha256": "ec41684d89e6dd519beb1316ad218721b9335478cc46113d1e039d443851cd2e",
+      "sha256": "05e4623ea6ba50a791bb059537e66c6123190c7768b2fc3b3c9ace940b6fd78b",
       "updateLog": ""
     },
     {
@@ -1348,9 +1419,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.random_damage.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.random_damage.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.1 KiB",
-      "sha256": "b74d92d411056bade5aee8b685c0a243556d82a70a38ba9d32e1907af3984611",
+      "sha256": "8faee614e8b7c1b5a472147eef8f3ce887cc7551fbfe20af842476cbcaa71f8a",
       "updateLog": ""
     },
     {
@@ -1366,9 +1438,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.randomcraft.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.randomcraft.tefpkg",
+      "downloadCount": 0,
       "fileSize": "5.1 KiB",
-      "sha256": "c0af2db8d08eabf5c3ddf5f4dae2584a5f06ec3e72da2eb02afbffee3a6c2d5a",
+      "sha256": "8015c60f592a45755661f7d97987b2da46af1c0be909c39571c7ebe25fc00077",
       "updateLog": ""
     },
     {
@@ -1384,9 +1457,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.randomloot.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.randomloot.tefpkg",
+      "downloadCount": 0,
       "fileSize": "3.7 KiB",
-      "sha256": "921c878aba8ac2853d57831a5dda2813c2a7dbfec37a22bad0e8b6608cb1e755",
+      "sha256": "b38695a8c1701271290c0c0295205de363949d7e650ba796dce5492877a16f9d",
       "updateLog": ""
     },
     {
@@ -1402,9 +1476,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.starfall.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.starfall.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.0 KiB",
-      "sha256": "e6046d8993144d23713c598fcff4f3863f1f8da0c98fd089ff28ab2089b31f06",
+      "sha256": "565537a46b3eed8675fb77f7ba9164258725694b586a899cc8aef71d79dc5795",
       "updateLog": ""
     },
     {
@@ -1420,9 +1495,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.vampire.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.vampire.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.1 KiB",
-      "sha256": "7c25b761d3b84ddd884529280b83150ca82360d9e26784b994d6b51321de650d",
+      "sha256": "b1ef296e90cd0f2c61057dfd80a440d083b8407e677f5c28b7d53416b936974b",
       "updateLog": ""
     },
     {
@@ -1438,9 +1514,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.veinminer.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.veinminer.tefpkg",
+      "downloadCount": 0,
       "fileSize": "13.8 KiB",
-      "sha256": "272589017b660eab6ca1b091e36bb832ebc0cead825368bff8225f5d49d84db8",
+      "sha256": "bf25374c324131c819722adc553430b8cba9978313b5d4029ef929bfe8be5e4b",
       "updateLog": ""
     },
     {
@@ -1456,9 +1533,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.voluntaryhook.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.voluntaryhook.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.5 KiB",
-      "sha256": "f3e105c240654d8c48ab55383ca1ad6fb7ea7ac7cfe28136b39c523816d55b15",
+      "sha256": "fe392d7187ba147dfe17fff4b8f22b4ac74ddee25f6001079d501462a2b0e267",
       "updateLog": ""
     },
     {
@@ -1474,9 +1552,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.lua.zakodeath.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.zakodeath.tefpkg",
+      "downloadCount": 0,
       "fileSize": "2.5 KiB",
-      "sha256": "4c98ef5f34cc5c3a6d56c68d485ce9f012daaa443e95cbf8e1f1a0051b262bfa",
+      "sha256": "6b87cb8bb60c3965a5368fd7a5178bbfba874bbd17643c25389b3bfff89eb800",
       "updateLog": ""
     },
     {
@@ -1492,9 +1571,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.moreweapons.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.moreweapons.tefpkg",
+      "downloadCount": 0,
       "fileSize": "13.6 KiB",
-      "sha256": "f58c2fe4330ec6718c9c17421098e62de098f6a947cdb73855c15ce96c41954c",
+      "sha256": "0ad1c83cfbaf9df86d4b6f2be1ab68ec05a96cbb6ce5fc8163186386d5761c1e",
       "updateLog": ""
     },
     {
@@ -1510,9 +1590,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.murasama.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.murasama.tefpkg",
+      "downloadCount": 0,
       "fileSize": "94.6 KiB",
-      "sha256": "a54047e6ef7c69c6b979b9e329a67bb64841ba4d6ac15941a1c19fab3b3e119a",
+      "sha256": "6326c65f90627aa6e18295a55f481c5dc359802ff64ccba6301aa10dfabc6684",
       "updateLog": ""
     },
     {
@@ -1528,9 +1609,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/lzup.qing.motionplus.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.qing.motionplus.tefpkg",
+      "downloadCount": 0,
       "fileSize": "4.5 KiB",
-      "sha256": "bfa9d5cca57ce09eca9d86d980382357e50cd3f9431b0fef14fb9a2e6f0dfca4",
+      "sha256": "2c12126539521b87e789517fa4230b93ac76941c65435cf40a8b604118827db9",
       "updateLog": ""
     },
     {
@@ -1549,9 +1631,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/moliy.sporeparasite.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.sporeparasite.tefpkg",
+      "downloadCount": 0,
       "fileSize": "6.4 KiB",
-      "sha256": "f14e35969e8009af3a75887e3d846070bcf02a7044077993cb0ac85e983bc7c0",
+      "sha256": "700c73a7f73f45d2f4219d9e2b57341cb2b0315451f93e9c4cbc610326d9b380",
       "updateLog": ""
     },
     {
@@ -1567,9 +1650,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/operit.weaponiframe.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/operit.weaponiframe.tefpkg",
+      "downloadCount": 0,
       "fileSize": "145.1 KiB",
-      "sha256": "1988400080910836e585ad0a459e548f59488eca564a6ab3abb5a27e0be106a5",
+      "sha256": "03a6037c73e106bd9187290e57a6406b64e485b798dea74ec404b87326ddcac7",
       "updateLog": ""
     },
     {
@@ -1588,9 +1672,10 @@
       "experimental": true,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ring.lua.followme.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ring.lua.followme.tefpkg",
+      "downloadCount": 0,
       "fileSize": "8.8 KiB",
-      "sha256": "d8c599d6f7376ffe3ea765a14c876af22c3b351d1bcdf29adbef6185257825ca",
+      "sha256": "4cce36aa32f7edba842a3976bb9ee473dd4ef658913f95b1d5c58a892f6e8566",
       "updateLog": ""
     },
     {
@@ -1606,9 +1691,10 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/ring.lua.nolies.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ring.lua.nolies.tefpkg",
+      "downloadCount": 0,
       "fileSize": "1.5 KiB",
-      "sha256": "289ad38a1f0fc8f5050e6b1f507ab975b0046f9936f68c98c36d9c7a8ef69d2c",
+      "sha256": "0241ba823121f788e2ee4cb2f218f4d0079a1096ecb1864c63606461cb3df3f3",
       "updateLog": ""
     },
     {
@@ -1629,7 +1715,8 @@
       "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://raw.githubusercontent.com/lzup333/Community-TEFKernel-LuaLoader-Mods/main/dist/star.buildwand.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/star.buildwand.tefpkg",
+      "downloadCount": 0,
       "fileSize": "39.3 KiB",
       "sha256": "06bc1674848cd481045544c341271e5671470264675c2172d30c7cbe15de278a",
       "updateLog": ""

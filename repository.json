@@ -6,5 +6,5 @@
   "index": "index.json",
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "distribution": "dist/"
+  "distribution": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/tag/mod-repository"
 }
