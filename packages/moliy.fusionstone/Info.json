@@ -1,0 +1,115 @@
+{
+  "pkgId": "moliy.fusionstone",
+  "name": "聚变石",
+  "author": "Moliy",
+  "version": "1.0.1",
+  "versionCode": 2,
+  "brieflyDescribe": "闪亮石强化：再生上限 40 -> 4000 HP/s（四档档位可调），移动/受伤/用物品/流血都不再重置爬升。",
+  "description": "装备原版闪亮石（Shiny Stone，ID 3337）后生效。原版闪亮石只在完全静止时让生命再生从 10 HP/s 一路爬到 40 HP/s，移动、受伤、使用物品或流血都会把爬升清零。本模组接管这一段再生：爬升上限可调到 40–4000 HP/s（默认 4000），并且移动、受伤、使用物品、流血都不再重置爬升进度——只有摘下饰品或死亡才会重新计时。纯 Lua 实现，只作用于本地玩家，不改动游戏文件。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "QUALITY_OF_LIFE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "启用聚变石",
+      "description": "关闭后立刻恢复原版闪亮石的全部行为（静止 10→40 HP/s，移动/受伤清空进度）",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "preset",
+      "title": "档位",
+      "description": "预设档位：温和 100 HP/s 用 10 秒爬满；标准 4000 HP/s 用 20 秒；极限 4000 HP/s 装备即满速。选「自定义」时下面两项才生效。",
+      "type": "CHOICE",
+      "defaultValue": "standard",
+      "options": [
+        {
+          "value": "gentle",
+          "label": "温和"
+        },
+        {
+          "value": "standard",
+          "label": "标准"
+        },
+        {
+          "value": "ultimate",
+          "label": "极限"
+        },
+        {
+          "value": "custom",
+          "label": "自定义"
+        }
+      ],
+      "section": "常规"
+    },
+    {
+      "key": "max_regen",
+      "title": "生命再生上限",
+      "description": "静止时回血速度能涨到的最高值（原版是 40 HP/s）。默认 4000 时几乎每帧把血补满，等价于站桩秒回。",
+      "type": "INTEGER",
+      "defaultValue": 4000,
+      "min": 40,
+      "max": 4000,
+      "step": 10,
+      "unit": "HP/s",
+      "section": "自定义"
+    },
+    {
+      "key": "ramp_seconds",
+      "title": "爬满所需时间",
+      "description": "从 10 HP/s 爬到上限要多久。填 0 表示装备上就立刻按最高速度回血。只在档位选「自定义」时生效。",
+      "type": "INTEGER",
+      "defaultValue": 20,
+      "min": 0,
+      "max": 120,
+      "step": 1,
+      "unit": "秒",
+      "section": "自定义"
+    }
+  ]
+}

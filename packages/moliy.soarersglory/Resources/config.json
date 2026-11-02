@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "enabled": true,
+    "infinite_flight": true,
+    "infinite_rocket": true,
+    "move_mult": 1,
+    "jump_mult": 1,
+    "accel_mult": 1
+  }
+}

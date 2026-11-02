@@ -1,0 +1,117 @@
+{
+  "pkgId": "moliy.soarersglory",
+  "name": "翱翔者的荣耀",
+  "author": "Moliy",
+  "version": "1.0.0",
+  "versionCode": 1,
+  "brieflyDescribe": "翱翔之证强化：移动速度、跳跃速度、水平加速度各 1–50 倍可调，无限飞行与火箭靴无限可单独开关。",
+  "description": "装备原版翱翔之证（Soaring Insignia，ID 4989）后生效。原版翱翔之证给 5 个效果：移动速度 +0.075、跳跃速度 +1.8、水平加速度 ×1.75、每帧把翅膀飞行时间回满（无限滞空）、每帧把火箭靴燃料回满（无限喷气）。本模组把前三个数值各做一个 1–50 倍的独立倍率（默认 1 倍 = 原版），后两个「无限」各做一个开关（默认开）。纯 Lua 实现，只作用于本地玩家，不改动游戏文件。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "QUALITY_OF_LIFE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "启用翱翔者的荣耀",
+      "description": "关闭后立刻恢复原版翱翔之证的全部行为（三个数值回到原版、无限飞行与无限火箭靴照旧）。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "infinite_flight",
+      "title": "无限飞行",
+      "description": "开着 = 原版翱翔之证的效果：翅膀飞行时间每帧回满，可以一直滞空。关上 = 只保留翅膀本身那点飞行时长。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "infinite_rocket",
+      "title": "火箭靴无限",
+      "description": "开着 = 原版效果：飞的时候火箭靴燃料每帧回满。关上 = 正常消耗燃料，喷完就得落地。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "move_mult",
+      "title": "移动速度倍率",
+      "description": "原版翱翔之证给移动速度 +0.075，这里按倍率放大：1 = 原版，50 = 加 3.75。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "倍",
+      "section": "数值倍率"
+    },
+    {
+      "key": "jump_mult",
+      "title": "跳跃速度倍率",
+      "description": "原版给跳跃速度 +1.8，这里按倍率放大。翅膀的上升速度也是读这个值，所以调大之后飞得更高更快。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "倍",
+      "section": "数值倍率"
+    },
+    {
+      "key": "accel_mult",
+      "title": "水平加速度倍率",
+      "description": "原版把水平加速度 ×1.75，这里按倍率放大：1 = 原版 ×1.75，50 = ×38.5。达到最高速度会麻利很多。",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "倍",
+      "section": "数值倍率"
+    }
+  ]
+}

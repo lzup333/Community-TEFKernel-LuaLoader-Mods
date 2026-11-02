@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "enabled": true,
+    "preset": "standard",
+    "max_regen": 4000,
+    "ramp_seconds": 20
+  }
+}
