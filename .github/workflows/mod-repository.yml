@@ -56,7 +56,19 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
+          existing_assets="$(mktemp)"
+          gh release view "$RELEASE_TAG" --json assets > "$existing_assets"
           for asset in "$RUNNER_TEMP"/lualoader-mod-assets/*.tefpkg; do
+            asset_name="$(basename "$asset")"
+            pkg_id="${asset_name%.tefpkg}"
+            current_sha="$(sha256sum "$asset" | cut -d ' ' -f 1)"
+            indexed_sha="$(jq -r --arg pkg_id "$pkg_id" '.mods[] | select(.pkgId == $pkg_id) | .sha256 // empty' index.json)"
+            already_uploaded="$(jq -r --arg asset_name "$asset_name" '.assets[] | select(.name == $asset_name) | .name' "$existing_assets")"
+            if [[ "$already_uploaded" == "$asset_name" && "$indexed_sha" == "$current_sha" ]]; then
+              echo "Skipping unchanged asset: $asset_name"
+              continue
+            fi
             gh release upload "$RELEASE_TAG" "$asset" --clobber
           done
 

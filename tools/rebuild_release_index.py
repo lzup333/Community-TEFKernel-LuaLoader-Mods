@@ -31,6 +31,23 @@ def _get_json(url: str, token: str) -> object:
         raise RuntimeError(f"GitHub API request failed: {url}: {exc}") from exc
 
 
+def merge_download_counts(current: dict[str, int], previous_index: object) -> dict[str, int]:
+    """Keep the last indexed count when replacing an asset resets GitHub's count."""
+    previous: dict[str, int] = {}
+    if isinstance(previous_index, dict) and isinstance(previous_index.get("mods"), list):
+        for entry in previous_index["mods"]:
+            if not isinstance(entry, dict) or not isinstance(entry.get("pkgId"), str):
+                continue
+            try:
+                previous[entry["pkgId"]] = max(0, int(entry.get("downloadCount", 0)))
+            except (TypeError, ValueError):
+                continue
+    return {
+        pkg_id: max(0, int(count), previous.get(pkg_id, 0))
+        for pkg_id, count in current.items()
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", type=Path, default=Path.cwd())
@@ -40,6 +57,12 @@ def main() -> int:
     args = parser.parse_args()
     if not args.repository or not args.token:
         raise SystemExit("GITHUB_REPOSITORY and GITHUB_TOKEN are required")
+
+    previous_index = {}
+    index_path = args.repo / "index.json"
+    if index_path.exists():
+        with index_path.open(encoding="utf-8") as stream:
+            previous_index = json.load(stream)
 
     api_root = f"https://api.github.com/repos/{args.repository}"
     release = _get_json(f"{api_root}/releases/tags/{args.tag}", args.token)
@@ -60,6 +83,7 @@ def main() -> int:
             break
     else:
         raise SystemExit("too many release assets; pagination limit reached")
+    counts = merge_download_counts(counts, previous_index)
 
     import tempfile
     with tempfile.TemporaryDirectory(prefix="lualoader-mod-assets-") as temporary:
