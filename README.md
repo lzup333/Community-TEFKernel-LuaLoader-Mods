@@ -8,7 +8,7 @@ TEFKernel / LuaLoader 社区 Mod 仓库，收录适用于 LuaLoader 的纯Lua的
 ## 收录范围
 
 - 仅收录 LuaLoader 纯 Lua Mod。
-- 包必须包含 `Info.json`、`Manifest.json`、`luamod.json` 和入口 Lua 脚本。
+- 包必须包含 `Info.json`、`Manifest.json`、`Manifest.json.file` 指定的加载配置文件和入口 Lua 脚本；配置文件不要求必须命名为 `luamod.json`。
 - 每个包必须提供稳定且唯一的 `pkgId`。
 - 仓库索引提供版本、兼容信息、文件大小和 SHA-256 校验值。
 - 包内实际包含 `.so`、`.dll`、`.dylib` 或 `.so.*` 文件的 Mod 不会收录。

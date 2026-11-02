@@ -19,15 +19,15 @@ from lualoader_modrepo import (  # noqa: E402
 
 
 def make_zip(path: Path, *, pkg_id="example.mod", package_id=None,
-             extra=None, main_mtime=None):
+             extra=None, main_mtime=None, config_name="luamod.json"):
     info_id = package_id or pkg_id
     info = {"pkgId": info_id, "name": "Example", "version": "1.2.3", "versionCode": 7}
-    manifest = {"type": "Mod", "file": "luamod.json", "parentLoader": "lzup333.lualoader"}
+    manifest = {"type": "Mod", "file": config_name, "parentLoader": "lzup333.lualoader"}
     lua = {"main": "main.lua", "pkg_id": pkg_id, "version": "1.2.3", "version_code": 7}
     entries = {
         "Info.json": json.dumps(info),
         "Manifest.json": json.dumps(manifest),
-        "luamod.json": json.dumps(lua),
+        config_name: json.dumps(lua),
         "Resources/lib/main.lua": "return {}\n",
     }
     entries.update(extra or {})
@@ -70,6 +70,19 @@ class ModRepoTests(unittest.TestCase):
             make_zip(path, pkg_id="lua.one", package_id="info.two")
             with self.assertRaises(PackageRejected):
                 scan_package(path)
+
+    def test_manifest_can_point_to_non_luamod_config(self):
+        with tempfile.TemporaryDirectory() as td:
+            path = Path(td) / "custom-config.zip"
+            make_zip(path, config_name="loader.json")
+            result = scan_package(path)
+            self.assertEqual(result.pkg_id, "example.mod")
+            self.assertEqual(result.main_path, "Resources/lib/main.lua")
+
+            repo = Path(td) / "repo"
+            import_packages(repo, [path], interactive=False)
+            index = rebuild_index(repo)
+            self.assertEqual(index["mods"][0]["pkgId"], "example.mod")
 
     def test_zip_path_traversal_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:

@@ -86,6 +86,19 @@ def _read_json(zf: zipfile.ZipFile, name: str) -> dict:
     return value
 
 
+def _manifest_file(manifest: dict) -> str:
+    """Return the loader config named by Manifest.json.
+
+    LuaLoader packages conventionally call this file luamod.json, but the
+    manifest is the source of truth and older/community packages use names
+    such as mod.json or loader.json.
+    """
+    name = manifest.get("file", "luamod.json")
+    if not isinstance(name, str) or not name:
+        raise PackageRejected("Manifest.json.file must be a non-empty path")
+    return _safe_name(name)
+
+
 def _is_native_binary(name: str) -> bool:
     lower = name.lower()
     return lower.endswith(NATIVE_SUFFIXES) or ".so." in lower
@@ -128,7 +141,10 @@ def scan_package(path: Path) -> PackageInfo:
                         raise PackageSkipped(f"native binary: {safe}")
             info = _read_json(zf, "Info.json")
             manifest = _read_json(zf, "Manifest.json")
-            luamod = _read_json(zf, "luamod.json")
+            config_name = _manifest_file(manifest)
+            if config_name not in names:
+                raise PackageRejected(f"missing Manifest.json.file: {config_name}")
+            luamod = _read_json(zf, config_name)
             pkg_id = str(info.get("pkgId", ""))
             luamod_id = str(luamod.get("pkg_id", ""))
             if not PKG_ID_RE.fullmatch(pkg_id):
@@ -302,8 +318,9 @@ def rebuild_index(repo_dir: Path) -> dict:
         package_dir = info_path.parent
         try:
             info = json.loads(info_path.read_text(encoding="utf-8"))
-            luamod = json.loads((package_dir / "luamod.json").read_text(encoding="utf-8"))
             manifest = json.loads((package_dir / "Manifest.json").read_text(encoding="utf-8"))
+            config_name = _manifest_file(manifest)
+            luamod = json.loads((package_dir / config_name).read_text(encoding="utf-8"))
             pkg_id = str(info["pkgId"])
             main_name = str(luamod.get("main", "main.lua"))
             main_candidates = [package_dir / main_name, package_dir / "Resources/lib" / main_name]
