@@ -13,6 +13,8 @@ from pathlib import Path
 
 from lualoader_modrepo import RELEASE_TAG, pack_packages, rebuild_index
 
+PROXY_PREFIX = "https://gh-proxy.com/"
+
 
 def _get_json(url: str, token: str) -> object:
     request = urllib.request.Request(
@@ -46,6 +48,16 @@ def merge_download_counts(current: dict[str, int], previous_index: object) -> di
         pkg_id: max(0, int(count), previous.get(pkg_id, 0))
         for pkg_id, count in current.items()
     }
+
+
+def build_proxy_index(index: dict) -> dict:
+    """Create the optional index whose Mod downloads go through gh-proxy."""
+    proxy_index = json.loads(json.dumps(index, ensure_ascii=False))
+    for mod in proxy_index.get("mods", []):
+        url = mod.get("downloadUrl")
+        if isinstance(url, str) and url.startswith("https://github.com/"):
+            mod["downloadUrl"] = PROXY_PREFIX + url
+    return proxy_index
 
 
 def main() -> int:
@@ -95,6 +107,11 @@ def main() -> int:
             hashes[asset.name[:-7]] = digest
             sizes[asset.name[:-7]] = asset.stat().st_size
         result = rebuild_index(args.repo, counts, hashes, sizes)
+    proxy_index_path = args.repo / "index-gh-proxy.json"
+    proxy_index_path.write_text(
+        json.dumps(build_proxy_index(result), ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     print(f"rebuilt index: {len(result['mods'])} mods")
     return 0
 
