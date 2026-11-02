@@ -1,8 +1,28 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-02T05:57:44.030418Z",
+  "updatedAt": "2026-11-02T06:00:36.174759Z",
   "mods": [
+    {
+      "pkgId": "bluefish.peakera",
+      "name": "巅峰时代",
+      "author": "蓝色大肥鱼",
+      "version": "8.0.0",
+      "versionCode": 800,
+      "brieflyDescribe": "回归巅峰",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": true,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.peakera.tefpkg",
+      "downloadCount": 0,
+      "publishedAt": "2026-11-02T05:57:44.030142Z",
+      "fileSize": "224.4 KiB",
+      "sha256": "646239377ce9ff5bf5f41885b9a00f8615f5d875502aac9195ee0116bb7b1ddd",
+      "updateLog": ""
+    },
     {
       "pkgId": "HvnT.lua.crimson",
       "name": "血色 (Crimson)",
@@ -325,26 +345,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "146.7 KiB",
       "sha256": "8d471ea257e17326985973e3f52da5db01267951311d22a33b2cba3c255c1832",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "bluefish.peakera",
-      "name": "巅峰时代",
-      "author": "蓝色大肥鱼",
-      "version": "8.0.0",
-      "versionCode": 800,
-      "brieflyDescribe": "回归巅峰",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": true,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.peakera.tefpkg",
-      "downloadCount": 0,
-      "publishedAt": "2026-11-02T05:57:44.030142Z",
-      "fileSize": "224.4 KiB",
-      "sha256": "646239377ce9ff5bf5f41885b9a00f8615f5d875502aac9195ee0116bb7b1ddd",
       "updateLog": ""
     },
     {
