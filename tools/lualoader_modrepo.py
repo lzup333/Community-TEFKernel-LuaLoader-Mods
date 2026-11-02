@@ -189,6 +189,12 @@ def _format_size(size: int) -> str:
     return f"{size / (1024 * 1024):.2f} MiB" if size >= 1024 * 1024 else f"{size / 1024:.1f} KiB"
 
 
+def format_briefly_describe(description: str, download_count: int, is_new: bool) -> str:
+    labels = ["[新]"] if is_new else []
+    labels.append(f"[下载量:{max(0, int(download_count))}]")
+    return "".join(labels) + "\n" + description
+
+
 def _normalize_zip(source: Path, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(output.suffix + ".tmp")
@@ -399,6 +405,15 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
             continue
     cutoff = now - timedelta(days=NEW_MOD_PROMOTION_DAYS)
+
+    for item in packages:
+        try:
+            published = datetime.fromisoformat(str(item["publishedAt"]).replace("Z", "+00:00"))
+        except (KeyError, TypeError, ValueError):
+            published = datetime.min.replace(tzinfo=timezone.utc)
+        item["brieflyDescribe"] = format_briefly_describe(
+            item["brieflyDescribe"], item["downloadCount"], published >= cutoff
+        )
 
     def sort_key(item: dict) -> tuple[int, float, int, str]:
         try:
