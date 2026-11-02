@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.stargod",
+  "version": "1.0.3",
+  "version_code": 103,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "300颗够吗？"
+}
