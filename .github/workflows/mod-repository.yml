@@ -6,7 +6,8 @@ on:
     paths:
       - 'packages/**'
   schedule:
-    - cron: '0 */5 * * *'
+    # UTC 02:17, 07:17, 12:17, 17:17 = 北京时间 10:17, 15:17, 20:17, 01:17
+    - cron: '17 2,7,12,17 * * *'
   workflow_dispatch:
     inputs:
       rebuild_release:
