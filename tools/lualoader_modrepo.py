@@ -14,7 +14,7 @@ import sys
 import tempfile
 import zipfile
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path, PurePosixPath
 from typing import Iterable
 
@@ -23,6 +23,7 @@ NATIVE_SUFFIXES = (".so", ".dll", ".dylib")
 PKG_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 RELEASE_TAG = "mod-repository"
 RELEASE_BASE_URL = "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository"
+NEW_MOD_PROMOTION_DAYS = 7
 
 
 class PackageRejected(ValueError):
@@ -252,6 +253,7 @@ def _candidate(repo: Path, pkg: PackageInfo) -> dict:
         "iconUrl": "",
         "downloadUrl": f"{RELEASE_BASE_URL}/{pkg.pkg_id}.tefpkg",
         "downloadCount": 0,
+        "publishedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "fileSize": _format_size(size),
         "sha256": _sha256(dist) if dist.exists() else "",
         "updateLog": "",
@@ -350,6 +352,10 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
     counts = download_counts or {}
     hashes = asset_hashes or {}
     sizes = asset_sizes or {}
+    current = _load_index(repo)
+    previous = {item.get("pkgId"): item for item in current.get("mods", [])}
+    now = datetime.now(timezone.utc)
+    now_text = now.isoformat().replace("+00:00", "Z")
     packages = []
     for info_path in sorted((repo / "packages").glob("*/Info.json")) if (repo / "packages").exists() else []:
         package_dir = info_path.parent
@@ -369,6 +375,7 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
                 continue
             dist = repo / "dist" / f"{pkg_id}.tefpkg"
             size = dist.stat().st_size if dist.exists() else 0
+            published_at = previous.get(pkg_id, {}).get("publishedAt", now_text)
             packages.append({
                 "pkgId": pkg_id,
                 "name": str(info.get("name", pkg_id)),
@@ -384,13 +391,25 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
                 "iconUrl": "",
                 "downloadUrl": f"{RELEASE_BASE_URL}/{pkg_id}.tefpkg",
                 "downloadCount": max(0, int(counts.get(pkg_id, 0))),
+                "publishedAt": published_at,
                 "fileSize": _format_size(sizes.get(pkg_id, size)),
                 "sha256": hashes.get(pkg_id, _sha256(dist) if dist.exists() else ""),
                 "updateLog": "",
             })
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
             continue
-    packages.sort(key=lambda item: (-item["downloadCount"], item["pkgId"]))
+    cutoff = now - timedelta(days=NEW_MOD_PROMOTION_DAYS)
+
+    def sort_key(item: dict) -> tuple[int, float, int, str]:
+        try:
+            published = datetime.fromisoformat(str(item["publishedAt"]).replace("Z", "+00:00"))
+        except (KeyError, TypeError, ValueError):
+            published = datetime.min.replace(tzinfo=timezone.utc)
+        recent = published >= cutoff
+        return (0 if recent else 1, -published.timestamp() if recent else 0,
+                -item["downloadCount"], item["pkgId"])
+
+    packages.sort(key=sort_key)
     result = {
         "loaderMinVersionCode": 37,
         "loaderMinVersion": "2.3.3",

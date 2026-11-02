@@ -5,7 +5,7 @@ TEFKernel / LuaLoader 社区 Mod 仓库，收录适用于 LuaLoader 的纯Lua的
 ## 使用
 更新LuaLoader
 
-Mod 包存放在本仓库的固定 GitHub Release `mod-repository` 中，索引会按 GitHub 记录的下载量从高到低排列。
+Mod 包存放在本仓库的固定 GitHub Release `mod-repository` 中；新 Mod 发布后的 7 天内会获得优先展示，之后按 GitHub 记录的下载量从高到低排列。
 
 ## 收录范围
 
