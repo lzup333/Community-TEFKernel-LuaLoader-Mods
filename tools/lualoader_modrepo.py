@@ -23,7 +23,7 @@ NATIVE_SUFFIXES = (".so", ".dll", ".dylib")
 PKG_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 RELEASE_TAG = "mod-repository"
 RELEASE_BASE_URL = "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository"
-NEW_MOD_PROMOTION_DAYS = 7
+NEW_MOD_PROMOTION_DAYS = 3
 
 
 class PackageRejected(ValueError):
