@@ -351,6 +351,22 @@ def pack_packages(repo_dir: Path, output_dir: Path) -> list[Path]:
     return assets
 
 
+def sort_mods(packages: list[dict], now: datetime) -> list[dict]:
+    cutoff = now - timedelta(days=NEW_MOD_PROMOTION_DAYS)
+
+    def sort_key(item: dict) -> tuple[int, int, float, str]:
+        try:
+            published = datetime.fromisoformat(str(item["publishedAt"]).replace("Z", "+00:00"))
+        except (KeyError, TypeError, ValueError):
+            published = datetime.min.replace(tzinfo=timezone.utc)
+        recent = published >= cutoff
+        return (0 if recent else 1, -item["downloadCount"] if recent else 0,
+                -published.timestamp() if recent else 0, item["pkgId"])
+
+    packages.sort(key=sort_key)
+    return packages
+
+
 def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
                   asset_hashes: dict[str, str] | None = None,
                   asset_sizes: dict[str, int] | None = None) -> dict:
@@ -405,7 +421,6 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
             continue
     cutoff = now - timedelta(days=NEW_MOD_PROMOTION_DAYS)
-
     for item in packages:
         try:
             published = datetime.fromisoformat(str(item["publishedAt"]).replace("Z", "+00:00"))
@@ -415,16 +430,7 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
             item["brieflyDescribe"], item["downloadCount"], published >= cutoff
         )
 
-    def sort_key(item: dict) -> tuple[int, float, int, str]:
-        try:
-            published = datetime.fromisoformat(str(item["publishedAt"]).replace("Z", "+00:00"))
-        except (KeyError, TypeError, ValueError):
-            published = datetime.min.replace(tzinfo=timezone.utc)
-        recent = published >= cutoff
-        return (0 if recent else 1, -published.timestamp() if recent else 0,
-                -item["downloadCount"], item["pkgId"])
-
-    packages.sort(key=sort_key)
+    sort_mods(packages, now)
     result = {
         "loaderMinVersionCode": 37,
         "loaderMinVersion": "2.3.3",
