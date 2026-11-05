@@ -1,8 +1,31 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-05T16:17:06.481262Z",
+  "updatedAt": "2026-11-05T20:02:23.638010Z",
   "mods": [
+    {
+      "pkgId": "moliy.soarersglory",
+      "name": "翱翔者的荣耀",
+      "author": "Moliy",
+      "version": "1.0.0",
+      "versionCode": 1,
+      "brieflyDescribe": "[下载量:17]\n翱翔之证强化：移动速度、跳跃速度、水平加速度各 1–50 倍可调，无限飞行与火箭靴无限可单独开关。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "QUALITY_OF_LIFE"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.soarersglory.tefpkg",
+      "downloadCount": 17,
+      "publishedAt": "2026-11-02T13:41:18.641386Z",
+      "fileSize": "7.4 KiB",
+      "sha256": "cd9da4528467b27d92dfdb722fc6d7df30161787b5bc4ea6874a91a4deebdc0c",
+      "updateLog": ""
+    },
     {
       "pkgId": "moliy.fusionstone",
       "name": "聚变石",
@@ -24,29 +47,6 @@
       "publishedAt": "2026-11-02T13:41:18.642701Z",
       "fileSize": "6.7 KiB",
       "sha256": "e87132b33ff416d84776a85d88292a6741a57ce273c922a3bf74e7769827a201",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "moliy.soarersglory",
-      "name": "翱翔者的荣耀",
-      "author": "Moliy",
-      "version": "1.0.0",
-      "versionCode": 1,
-      "brieflyDescribe": "[下载量:16]\n翱翔之证强化：移动速度、跳跃速度、水平加速度各 1–50 倍可调，无限飞行与火箭靴无限可单独开关。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "QUALITY_OF_LIFE"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.soarersglory.tefpkg",
-      "downloadCount": 16,
-      "publishedAt": "2026-11-02T13:41:18.641386Z",
-      "fileSize": "7.4 KiB",
-      "sha256": "cd9da4528467b27d92dfdb722fc6d7df30161787b5bc4ea6874a91a4deebdc0c",
       "updateLog": ""
     },
     {
@@ -147,6 +147,52 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "28.0 KiB",
       "sha256": "bc5bc92b2ba6a6e34874c29552661f3a3412a8a2933539b7fb2b3274b422f190",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "ailab.lua.buffstack",
+      "name": "药水叠加 (BuffStack)",
+      "author": "哇",
+      "version": "2.3.2",
+      "versionCode": 20261220,
+      "brieflyDescribe": "[下载量:7]\n药水叠加 v2.3.1：49 项设置 + 羊皮纸 3 页面板（紫罗兰强调色 / 可选 1~1000 滑块）。把「同一种状态效果再吃一次」从原版的「谁长留谁」改成剩余时间相加（只占 1 个槽位），并新增按 buff 单独时长上限、减益也叠加、层数/总时长播报、药水冷却缩减、强制移除/免疫指定 buff、所有效果死亡后都保留，以及 5 模组统一的 /forge help|stat|check|export|import 与进世界自检播报。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "QUALITY_OF_LIFE"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.buffstack.tefpkg",
+      "downloadCount": 7,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "64.5 KiB",
+      "sha256": "08b2306beefdc687a5f2deb85ff44464266ebb429af2508539b90c28b6e53e36",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "ailab.lua.worldforge",
+      "name": "世界工坊 (WorldForge)",
+      "author": "哇",
+      "version": "10.4.0",
+      "versionCode": 20270323,
+      "brieflyDescribe": "[下载量:7]\n世界工坊 v10.4：192 项设置、21 个分组。调时间 / 天气 / 雷击 / 事件 / 刷怪与生物属性、住房与晶塔、渔夫、世纪之花、液体世界、商店售价、微光嬗变；地图生成专项（新建世界尺寸与邪恶类型、生成后追加二十余种特征、全图清除 / 替换）；游戏内面板（折叠参数页 + 一键操作 + 娱乐事件）。默认零开销，未经实机验证。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "UTILITY"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.worldforge.tefpkg",
+      "downloadCount": 7,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "178.3 KiB",
+      "sha256": "ef52dc5acb6c738908a51625e13c7688a6a5a5b4fdb960224aacb1f7a4002eb0",
       "updateLog": ""
     },
     {
@@ -255,29 +301,6 @@
       "updateLog": ""
     },
     {
-      "pkgId": "ailab.lua.buffstack",
-      "name": "药水叠加 (BuffStack)",
-      "author": "哇",
-      "version": "2.3.2",
-      "versionCode": 20261220,
-      "brieflyDescribe": "[下载量:6]\n药水叠加 v2.3.1：49 项设置 + 羊皮纸 3 页面板（紫罗兰强调色 / 可选 1~1000 滑块）。把「同一种状态效果再吃一次」从原版的「谁长留谁」改成剩余时间相加（只占 1 个槽位），并新增按 buff 单独时长上限、减益也叠加、层数/总时长播报、药水冷却缩减、强制移除/免疫指定 buff、所有效果死亡后都保留，以及 5 模组统一的 /forge help|stat|check|export|import 与进世界自检播报。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "QUALITY_OF_LIFE"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.buffstack.tefpkg",
-      "downloadCount": 6,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "64.5 KiB",
-      "sha256": "08b2306beefdc687a5f2deb85ff44464266ebb429af2508539b90c28b6e53e36",
-      "updateLog": ""
-    },
-    {
       "pkgId": "ailab.lua.guiforge",
       "name": "界面工坊 (GuiForge)",
       "author": "哇",
@@ -301,29 +324,6 @@
       "updateLog": ""
     },
     {
-      "pkgId": "ailab.lua.worldforge",
-      "name": "世界工坊 (WorldForge)",
-      "author": "哇",
-      "version": "10.4.0",
-      "versionCode": 20270323,
-      "brieflyDescribe": "[下载量:6]\n世界工坊 v10.4：192 项设置、21 个分组。调时间 / 天气 / 雷击 / 事件 / 刷怪与生物属性、住房与晶塔、渔夫、世纪之花、液体世界、商店售价、微光嬗变；地图生成专项（新建世界尺寸与邪恶类型、生成后追加二十余种特征、全图清除 / 替换）；游戏内面板（折叠参数页 + 一键操作 + 娱乐事件）。默认零开销，未经实机验证。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "UTILITY"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.worldforge.tefpkg",
-      "downloadCount": 6,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "178.3 KiB",
-      "sha256": "ef52dc5acb6c738908a51625e13c7688a6a5a5b4fdb960224aacb1f7a4002eb0",
-      "updateLog": ""
-    },
-    {
       "pkgId": "celso.lua.dropchain",
       "name": "掉落连锁（Lua）",
       "author": "liuxin",
@@ -344,6 +344,26 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "7.8 KiB",
       "sha256": "455cf88142a1da23cdb95048a594272232f2dff5337d006040159d4f28ccc1ad",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "lua.bluefish.jumproll",
+      "name": "更好的猛冲与跳跃",
+      "author": "蓝色大肥鱼",
+      "version": "3.0.0",
+      "versionCode": 202,
+      "brieflyDescribe": "[下载量:6]\n猛冲、跳跃时翻滚，支持翻滚期间无敌，支持翻滚获得一次猛击。",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.bluefish.jumproll.tefpkg",
+      "downloadCount": 6,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "329.3 KiB",
+      "sha256": "c7fe1a1bb5c5534e43cd9c3ce1b3318f1f3928465cedf4538af5ba38caedb2c9",
       "updateLog": ""
     },
     {
@@ -561,26 +581,6 @@
       "updateLog": ""
     },
     {
-      "pkgId": "lua.bluefish.jumproll",
-      "name": "更好的猛冲与跳跃",
-      "author": "蓝色大肥鱼",
-      "version": "3.0.0",
-      "versionCode": 202,
-      "brieflyDescribe": "[下载量:5]\n猛冲、跳跃时翻滚，支持翻滚期间无敌，支持翻滚获得一次猛击。",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.bluefish.jumproll.tefpkg",
-      "downloadCount": 5,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "329.3 KiB",
-      "sha256": "c7fe1a1bb5c5534e43cd9c3ce1b3318f1f3928465cedf4538af5ba38caedb2c9",
-      "updateLog": ""
-    },
-    {
       "pkgId": "lzup.lua.creativemenu",
       "name": "创造模式菜单 (Creative Menu)",
       "author": "lzup333",
@@ -761,6 +761,29 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "588.4 KiB",
       "sha256": "7664754693828e35a7e1530132ed80b036d8d8488f04a4a07efcd736b3945223",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "celso.lua.lucktuner",
+      "name": "幸运调节（Lua）",
+      "author": "liuxin",
+      "version": "1.0",
+      "versionCode": 3,
+      "brieflyDescribe": "[下载量:4]\n通过滑块调节玩家额外幸运值。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "UTILITY"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/celso.lua.lucktuner.tefpkg",
+      "downloadCount": 4,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "2.8 KiB",
+      "sha256": "c07f001b17173375bb828af37be3637c3815d021037d77791a0ddb012c476749",
       "updateLog": ""
     },
     {
@@ -1076,29 +1099,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "58.7 KiB",
       "sha256": "a8651f9de53024abd3fa0ec4d085ef4fb5357b1b13107e3763c4c55324dc5b4f",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "celso.lua.lucktuner",
-      "name": "幸运调节（Lua）",
-      "author": "liuxin",
-      "version": "1.0",
-      "versionCode": 3,
-      "brieflyDescribe": "[下载量:3]\n通过滑块调节玩家额外幸运值。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "UTILITY"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/celso.lua.lucktuner.tefpkg",
-      "downloadCount": 3,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "2.8 KiB",
-      "sha256": "c07f001b17173375bb828af37be3637c3815d021037d77791a0ddb012c476749",
       "updateLog": ""
     },
     {
