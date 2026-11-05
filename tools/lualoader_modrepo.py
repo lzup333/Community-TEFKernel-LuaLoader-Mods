@@ -352,16 +352,29 @@ def pack_packages(repo_dir: Path, output_dir: Path) -> list[Path]:
 
 
 def sort_mods(packages: list[dict], now: datetime) -> list[dict]:
+    """Sort mods for the repository index.
+
+    Newly published mods (within NEW_MOD_PROMOTION_DAYS) are pinned to the
+    top. All mods, new or old, are then ranked by download count descending,
+    with pkgId as a stable tie-breaker.
+    """
     cutoff = now - timedelta(days=NEW_MOD_PROMOTION_DAYS)
 
-    def sort_key(item: dict) -> tuple[int, int, float, str]:
+    def sort_key(item: dict) -> tuple[int, int, str]:
         try:
             published = datetime.fromisoformat(str(item["publishedAt"]).replace("Z", "+00:00"))
         except (KeyError, TypeError, ValueError):
             published = datetime.min.replace(tzinfo=timezone.utc)
         recent = published >= cutoff
-        return (0 if recent else 1, -item["downloadCount"] if recent else 0,
-                -published.timestamp() if recent else 0, item["pkgId"])
+        try:
+            downloads = int(item.get("downloadCount", 0))
+        except (TypeError, ValueError):
+            downloads = 0
+        return (
+            0 if recent else 1,        # 新 Mod 置顶
+            -downloads,                # 新老 Mod 都按下载量降序
+            str(item.get("pkgId", "")),  # 稳定 tie-breaker
+        )
 
     packages.sort(key=sort_key)
     return packages
