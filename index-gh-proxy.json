@@ -1,8 +1,31 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-06T15:23:13.971261Z",
+  "updatedAt": "2026-11-06T19:28:42.373844Z",
   "mods": [
+    {
+      "pkgId": "moliy.verydodge",
+      "name": "这是我觉得这很闪避啊",
+      "author": "Moliy",
+      "version": "1.0.0",
+      "versionCode": 1,
+      "brieflyDescribe": "[新][下载量:2]\n自定义混乱之脑、忍者（黑腰带/忍者大师装备）、秘术腰带的闪避概率，0–100% 各自独立可调。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "QUALITY_OF_LIFE"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.verydodge.tefpkg",
+      "downloadCount": 2,
+      "publishedAt": "2026-11-06T11:52:48.423510Z",
+      "fileSize": "5.4 KiB",
+      "sha256": "8f78d9ef089c12091f7896efd5510dc31b88f498c31a0dfda03da53bc98f10ae",
+      "updateLog": ""
+    },
     {
       "pkgId": "omni.lua.ultimatemaster",
       "name": "全能大师",
@@ -24,29 +47,6 @@
       "publishedAt": "2026-11-06T11:52:48.365589Z",
       "fileSize": "16.8 KiB",
       "sha256": "478ff9c52d4e9d42e2fc58825c8b595b54336e48b6ec0fec7b2026c8a63e62e3",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "moliy.verydodge",
-      "name": "这是我觉得这很闪避啊",
-      "author": "Moliy",
-      "version": "1.0.0",
-      "versionCode": 1,
-      "brieflyDescribe": "[新][下载量:1]\n自定义混乱之脑、忍者（黑腰带/忍者大师装备）、秘术腰带的闪避概率，0–100% 各自独立可调。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "QUALITY_OF_LIFE"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.verydodge.tefpkg",
-      "downloadCount": 1,
-      "publishedAt": "2026-11-06T11:52:48.423510Z",
-      "fileSize": "5.4 KiB",
-      "sha256": "8f78d9ef089c12091f7896efd5510dc31b88f498c31a0dfda03da53bc98f10ae",
       "updateLog": ""
     },
     {
