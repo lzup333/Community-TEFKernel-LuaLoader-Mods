@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-06T15:15:51.595656Z",
+  "updatedAt": "2026-11-06T15:23:13.971261Z",
   "mods": [
     {
       "pkgId": "omni.lua.ultimatemaster",
@@ -46,7 +46,7 @@
       "downloadCount": 1,
       "publishedAt": "2026-11-06T11:52:48.423510Z",
       "fileSize": "5.4 KiB",
-      "sha256": "7892b192262c04944ba5061a1c2fa0c10ea2b07a18641ecc83fc3646a83682c2",
+      "sha256": "8f78d9ef089c12091f7896efd5510dc31b88f498c31a0dfda03da53bc98f10ae",
       "updateLog": ""
     },
     {
@@ -66,7 +66,7 @@
       "downloadCount": 0,
       "publishedAt": "2026-11-06T11:52:48.419753Z",
       "fileSize": "2.51 MiB",
-      "sha256": "fc010bc911e0a6e393e8c451ef8fee16c4c29b0641a54c95b7097e34dc47ba4f",
+      "sha256": "2fa201a9b42d9e002353eb85d1547ef14693cef02bada538236f60d85ed526b1",
       "updateLog": ""
     },
     {
@@ -538,7 +538,7 @@
       "downloadCount": 6,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "53.8 KiB",
-      "sha256": "5cb3830f373b854b386f240510aba73738170fb6a5c32a6603633746ef5da644",
+      "sha256": "d1b9642c88b8b650b17f08083d6826235371570984956aa7ba0b40d17dc5c782",
       "updateLog": ""
     },
     {
@@ -706,7 +706,7 @@
       "downloadCount": 5,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "186.6 KiB",
-      "sha256": "298b5b1c800a1800571dd1aa780bd0ff81228788db1ba8c79078bb86b56661a4",
+      "sha256": "cbdc9dd64b00dfa0cccdd7f52b1e198ad29f1cbebce4f4c9532457bdf4c7101b",
       "updateLog": ""
     },
     {
@@ -1290,7 +1290,7 @@
       "downloadCount": 3,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "7.4 KiB",
-      "sha256": "ba67d935ef1e7ce7609c7e6aa8171de75c3962f3fb99577c3459a88dad43059d",
+      "sha256": "0afbe2f048509072665b3284b13f4ef6890733dfbfa3940640ec9a90122e7568",
       "updateLog": ""
     },
     {
