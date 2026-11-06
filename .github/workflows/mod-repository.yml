@@ -69,6 +69,10 @@ jobs:
               echo "Skipping unchanged asset: $asset_name"
               continue
             fi
+            if [[ "$already_uploaded" == "$asset_name" && -z "$indexed_sha" ]]; then
+              echo "Skipping existing asset with missing indexed sha (would reset downloads): $asset_name"
+              continue
+            fi
             gh release upload "$RELEASE_TAG" "$asset" --clobber
           done
 

@@ -240,10 +240,20 @@ def _extract_package(source: Path, target: Path) -> None:
                 destination.write_bytes(zf.read(entry))
 
 
-def _candidate(repo: Path, pkg: PackageInfo) -> dict:
+def _download_count(item: object) -> int:
+    if not isinstance(item, dict):
+        return 0
+    try:
+        return max(0, int(item.get("downloadCount", 0)))
+    except (TypeError, ValueError):
+        return 0
+
+
+def _candidate(repo: Path, pkg: PackageInfo, previous: dict | None = None) -> dict:
     dist = repo / "dist" / f"{pkg.pkg_id}.tefpkg"
     info = pkg.info
     size = dist.stat().st_size if dist.exists() else 0
+    previous = previous or {}
     return {
         "pkgId": pkg.pkg_id,
         "name": pkg.name,
@@ -258,10 +268,11 @@ def _candidate(repo: Path, pkg: PackageInfo) -> dict:
         "deprecated": bool(info.get("deprecated", False)),
         "iconUrl": "",
         "downloadUrl": f"{RELEASE_BASE_URL}/{pkg.pkg_id}.tefpkg",
-        "downloadCount": 0,
-        "publishedAt": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "fileSize": _format_size(size),
-        "sha256": _sha256(dist) if dist.exists() else "",
+        "downloadCount": _download_count(previous),
+        "publishedAt": str(previous.get("publishedAt") or
+                            datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")),
+        "fileSize": _format_size(size) if size else str(previous.get("fileSize", "0.0 KiB")),
+        "sha256": _sha256(dist) if dist.exists() else str(previous.get("sha256", "")),
         "updateLog": "",
     }
 
@@ -319,7 +330,7 @@ def import_packages(repo_dir: Path, inputs: Iterable[Path], *, interactive: bool
             dist_path = repo / "dist" / f"{pkg.pkg_id}.tefpkg"
             _extract_package(source, package_dir)
             _normalize_zip(source, dist_path)
-            by_id[pkg.pkg_id] = _candidate(repo, pkg)
+            by_id[pkg.pkg_id] = _candidate(repo, pkg, existing)
             report.accepted += 1
         except PackageSkipped as exc:
             report.skipped_native += 1
@@ -410,7 +421,23 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
                 continue
             dist = repo / "dist" / f"{pkg_id}.tefpkg"
             size = dist.stat().st_size if dist.exists() else 0
-            published_at = previous.get(pkg_id, {}).get("publishedAt", now_text)
+            previous_item = previous.get(pkg_id, {})
+            published_at = previous_item.get("publishedAt", now_text)
+            if download_counts is None:
+                download_count = _download_count(previous_item)
+            else:
+                download_count = max(_download_count(previous_item), max(0, int(counts.get(pkg_id, 0))))
+            digest = hashes.get(pkg_id)
+            if not digest and dist.exists():
+                digest = _sha256(dist)
+            if not digest:
+                digest = str(previous_item.get("sha256", ""))
+            if pkg_id in sizes:
+                file_size = _format_size(sizes[pkg_id])
+            elif size:
+                file_size = _format_size(size)
+            else:
+                file_size = str(previous_item.get("fileSize", _format_size(0)))
             packages.append({
                 "pkgId": pkg_id,
                 "name": str(info.get("name", pkg_id)),
@@ -425,10 +452,10 @@ def rebuild_index(repo_dir: Path, download_counts: dict[str, int] | None = None,
                 "deprecated": bool(info.get("deprecated", False)),
                 "iconUrl": "",
                 "downloadUrl": f"{RELEASE_BASE_URL}/{pkg_id}.tefpkg",
-                "downloadCount": max(0, int(counts.get(pkg_id, 0))),
+                "downloadCount": download_count,
                 "publishedAt": published_at,
-                "fileSize": _format_size(sizes.get(pkg_id, size)),
-                "sha256": hashes.get(pkg_id, _sha256(dist) if dist.exists() else ""),
+                "fileSize": file_size,
+                "sha256": digest,
                 "updateLog": "",
             })
         except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):

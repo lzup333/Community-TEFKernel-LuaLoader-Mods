@@ -33,21 +33,34 @@ def _get_json(url: str, token: str) -> object:
         raise RuntimeError(f"GitHub API request failed: {url}: {exc}") from exc
 
 
-def merge_download_counts(current: dict[str, int], previous_index: object) -> dict[str, int]:
-    """Keep the last indexed count when replacing an asset resets GitHub's count."""
-    previous: dict[str, int] = {}
-    if isinstance(previous_index, dict) and isinstance(previous_index.get("mods"), list):
-        for entry in previous_index["mods"]:
+def _index_download_counts(index: object) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    if isinstance(index, dict) and isinstance(index.get("mods"), list):
+        for entry in index["mods"]:
             if not isinstance(entry, dict) or not isinstance(entry.get("pkgId"), str):
                 continue
             try:
-                previous[entry["pkgId"]] = max(0, int(entry.get("downloadCount", 0)))
+                counts[entry["pkgId"]] = max(0, int(entry.get("downloadCount", 0)))
             except (TypeError, ValueError):
                 continue
-    return {
-        pkg_id: max(0, int(count), previous.get(pkg_id, 0))
-        for pkg_id, count in current.items()
-    }
+    return counts
+
+
+def merge_download_counts(current: dict[str, int], previous_index: object,
+                          fallback_index: object = None) -> dict[str, int]:
+    """Keep the last indexed count when replacing an asset resets GitHub's count.
+
+    ``previous_index`` is normally index.json. ``fallback_index`` lets callers
+    also consult index-gh-proxy.json, which can still hold a good snapshot if
+    index.json was overwritten by a local rebuild.
+    """
+    previous = _index_download_counts(previous_index)
+    for pkg_id, count in _index_download_counts(fallback_index).items():
+        previous[pkg_id] = max(previous.get(pkg_id, 0), count)
+    merged = dict(previous)
+    for pkg_id, count in current.items():
+        merged[pkg_id] = max(previous.get(pkg_id, 0), max(0, int(count)))
+    return merged
 
 
 def build_proxy_index(index: dict) -> dict:
@@ -75,6 +88,14 @@ def main() -> int:
     if index_path.exists():
         with index_path.open(encoding="utf-8") as stream:
             previous_index = json.load(stream)
+    fallback_index = {}
+    proxy_index_path = args.repo / "index-gh-proxy.json"
+    if proxy_index_path.exists():
+        try:
+            with proxy_index_path.open(encoding="utf-8") as stream:
+                fallback_index = json.load(stream)
+        except (OSError, json.JSONDecodeError):
+            fallback_index = {}
 
     api_root = f"https://api.github.com/repos/{args.repository}"
     release = _get_json(f"{api_root}/releases/tags/{args.tag}", args.token)
@@ -95,7 +116,7 @@ def main() -> int:
             break
     else:
         raise SystemExit("too many release assets; pagination limit reached")
-    counts = merge_download_counts(counts, previous_index)
+    counts = merge_download_counts(counts, previous_index, fallback_index)
 
     import tempfile
     with tempfile.TemporaryDirectory(prefix="lualoader-mod-assets-") as temporary:
@@ -107,7 +128,6 @@ def main() -> int:
             hashes[asset.name[:-7]] = digest
             sizes[asset.name[:-7]] = asset.stat().st_size
         result = rebuild_index(args.repo, counts, hashes, sizes)
-    proxy_index_path = args.repo / "index-gh-proxy.json"
     proxy_index_path.write_text(
         json.dumps(build_proxy_index(result), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
