@@ -48,7 +48,9 @@ function M.extend(a,p,api)
     if legacy then
      return {x=x-(c.fx//18)%legacy[3],y=y-(c.fy//18)%legacy[4],width=legacy[3],height=legacy[4]}
     end
-    return nil,'家具缺少放置元数据'
+    -- v1.2.7：游戏内没有家具登记表条目的方块（陷阱 137 这类）实际都是 1×1，
+    -- 单格方块不需要行列数据，按一格处理即可；打 assumed 标记做统计。
+    return {x=x,y=y,width=1,height=1,assumed=true}
    end
    v={}
    for _,n in ipairs{'Width','Height','CoordinateWidth','CoordinatePadding','CoordinateFullWidth','CoordinateFullHeight'} do v[n]=call(n,data) end
@@ -93,7 +95,7 @@ function M.extend(a,p,api)
  function a:captureEntity(cell,x,y,rect)
   if not cell.container and not cell.sign then return end
   local bounds,why=self:objectBounds(cell,x,y)
-  assert(bounds,why or '家具实体位置不可读')
+  if not bounds then return nil end   -- 元数据不可读：不记录实体，也不中断复制
   if bounds.x~=x or bounds.y~=y then return end
   assert(bounds.x>=rect.x and bounds.y>=rect.y and bounds.x+bounds.width<=rect.x+rect.width and bounds.y+bounds.height<=rect.y+rect.height,'选区切到了家具边缘，请扩大选区一格')
   if cell.container then

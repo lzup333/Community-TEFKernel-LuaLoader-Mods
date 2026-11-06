@@ -14,6 +14,17 @@ function M.attach(a,p,m)
    assert(self:writeCell(op.x,op.y,Layers.merge(zero,old,options)),'清理墙体、线路或液体失败')
    return true
   end
+  if selection then
+   -- v1.2.9：框选清理一律清干净。先让游戏自己拆（能正确处理多格家具、箱子内容、
+   -- 告示牌和展示类实体），拆不掉的再按勾选的层强制写空。
+   -- v1.3.2：普通方块直接写空；只有家具、容器、牌子和特殊方块才交给游戏拆。
+   if c.active and self.m and self.m.kill and (c.frameImportant or c.container or c.sign or Policy.unsupported(c.type))then
+    pcall(p.invoke,self.m.kill,op.x,op.y,false,false,true)
+   end
+   local old=self:captureCell(op.x,op.y)
+   assert(self:writeCell(op.x,op.y,Layers.merge(zero,old,options)),'强制清理格子失败')
+   return true
+  end
   local function block()self.blocked[key]=true;return true end
   if c.active and (Policy.unsupported(c.type)or(c.container and not Policy.container(c.type)))then return block()end
   local box={x=op.x,y=op.y,width=1,height=1}

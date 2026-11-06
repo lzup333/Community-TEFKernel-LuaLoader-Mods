@@ -55,7 +55,7 @@ function M.new(a,p,api,selection,onError)
   bands(r,3,{76,255,142,255})
   local clipped=r.x<0 or r.y<0 or r.x+r.w>v.width or r.y+r.h>v.height
   if clipped then
-   local msg=('选区 %d×%d · %s%s%s%s'):format(selection.width,selection.height,r.x<0 and '左超出 'or '',r.y<0 and '上超出 'or '',r.x+r.w>v.width and '右超出 'or '',r.y+r.h>v.height and '下超出 'or '')
+   local msg=('选区 %d×%d'):format(selection.width,selection.height)
    local x=math.max(4,math.min(v.width-280,r.x));local y=math.max(4,math.min(v.height-24,r.y))
    if not mask or x+280<mask.x or x>mask.x+mask.w or y+24<mask.y or y>mask.y+mask.h then g.text_at(x-ox,y-oy,msg,{76,255,142,255},0.55)end
   end

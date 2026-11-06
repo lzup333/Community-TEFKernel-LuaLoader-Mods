@@ -1,8 +1,8 @@
 {
   "main": "main.lua",
   "pkg_id": "lzup.lua.creativemenu",
-  "version": "1.1.0",
-  "version_code": 20261015,
+  "version": "1.1.1",
+  "version_code": 20261103,
   "api_version": 1,
   "multiplayer_safe": false
 }

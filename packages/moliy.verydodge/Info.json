@@ -1,0 +1,101 @@
+{
+  "pkgId": "moliy.verydodge",
+  "name": "这是我觉得这很闪避啊",
+  "author": "Moliy",
+  "version": "1.0.0",
+  "versionCode": 1,
+  "brieflyDescribe": "自定义混乱之脑、忍者（黑腰带/忍者大师装备）、秘术腰带的闪避概率，0–100% 各自独立可调。",
+  "description": "装备原版混乱之脑（Brain of Confusion，ID 3223）、黑腰带（Black Belt，ID 963）/ 忍者大师装备（Master Ninja Gear，ID 984）、秘术腰带（ID 6189）后生效。原版三者的闪避概率写死在 Player.Hurt 里：秘术腰带 1/10、黑腰带与忍者大师装备共用一次 1/10、混乱之脑 1/6（且身上没有 321 号 buff 时才算）。本模组把这三路闪避各做成一个 0–100% 的滑条，默认值等于原版概率。纯 Lua 实现，只作用于本地玩家，不改动游戏文件。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "QUALITY_OF_LIFE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "启用这是我觉得这很闪避啊",
+      "description": "关闭后立刻恢复原版的闪避概率（秘术腰带 10%、黑腰带/忍者大师装备 10%、混乱之脑 16.7%）。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "brain_chance",
+      "title": "混乱之脑闪避概率",
+      "description": "原版 1/6 ≈ 16.7%。调到 100 就是每次都闪，调到 0 就是永不闪。身上有 321 号 buff（刚闪避过的短时间）时按这个概率重新判定。",
+      "type": "INTEGER",
+      "defaultValue": 17,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "闪避概率"
+    },
+    {
+      "key": "ninja_chance",
+      "title": "忍者闪避概率（黑腰带 / 忍者大师装备）",
+      "description": "原版 1/10 = 10%。黑腰带和忍者大师装备在原版里共用同一个判定，所以这两件共用这一个滑条。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "闪避概率"
+    },
+    {
+      "key": "sash_chance",
+      "title": "秘术腰带闪避概率",
+      "description": "原版 1/10 = 10%。就是那条加闪避的新腰带（ID 6189）。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "闪避概率"
+    }
+  ]
+}

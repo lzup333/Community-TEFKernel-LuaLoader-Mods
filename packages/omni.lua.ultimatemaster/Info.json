@@ -1,0 +1,27 @@
+{
+  "pkgId": "omni.lua.ultimatemaster",
+  "name": "全能大师",
+  "author": "YourName",
+  "version": "1.1.6",
+  "versionCode": 10106,
+  "brieflyDescribe": "肉前终极毕业移动饰品，缝合7件神装。",
+  "description": "融合了泰拉靴、气球束、忍者大师等移动精髓，赋予超长飞行、极限跑速与42秒岩浆免疫。",
+  "features": ["MECHANICS_CHANGE", "UTILITY"],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": true, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": true, "x86": true },
+    "linux":   { "arm64": false, "arm": false, "x64": true, "x86": false },
+    "mac":     { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios":     { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true
+}

@@ -12,7 +12,7 @@ function M.new()
  function s:setSize(width,height,snapshot)
   if type(width)~='string'or type(height)~='string'or not width:match('^%d+$')or not height:match('^%d+$')then return false,'宽高请输入整数'end
   local w,h=tonumber(width),tonumber(height)
-  if not w or not h or w<1 or h<1 or w>B.MAX_W or h>B.MAX_H then return false,'尺寸范围：宽1–256，高1–128格'end
+  if not w or not h or w<1 or h<1 or w>B.MAX_W or h>B.MAX_H then return false,'尺寸范围：宽1–'..B.MAX_W..'，高1–'..B.MAX_H..'格'end
   local x=self.x+math.floor(self.width/2)-math.floor(w/2);local y=self.y+self.height-h
   if not snapshot or snapshot.worldKey~=self.worldKey or x<1 or y<1 or x+w>=snapshot.maxX or y+h>=snapshot.maxY then return false,'尺寸超出当前世界边界'end
   self.x=x;self.y=y;self.width=w;self.height=h;self.visible=true;self.renderLogged=false

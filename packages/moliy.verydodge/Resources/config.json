@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "enabled": true,
+    "brain_chance": 17,
+    "ninja_chance": 10,
+    "sash_chance": 10
+  }
+}

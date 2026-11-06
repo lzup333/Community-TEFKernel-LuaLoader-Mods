@@ -30,18 +30,10 @@ function M.new(mod,adapter,builder)
  end
  a.platformOptions={kind='hellbridge',bridgeLength=2000,arenaLength=200,layers=3,gap=5,clearance=8,stairs=false,shaftRope=true}
  a.traceLines={}
- -- Keep the last session's evidence so a reload after a failed capture does not
- -- replace the only useful diagnostic with a fresh idle line.
- local previous
- if mod.read_file then local ok,value=pcall(mod.read_file,'instant_housing.log');if ok then previous=value end end
- if type(previous)=='string' then
-  for line in previous:gmatch('[^\n]+') do a.traceLines[#a.traceLines+1]=line end
-  while #a.traceLines>23 do table.remove(a.traceLines,1) end
- end
+ -- v2.0.0 正式版：诊断日志只留在内存，不写盘。
  function a:trace(message)
   self.traceLines[#self.traceLines+1]=tostring(message)
   if #self.traceLines>24 then table.remove(self.traceLines,1)end
-  pcall(self.mod.write_file,'instant_housing.log',table.concat(self.traceLines,'\n'))
  end
  a.selection.trace=function(message)a:trace(message)end
  local ok,e=pcall(function()adapter:enableBlueprints()end)
@@ -155,10 +147,10 @@ function M.new(mod,adapter,builder)
  end
  function a:sizeValues()return self.sizeRequested or {tostring(self.selection.width),tostring(self.selection.height)}end
  function a:changeSize(dw,dh)
-  local v=self:sizeValues();return self:applySize{tostring(math.max(1,math.min(256,tonumber(v[1])+dw))),tostring(math.max(1,math.min(128,tonumber(v[2])+dh)))}
+  local B=require('blueprint');local v=self:sizeValues();return self:applySize{tostring(math.max(1,math.min(B.MAX_W,tonumber(v[1])+dw))),tostring(math.max(1,math.min(B.MAX_H,tonumber(v[2])+dh)))}
  end
  function a:applyDimension(index,value)
-  local n=tonumber(value);local max=index==1 and 256 or 128
+  local n=tonumber(value);local B=require('blueprint');local max=index==1 and B.MAX_W or B.MAX_H
   if not n or n%1~=0 or n<1 or n>max then self.message='尺寸超出范围';return false end
   local v=self:sizeValues();return self:applySize{index==1 and tostring(n)or v[1],index==2 and tostring(n)or v[2]}
  end
@@ -295,9 +287,7 @@ function M.new(mod,adapter,builder)
   if self.job.state=='done' and self.pendingBuild then
    local pending=self.pendingBuild;self.pendingBuild=nil
    self.undoSnapshot={bp=self.job.result,x=self.job.rect.x,y=self.job.rect.y,worldKey=pending.worldKey}
-   local reason=tostring(self.job.message)
-   local edge=reason:find('家具超出选区最大尺寸',1,true)or reason:find('家具超出世界边界',1,true)
-   if pending.kind=='blueprint' and edge then
+   if pending.kind=='blueprint' then
     assert(self.job:pasteAt(pending.bp,pending.x,pending.y,pending.worldKey,false,pending.options),'建筑任务无法启动')
    elseif pending.kind=='clearRegion' then
     assert(self.regionJob:start(pending.rect,pending.options),'区域清理任务无法启动')
@@ -329,7 +319,7 @@ function M.new(mod,adapter,builder)
    self.undoSnapshot=nil;self.undoInProgress=false;self.message='已撤回最近一次建筑'
   elseif self.job.state=='done' and self.job.result and self.activeWork=='blueprint' and not self.handled then
    self.handled=true;local slot,why=self.store:save(self.job.result,self.captureSlot)
-   if slot then self:load(slot);self.draft=nil;self.draftSlot=nil;self.message='已保存槽位'..slot..'；跳过树木/特殊格 '..(self.sample.omitted or 0)
+   if slot then self:load(slot);self.draft=nil;self.draftSlot=nil;self.message='槽'..slot..'；'..(self.job.omitSummary or ('跳过'..(self.sample.omitted or 0)..'格'))
    else self.message=why;self.draft=self.job.result;self.draftSlot=self.captureSlot end
   end
   if self.activeWork=='build' then

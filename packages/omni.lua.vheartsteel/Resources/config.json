@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "life_gain_tenths": 5,
+    "filter_mode": "1",
+    "max_stacks": 3,
+    "dmg_ratio": 10,
+    "heal_ratio": 50,
+    "npc_cooldown": 30
+  }
+}

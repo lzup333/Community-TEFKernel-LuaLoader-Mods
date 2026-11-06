@@ -1,0 +1,52 @@
+{
+    "pkgId": "bing.fatfishblessing.item",
+    "name": "大肥鱼赐福之石",
+    "author": "bingbingbing",
+    "version": "1.0.0",
+    "versionCode": 1,
+    "brieflyDescribe": "蕴含大肥鱼神力，法师的福音。",
+    "description": "由 bingbingbing 倾情打造。法师攻击时，对周围敌人挂debuff（冷却6秒）。",
+    "features": [],
+    "sizeCategory": "TINY",
+    "targetGameVersion": "1.4.5.8",
+    "minGameVersion": "1.4.4.0",
+    "maxGameVersion": "1.4.5.8",
+    "support": {
+        "android": {
+            "arm64": true,
+            "arm": true,
+            "x64": false,
+            "x86": false
+        },
+        "windows": {
+            "arm64": false,
+            "arm": false,
+            "x64": true,
+            "x86": true
+        },
+        "linux": {
+            "arm64": false,
+            "arm": false,
+            "x64": true,
+            "x86": false
+        },
+        "mac": {
+            "arm64": false,
+            "arm": false,
+            "x64": false,
+            "x86": false
+        },
+        "ios": {
+            "arm64": false,
+            "arm": false,
+            "x64": false,
+            "x86": false
+        }
+    },
+    "dependence": [],
+    "conflicts": [],
+    "stableVerified": false,
+    "experimental": true,
+    "deprecated": false,
+    "hasExtendedContent": false
+}

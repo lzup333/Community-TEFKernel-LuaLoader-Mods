@@ -1,4 +1,5 @@
 local registry=require('templates.registry')
+local BP=require('blueprint')
 local C=require('templates.common')
 local M={}
 local function key(x,y) return x..','..y end
@@ -75,7 +76,7 @@ function M.build(options)
    if not (b.map[key(wx,obj.top)] or {}).wall then return nil,'火把缺少背景墙' end
   end
  end
- if plan.bounds.x2-plan.bounds.x1>=256 or plan.bounds.y2-plan.bounds.y1>=128 then return nil,'结构超出安全范围' end
+ if plan.bounds.x2-plan.bounds.x1>=BP.MAX_W or plan.bounds.y2-plan.bounds.y1>=BP.MAX_H then return nil,'结构超出安全范围' end
  table.sort(plan.cells,function(a,c) if a.y~=c.y then return a.y>c.y end return a.x<c.x end)
  return plan
 end

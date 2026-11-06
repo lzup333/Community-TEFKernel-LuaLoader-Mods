@@ -33,6 +33,7 @@ local patch = mod.patch
 
 local ITEM_COUNT = 6196
 local NPC_COUNT  = 697
+local item_max = ITEM_COUNT - 1
 
 -- 简约风尺寸
 local WIDTH    = 510 -- 窗口宽（窄了会挤，这里留足）
@@ -370,7 +371,15 @@ end
 local function build_item_names()
     if item_names then return end
     item_names, item_py, item_ini, item_ms = {}, {}, {}, {}
-    build_names(item_names, item_py, item_ini, item_ms, M_get_item_name, ITEM_COUNT - 1)
+    local cache_field = patch.get_field(T_lang, "_itemNameCache")
+    if cache_field then
+        local cache = patch.get_field_value(cache_field, nil, "object")
+        if cache then
+            local length = patch.array_length(cache)
+            if type(length) == "number" and length > 1 then item_max = length - 1 end
+        end
+    end
+    build_names(item_names, item_py, item_ini, item_ms, M_get_item_name, item_max)
 end
 
 local function build_npc_names()
@@ -461,7 +470,7 @@ local function gui_items()
     if item_filter ~= item_filter_cache or dirty then
         item_filter_cache = item_filter
         item_list_cache = compute_list(item_names, item_py, item_ini, item_ms, item_filter,
-            ITEM_COUNT - 1)
+            item_max)
         item_page = 0
         dirty = false
     end

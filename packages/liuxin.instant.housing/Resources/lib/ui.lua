@@ -5,6 +5,7 @@ local NumberInput=require('number_input')
 local SelectionPad=require('selection_pad')
 local SelectionView=require('selection_view')
 local SlotRail=require('slot_rail')
+local BP=require('blueprint')
 local M={}
 local colors={wood={159,112,67,255},leaf={77,164,81,255},stone={126,139,155,255},wall={68,79,91,255},glass={94,167,193,255},object={231,192,106,255},platform={179,145,89,255}}
 function M.new(mod,controller)
@@ -59,9 +60,14 @@ function M.new(mod,controller)
   local g=mod.gui;local o=self.options;local c=self.c
   if not self.initialized then
    g.set_title('一键建造','建');g.set_width(416);g.set_pos(28,70)
-   g.set_style{panel={20,28,38,245},title={34,51,65,255},button={41,62,76,255},hover={57,89,105,255},text={235,237,229,255}}
+   g.set_style{panel={33,43,102,245},title={50,60,130,255},button={63,80,150,255},hover={84,109,183,255},text={235,237,229,255}}
    if g.load_image then
     self.pixel=g.load_image('lib/ui/white.png')
+    self.roundMask=g.load_image('lib/ui/round_mask.png')
+    self.roundButtons={}
+    for _,h in ipairs{19,23,25,26,27,28,29,30,32,34,36}do
+     self.roundButtons[h]=g.load_image('lib/ui/button_'..h..'.png')
+    end
     self.padImage=g.load_image('lib/ui/selection_pad.png')
     self.skinPanel=g.load_image('lib/ui/panel_skin.png')
     self.floatIcon=g.load_image('lib/ui/icon_float.png')
@@ -76,8 +82,18 @@ function M.new(mod,controller)
   local function text(x,y,value,scale) g.text_at(x,y,readable(value),{235,237,229,255},scale) end
   local app=self.workbench
   local busy=c.state=='building' or c.state=='queued' or (app and app:busy())
+  local function rounded(x,y,w,h,color,radius)
+   if w<=0 or h<=0 then return end
+   if self.roundMask and g.nine_slice then
+    g.nine_slice(self.roundMask,x,y,w,h,31,color,math.min(radius or h/2,w/2,h/2))
+   else g.rect(x,y,w,h,color)end
+  end
   local function button(x,y,w,h,label,allow)
-   local hit=g.button_at(x,y,w,h,label);return hit and allow~=false
+   local image=self.roundButtons and self.roundButtons[h]
+   local hit
+   if image and g.image_button then hit=g.image_button(image,x,y,w,h,label,math.floor(h/2))
+   else hit=g.button_at(x,y,w,h,label)end
+   return hit and allow~=false
   end
   local compact=self.page==5 or self.page==7
   g.set_width(compact and 320 or 416)
@@ -168,13 +184,14 @@ function M.new(mod,controller)
       self.slotFirst=self.slotRail:update(now,cursors,{x=ox+rail.x,y=oy+rail.y,w=rail.w,h=rail.h},total,visible,self.slotFirst,not busy,view.frame)
      else self.slotRail:reset()end
     else self.slotRail:reset()end
-    g.rect(rail.x,rail.y,rail.w,rail.h,{37,57,69,255})
+    rounded(rail.x,rail.y,rail.w,rail.h,{35,46,104,255})
     local thumb=math.min(rail.w,math.max(38,rail.w*visible/total))
-    g.rect(rail.x+(self.slotFirst-1)*(rail.w-thumb)/math.max(1,last-1),rail.y,thumb,rail.h,{91,169,142,255})
+    rounded(rail.x+(self.slotFirst-1)*(rail.w-thumb)/math.max(1,last-1),rail.y,thumb,rail.h,{119,163,236,255})
     local function paint(x,y,w,h,color)
      if self.pixel and g.image then g.image(self.pixel,x,y,w,h,color)else g.rect(x,y,w,h,color)end
     end
-    paint(0,126,156,84,{17,25,34,255})
+    rounded(0,126,156,84,{105,132,207,255},10)
+    rounded(1,127,154,82,{28,37,87,255},9)
     if app.sample then
      if self.previewRunsRevision~=app.revision then
       self.previewRunsRevision=app.revision;self.previewRuns=BPPreview.schematic(app.sample)
@@ -186,9 +203,6 @@ function M.new(mod,controller)
       paint(ox+x*scale,oy+run.y*scale,math.max(1,run.w*scale),math.max(1,scale),run.color)
      end
     else text(30,160,'空槽位',0.65) end
-    local border={45,75,95,255}
-    paint(0,126,156,1,border);paint(0,209,156,1,border)
-    paint(0,126,1,84,border);paint(155,126,1,84,border)
     for i,item in ipairs{{'blocks','方块'},{'walls','背景墙'},{'wires','线路'},{'liquid','液体'}}do
      if button(168,126+(i-1)*21,216,19,(app.pasteOptions[item[1]] and '[粘贴] 'or '[跳过] ')..item[2],not busy)then app:togglePasteOption(item[1])end
     end
@@ -306,7 +320,7 @@ function M.new(mod,controller)
     end
    end
    if self.page==7 then
-    text(0,264,'宽1–256格 · 高1–128格',0.52)
+    text(0,264,'宽1–'..BP.MAX_W..'格 · 高1–'..BP.MAX_H..'格',0.52)
    else
     local msg=readable(app.message);local cut=utf8.offset(msg,26)
     text(0,411,cut and msg:sub(1,cut-1)or msg,0.49)
@@ -316,11 +330,11 @@ function M.new(mod,controller)
   end
 
   local footerY=(self.page==4 or self.page==6)and 299 or self.page==1 and 281 or 243
-  g.rect(0,footerY,384,6,{39,48,58,255})
+  rounded(0,footerY,384,6,{35,46,104,255})
   local barProgress=c.progress or 0
   if app and app.activeWork then barProgress=app:progress() end
   barProgress=math.max(0,math.min(1,barProgress))
-  g.rect(0,footerY,384*barProgress,6,{91,169,142,255})
+  rounded(0,footerY,384*barProgress,6,{119,163,236,255})
   local message=readable((self.page>=4 and app and app.message) or c.message)
   local cut=utf8.offset(message,43)
   local first=cut and message:sub(1,cut-1) or message
@@ -332,6 +346,13 @@ function M.new(mod,controller)
  end
  function u:close()
   self.pad:reset();self.slotRail:reset()
+  if mod.gui.release_image then
+   for _,id in pairs(self.roundButtons or {})do mod.gui.release_image(id)end
+   self.roundButtons=nil
+   for _,key in ipairs{'roundMask','skinPanel','floatIcon'}do
+    if self[key]then mod.gui.release_image(self[key]);self[key]=nil end
+   end
+  end
   if self.padImage and mod.gui.release_image then mod.gui.release_image(self.padImage);self.padImage=nil end
   if self.previewImage and mod.gui.release_image then mod.gui.release_image(self.previewImage);self.previewImage=nil end
   if self.pixel and mod.gui.release_image then mod.gui.release_image(self.pixel);self.pixel=nil end end

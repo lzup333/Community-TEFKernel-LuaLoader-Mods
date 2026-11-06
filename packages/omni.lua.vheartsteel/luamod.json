@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "omni.lua.vheartsteel",
+  "version": "2.3.1",
+  "version_code": 20301,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

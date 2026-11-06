@@ -1,10 +1,10 @@
 {
   "pkgId": "liuxin.instant.housing",
   "name": "一键建造",
-  "author": "liu xin",
-  "description": "房屋样式、蓝图框选复制与镜像粘贴；可独立选择物块/家具、背景墙、电线、液体进行粘贴或区域清理，并可撤回最近施工。支持地狱平台、战斗平台与地狱直通车。",
-  "version": "1.1.0",
-  "versionCode": 37,
+  "author": "liu xin/蓝色大肥鱼",
+  "description": "房屋样式、蓝图框选复制与镜像粘贴；可独立选择物块/家具、背景墙、电线、液体进行粘贴或区域清理，并可撤回最近施工。支持地狱平台、战斗平台与地狱直通车。\n由蓝色大肥鱼优化",
+  "version": "2.0.1",
+  "versionCode": 201,
   "dependence": [],
   "support": {
     "android": {
@@ -33,7 +33,7 @@
   "minGameVersion": "1.4.5.8",
   "maxGameVersion": "1.4.5.8",
   "conflicts": [],
-  "stableVerified": true,
+  "stableVerified": false,
   "experimental": false,
   "deprecated": false,
   "hasExtendedContent": true,

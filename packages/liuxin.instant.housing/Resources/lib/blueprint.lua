@@ -1,5 +1,5 @@
 -- Portable values only: no managed handles, pointers, executable Lua or palette indices.
-local M={GAME='Terraria-1.4.5.8',MAX_W=256,MAX_H=128,MAX_CELLS=32768,MAX_BYTES=4*1024*1024}
+local M={GAME='Terraria-1.4.5.8',MAX_W=189,MAX_H=145,MAX_CELLS=27405,MAX_BYTES=4*1024*1024}
 local function int(n,lo,hi) return type(n)=='number' and n%1==0 and n>=lo and n<=hi end
 function M.checksum(s)
  local v=2166136261

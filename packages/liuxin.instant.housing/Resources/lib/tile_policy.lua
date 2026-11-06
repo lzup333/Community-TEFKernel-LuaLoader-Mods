@@ -1,7 +1,8 @@
 -- TileID names/values verified against the supplied 1.4.5.8 dump.
 local M={}
 local trees={[5]=true,[72]=true,[170]=true,[323]=true,[571]=true,[583]=true,[584]=true,[585]=true,[586]=true,[587]=true,[588]=true,[589]=true,[596]=true,[616]=true,[634]=true}
-local unsupported={[128]=true,[269]=true,[334]=true,[378]=true,[395]=true,[423]=true,[470]=true,[471]=true,[475]=true,[520]=true,[597]=true,[698]=true,[723]=true,[724]=true}
+-- v1.2.3: 378 目标假人已放开（纯方块，无独立实体）
+local unsupported={[128]=true,[269]=true,[334]=true,[395]=true,[423]=true,[470]=true,[471]=true,[475]=true,[520]=true,[597]=true,[698]=true,[723]=true,[724]=true}
 function M.tree(id)return trees[id]==true end
 function M.container(id)return id==21 or id==88 or id==467 end
 function M.unsupported(id)return unsupported[id]==true end

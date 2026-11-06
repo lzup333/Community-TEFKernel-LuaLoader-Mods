@@ -1,0 +1,76 @@
+{
+  "pkgId": "omni.lua.vheartsteel",
+  "name": "心之钢",
+  "author": "YourName",
+  "version": "2.3.1",
+  "versionCode": 20301,
+  "brieflyDescribe": "叠层引爆的永久生命成长：打怪叠层、引爆造成伤害并吸血，永久提升最大生命。",
+  "description": "仿英雄联盟心之钢：装备饰品后命中敌怪叠层，叠满引爆——对目标造成基于你最大生命的伤害、回复生命，并永久提升少量最大生命。\n\n【可调项】叠层数、引爆伤害比例、回复比例、每次永久生命、同目标冷却，均在 TEFManager 的设置里调整。\n\n【已知副作用，请务必了解】\n1. 原版基础血量上限 statLifeMax 被游戏锁死在 500，所以本模组不改它；加成存在模组自己的 heartsteel.dat 里，每帧补到「有效上限」statLifeMax2 上。因此血量上限能突破 500，且读档不丢。\n2. 加成文件按模组存放，不分角色——换角色会共享同一份加成。\n3. 卸载本模组后加成随之失效（数据在模组私有目录里）。\n4. 引爆伤害以「有效上限」为基数，血量越高伤害越高，会形成滚雪球。\n5. 叠层数与冷却只在本次游戏内有效，退出重进会清零；永久生命加成不会清零。\n6. 只有佩戴该饰品时才叠层；摘下后不再增长，但已获得的加成保留。\n7. 自定义物品 ID 由加载器按模组集合排序分配，增删其它自定义物品模组可能导致 ID 位移，造成存档里的饰品串号。",
+  "features": ["MECHANICS_CHANGE", "UTILITY"],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true, "arm": true, "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": true, "x86": true },
+    "linux":   { "arm64": false, "arm": false, "x64": true, "x86": false },
+    "mac":     { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios":     { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "settings": [
+    {
+      "key": "life_gain_tenths",
+      "title": "每次引爆永久生命（×0.1）",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 1, "max": 50, "step": 1, "unit": ""
+    },
+    {
+      "key": "filter_mode",
+      "title": "触发敌怪过滤",
+      "type": "CHOICE",
+      "defaultValue": "1",
+      "options": [
+        { "value": "1", "label": "仅敌对怪（排除小动物/友好/无敌）" },
+        { "value": "2", "label": "仅 Boss" },
+        { "value": "3", "label": "敌对怪且血量 ≥100" },
+        { "value": "4", "label": "不过滤（任何被打中的敌怪）" }
+      ]
+    },
+    {
+      "key": "max_stacks",
+      "title": "引爆所需层数",
+      "type": "INTEGER",
+      "defaultValue": 3,
+      "min": 1, "max": 10, "step": 1, "unit": "层"
+    },
+    {
+      "key": "dmg_ratio",
+      "title": "引爆伤害（占你最大生命的百分比）",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 1, "max": 50, "step": 1, "unit": "%"
+    },
+    {
+      "key": "heal_ratio",
+      "title": "引爆回复（占造成伤害的百分比）",
+      "type": "INTEGER",
+      "defaultValue": 50,
+      "min": 0, "max": 100, "step": 5, "unit": "%"
+    },
+    {
+      "key": "npc_cooldown",
+      "title": "同一目标冷却时间",
+      "type": "INTEGER",
+      "defaultValue": 30,
+      "min": 0, "max": 120, "step": 5, "unit": "秒"
+    }
+  ],
+  "hasExtendedContent": false
+}

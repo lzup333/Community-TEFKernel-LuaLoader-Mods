@@ -1,4 +1,4 @@
-mod.meta={pkg_id='community.instant.housing',version='0.4.8',version_code=37,api_version=1}
+mod.meta={pkg_id='community.instant.housing',version='2.0.1',version_code=201,api_version=1}
 local Adapter=require('adapter')
 local Builder=require('builder')
 local UI=require('ui')

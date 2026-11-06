@@ -1,7 +1,9 @@
 -- Stream a selected rectangle after its exact undo snapshot is saved.
 local M={}
+local clock=os and os.clock
+local SLICE=0.007
 function M.new(adapter)
- local j={a=adapter,state='idle',progress=0,message='等待清理区域',budget=32}
+ local j={a=adapter,state='idle',progress=0,message='等待清理区域',budget=160}
  function j:busy()return self.state=='queued' or self.state=='building'end
  function j:start(rect,options)
   if self:busy()then return false end
@@ -19,7 +21,9 @@ function M.new(adapter)
   assert(r.x>=1 and r.y>=1 and r.x+r.width<s.maxX and r.y+r.height<s.maxY,'选区超出世界边界')
   if self.state=='queued'then self.a:beginBuild();self.state='building'end
   local total=r.width*r.height
+  local dl=clock and (clock()+SLICE) or 0
   for _=1,self.budget do
+   if clock and clock()>dl then break end
    if self.index>=total then break end
    local x=r.x+self.index%r.width;local y=r.y+self.index//r.width
    assert(self.a:execute{kind='clear',clearMode='selection',x=x,y=y,options=self.options},'区域清理接口失败')
