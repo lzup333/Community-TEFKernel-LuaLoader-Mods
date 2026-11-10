@@ -1,0 +1,30 @@
+{
+  "pkgId": "liuxin.lowhealth.breath",
+  "name": "残血呼吸边框",
+  "author": "liu xin",
+  "description": "生命值不高于30%时，屏幕边缘显示红色呼吸边框",
+  "version": "1.0.2",
+  "versionCode": 7,
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "dependence": [],
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false
+    },
+    "windows": {
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "x64": false,
+      "arm64": false
+    }
+  }
+}

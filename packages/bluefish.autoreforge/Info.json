@@ -1,0 +1,164 @@
+{
+  "pkgId": "bluefish.autoreforge",
+  "name": "根本没有这样的榨金(;´༎ຶД༎ຶ`)",
+  "author": "蓝色大肥鱼",
+  "version": "1.2.2",
+  "versionCode": 122,
+  "brieflyDescribe": "你敢靠近我一点吗",
+  "description": "你已穷哭(;´༎ຶД༎ຶ`)",
+  "features": [
+    "UTILITY",
+    "MECHANICS_CHANGE"
+  ],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "settings": [
+    {
+      "key": "always_reforge",
+      "title": "一直重铸",
+      "type": "CHOICE",
+      "defaultValue": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "开启（不判断词缀，见到就刷）"
+        },
+        {
+          "value": "0",
+          "label": "关闭（刷到顶级词缀就停）"
+        }
+      ]
+    },
+    {
+      "key": "charge_coins",
+      "title": "是否扣钱",
+      "type": "CHOICE",
+      "defaultValue": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "开启（按原版规则扣金币）"
+        },
+        {
+          "value": "0",
+          "label": "关闭（免费重铸）"
+        }
+      ]
+    },
+    {
+      "key": "range_tiles",
+      "title": "触发半径（格）",
+      "type": "INTEGER",
+      "defaultValue": 1000,
+      "min": 1,
+      "max": 1000,
+      "step": 1,
+      "unit": "格"
+    },
+    {
+      "key": "interval",
+      "title": "重铸间隔（帧）",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "帧"
+    },
+    {
+      "key": "acc_prefix",
+      "title": "饰品目标词缀（仅「一直重铸」关闭时有效）",
+      "type": "CHOICE",
+      "defaultValue": "65",
+      "options": [
+        {
+          "value": "65",
+          "label": "护佑（+4 防御）"
+        },
+        {
+          "value": "72",
+          "label": "险恶（+4% 伤害）"
+        },
+        {
+          "value": "68",
+          "label": "幸运（+4% 暴击）"
+        },
+        {
+          "value": "66",
+          "label": "奥秘（+20 魔力上限）"
+        }
+      ]
+    },
+    {
+      "key": "do_weapon",
+      "title": "重铸手持物品（仅「一直重铸」关闭时有效）",
+      "type": "CHOICE",
+      "defaultValue": "0",
+      "options": [
+        {
+          "value": "1",
+          "label": "开启"
+        },
+        {
+          "value": "0",
+          "label": "关闭"
+        }
+      ]
+    },
+    {
+      "key": "do_accessory",
+      "title": "重铸已装备饰品（仅「一直重铸」关闭时有效）",
+      "type": "CHOICE",
+      "defaultValue": "0",
+      "options": [
+        {
+          "value": "1",
+          "label": "开启"
+        },
+        {
+          "value": "0",
+          "label": "关闭"
+        }
+      ]
+    }
+  ]
+}

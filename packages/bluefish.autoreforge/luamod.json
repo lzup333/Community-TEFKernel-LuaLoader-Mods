@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.autoreforge",
+  "version": "1.2.2",
+  "version_code": 122,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "你敢靠近我一点吗"
+}

@@ -1,0 +1,70 @@
+{
+  "pkgId": "liuxin.bossbar.classic",
+  "name": "Boss 血条",
+  "author": "liu xin",
+  "description": "Boss 血条，包含头像、名称、当前/最大生命值、百分比与受击缓降效果，新加入了移动和锁定功能。",
+  "version": "1.2.2",
+  "versionCode": 15,
+  "dependence": [],
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "brieflyDescribe": "鎏金血条与简洁血条。",
+  "features": [
+    "VISUAL_ENHANCEMENT",
+    "UI_IMPROVEMENT"
+  ],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "Terraria Android 1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "settings": [
+    {
+      "key": "bossbar_style",
+      "title": "血条样式",
+      "description": "选择Boss血条外观。保存后重启游戏生效。",
+      "type": "CHOICE",
+      "defaultValue": "A",
+      "options": [
+        {
+          "value": "A",
+          "label": "鎏金经典"
+        },
+        {
+          "value": "D",
+          "label": "简洁战斗"
+        }
+      ],
+      "section": "血条外观"
+    }
+  ]
+}

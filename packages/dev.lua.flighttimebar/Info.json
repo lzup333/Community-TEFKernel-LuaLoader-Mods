@@ -1,0 +1,27 @@
+{
+  "pkgId": "dev.lua.flighttimebar",
+  "name": "飞行时间条 (FlightBar)",
+  "author": "lzup",
+  "version": "1.2.0",
+  "versionCode": 4,
+  "brieflyDescribe": "飞行时间展示条",
+  "description": "在玩家头顶画飞行时间条。",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "support": {
+    "android": { "arm64": true,  "arm": true,  "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "linux":   { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "mac":     { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios":     { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

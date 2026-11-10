@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "always_reforge": "1",
+    "charge_coins": "1",
+    "range_tiles": 1000,
+    "interval": 1,
+    "acc_prefix": "65",
+    "do_weapon": "0",
+    "do_accessory": "0"
+  }
+}
