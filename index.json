@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-11T19:40:23.503609Z",
+  "updatedAt": "2026-11-12T09:54:29.715883Z",
   "mods": [
     {
       "pkgId": "dev.lua.flighttimebar",
@@ -9,7 +9,7 @@
       "author": "lzup",
       "version": "1.2.0",
       "versionCode": 4,
-      "brieflyDescribe": "[新][下载量:8]\n飞行时间展示条",
+      "brieflyDescribe": "[新][下载量:11]\n飞行时间展示条",
       "features": [],
       "sizeCategory": "TINY",
       "stableVerified": true,
@@ -17,7 +17,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/dev.lua.flighttimebar.tefpkg",
-      "downloadCount": 8,
+      "downloadCount": 11,
       "publishedAt": "2026-11-10T15:04:28.139336Z",
       "fileSize": "5.2 KiB",
       "sha256": "4f753f4bf8770e8a4bc224df9a51df1739553f090678dab36ff97236f3749b24",
@@ -29,7 +29,7 @@
       "author": "蓝色大肥鱼",
       "version": "1.2.2",
       "versionCode": 122,
-      "brieflyDescribe": "[新][下载量:5]\n你敢靠近我一点吗",
+      "brieflyDescribe": "[新][下载量:6]\n你敢靠近我一点吗",
       "features": [
         "UTILITY",
         "MECHANICS_CHANGE"
@@ -40,7 +40,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.autoreforge.tefpkg",
-      "downloadCount": 5,
+      "downloadCount": 6,
       "publishedAt": "2026-11-10T15:04:28.170737Z",
       "fileSize": "250.5 KiB",
       "sha256": "7853f03a2dc12ecc7ee9bbd824dd3ee7cba3ca95eb4947bb0828d808759dc6c9",
@@ -52,7 +52,7 @@
       "author": "liu xin",
       "version": "1.2.2",
       "versionCode": 15,
-      "brieflyDescribe": "[新][下载量:3]\n鎏金血条与简洁血条。",
+      "brieflyDescribe": "[新][下载量:4]\n鎏金血条与简洁血条。",
       "features": [
         "VISUAL_ENHANCEMENT",
         "UI_IMPROVEMENT"
@@ -63,7 +63,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.bossbar.classic.tefpkg",
-      "downloadCount": 3,
+      "downloadCount": 4,
       "publishedAt": "2026-11-10T15:04:28.162390Z",
       "fileSize": "447.1 KiB",
       "sha256": "5bb9cc635dfb8edca6605038d668fcf2aa015d59821aeeb73d10fac9a1705317",
@@ -176,6 +176,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "lua.qing.betterexperience",
+      "name": "更好的体验",
+      "author": "qing",
+      "version": "1.2.2",
+      "versionCode": 122,
+      "brieflyDescribe": "[下载量:23]\n科技改变生活",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.betterexperience.tefpkg",
+      "downloadCount": 23,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "28.0 KiB",
+      "sha256": "bc5bc92b2ba6a6e34874c29552661f3a3412a8a2933539b7fb2b3274b422f190",
+      "updateLog": ""
+    },
+    {
       "pkgId": "lua.qing.motionplus",
       "name": "动作优化v1.2.5",
       "author": "qing",
@@ -236,32 +256,12 @@
       "updateLog": ""
     },
     {
-      "pkgId": "lua.qing.betterexperience",
-      "name": "更好的体验",
-      "author": "qing",
-      "version": "1.2.2",
-      "versionCode": 122,
-      "brieflyDescribe": "[下载量:22]\n科技改变生活",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.betterexperience.tefpkg",
-      "downloadCount": 22,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "28.0 KiB",
-      "sha256": "bc5bc92b2ba6a6e34874c29552661f3a3412a8a2933539b7fb2b3274b422f190",
-      "updateLog": ""
-    },
-    {
       "pkgId": "moliy.verydodge",
       "name": "这是我觉得这很闪避啊",
       "author": "Moliy",
       "version": "1.0.0",
       "versionCode": 1,
-      "brieflyDescribe": "[下载量:21]\n自定义混乱之脑、忍者（黑腰带/忍者大师装备）、秘术腰带的闪避概率，0–100% 各自独立可调。",
+      "brieflyDescribe": "[下载量:23]\n自定义混乱之脑、忍者（黑腰带/忍者大师装备）、秘术腰带的闪避概率，0–100% 各自独立可调。",
       "features": [
         "MECHANICS_CHANGE",
         "QUALITY_OF_LIFE"
@@ -272,7 +272,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/moliy.verydodge.tefpkg",
-      "downloadCount": 21,
+      "downloadCount": 23,
       "publishedAt": "2026-11-06T11:52:48.423510Z",
       "fileSize": "5.4 KiB",
       "sha256": "8f78d9ef089c12091f7896efd5510dc31b88f498c31a0dfda03da53bc98f10ae",
@@ -302,6 +302,29 @@
       "updateLog": ""
     },
     {
+      "pkgId": "omni.lua.vheartsteel",
+      "name": "心之钢",
+      "author": "YourName",
+      "version": "2.3.1",
+      "versionCode": 20301,
+      "brieflyDescribe": "[下载量:19]\n叠层引爆的永久生命成长：打怪叠层、引爆造成伤害并吸血，永久提升最大生命。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "UTILITY"
+      ],
+      "sizeCategory": "SMALL",
+      "stableVerified": false,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/omni.lua.vheartsteel.tefpkg",
+      "downloadCount": 19,
+      "publishedAt": "2026-11-06T11:52:48.362947Z",
+      "fileSize": "24.0 KiB",
+      "sha256": "4eda077b4e9b535a5f7d0e5736288458299ecc0485f4fd3f036f647bc45737a9",
+      "updateLog": ""
+    },
+    {
       "pkgId": "lzup.lua.autofisher",
       "name": "自动钓鱼 (AutoFisher)",
       "author": "lzup333",
@@ -319,29 +342,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "5.4 KiB",
       "sha256": "2344e65f56c9c45bdb6afe6ce35f875b05186058ef2b2b0fc2034ad8df7cff29",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "omni.lua.vheartsteel",
-      "name": "心之钢",
-      "author": "YourName",
-      "version": "2.3.1",
-      "versionCode": 20301,
-      "brieflyDescribe": "[下载量:18]\n叠层引爆的永久生命成长：打怪叠层、引爆造成伤害并吸血，永久提升最大生命。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "UTILITY"
-      ],
-      "sizeCategory": "SMALL",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/omni.lua.vheartsteel.tefpkg",
-      "downloadCount": 18,
-      "publishedAt": "2026-11-06T11:52:48.362947Z",
-      "fileSize": "24.0 KiB",
-      "sha256": "4eda077b4e9b535a5f7d0e5736288458299ecc0485f4fd3f036f647bc45737a9",
       "updateLog": ""
     },
     {
@@ -413,6 +413,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "bing.fatfishblessing.item",
+      "name": "大肥鱼赐福之石",
+      "author": "bingbingbing",
+      "version": "1.0.0",
+      "versionCode": 1,
+      "brieflyDescribe": "[下载量:14]\n蕴含大肥鱼神力，法师的福音。",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bing.fatfishblessing.item.tefpkg",
+      "downloadCount": 14,
+      "publishedAt": "2026-11-06T11:52:48.419753Z",
+      "fileSize": "2.51 MiB",
+      "sha256": "2fa201a9b42d9e002353eb85d1547ef14693cef02bada538236f60d85ed526b1",
+      "updateLog": ""
+    },
+    {
       "pkgId": "liuxin.bossdirectionhint",
       "name": "Boss方向提示",
       "author": "liuxin",
@@ -456,26 +476,6 @@
       "updateLog": ""
     },
     {
-      "pkgId": "bing.fatfishblessing.item",
-      "name": "大肥鱼赐福之石",
-      "author": "bingbingbing",
-      "version": "1.0.0",
-      "versionCode": 1,
-      "brieflyDescribe": "[下载量:13]\n蕴含大肥鱼神力，法师的福音。",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bing.fatfishblessing.item.tefpkg",
-      "downloadCount": 13,
-      "publishedAt": "2026-11-06T11:52:48.419753Z",
-      "fileSize": "2.51 MiB",
-      "sha256": "2fa201a9b42d9e002353eb85d1547ef14693cef02bada538236f60d85ed526b1",
-      "updateLog": ""
-    },
-    {
       "pkgId": "bluefish.peakera",
       "name": "巅峰时代",
       "author": "蓝色大肥鱼",
@@ -513,6 +513,26 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "193.3 KiB",
       "sha256": "124761bad2c9abab0d5957e6469e8eaac83a388f15ecd1529ac1363e25b96e11",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "lzup.lua.combatpets",
+      "name": "战斗宠物 (CombatPets)",
+      "author": "lzup333",
+      "version": "4.6.0",
+      "versionCode": 20260922,
+      "brieflyDescribe": "[下载量:13]\n宠物主动攻击敌怪，多宠物共存，伤害随时期成长",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.combatpets.tefpkg",
+      "downloadCount": 13,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "8.8 KiB",
+      "sha256": "05036cbcd010e06337cae7c6843ca4eef75b4ae0b8eaa816219093dad7df71a0",
       "updateLog": ""
     },
     {
@@ -559,32 +579,12 @@
       "updateLog": ""
     },
     {
-      "pkgId": "lzup.lua.combatpets",
-      "name": "战斗宠物 (CombatPets)",
-      "author": "lzup333",
-      "version": "4.6.0",
-      "versionCode": 20260922,
-      "brieflyDescribe": "[下载量:12]\n宠物主动攻击敌怪，多宠物共存，伤害随时期成长",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.combatpets.tefpkg",
-      "downloadCount": 12,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "8.8 KiB",
-      "sha256": "05036cbcd010e06337cae7c6843ca4eef75b4ae0b8eaa816219093dad7df71a0",
-      "updateLog": ""
-    },
-    {
       "pkgId": "liuxin.instant.housing",
       "name": "一键建造",
       "author": "liu xin/蓝色大肥鱼",
       "version": "2.0.1",
       "versionCode": 201,
-      "brieflyDescribe": "[下载量:11]\n框选复制与分层清理、蓝图库、房屋及地狱平台建造。",
+      "brieflyDescribe": "[下载量:12]\n框选复制与分层清理、蓝图库、房屋及地狱平台建造。",
       "features": [
         "MECHANICS_CHANGE"
       ],
@@ -594,7 +594,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.instant.housing.tefpkg",
-      "downloadCount": 11,
+      "downloadCount": 12,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "186.6 KiB",
       "sha256": "cbdc9dd64b00dfa0cccdd7f52b1e198ad29f1cbebce4f4c9532457bdf4c7101b",
@@ -606,7 +606,7 @@
       "author": "Omni",
       "version": "1.1.0",
       "versionCode": 20261017,
-      "brieflyDescribe": "[下载量:10]\n拥有更多栏位",
+      "brieflyDescribe": "[下载量:11]\n拥有更多栏位",
       "features": [
         "MECHANICS_CHANGE",
         "UTILITY"
@@ -617,10 +617,33 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/Omni.lua.more_slots.tefpkg",
-      "downloadCount": 10,
+      "downloadCount": 11,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "4.9 KiB",
       "sha256": "bb3dc2e12835aabb665df9f75cd904ee2fcbbcfbe8456369ee184a5db8a94957",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "liuxin.lua.recipebook",
+      "name": "合成图鉴",
+      "author": "liu xin",
+      "version": "1.1",
+      "versionCode": 29,
+      "brieflyDescribe": "[下载量:11]\n蓝色网格合成图鉴",
+      "features": [
+        "UI_IMPROVEMENT",
+        "UTILITY"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.recipebook.tefpkg",
+      "downloadCount": 11,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "2.86 MiB",
+      "sha256": "1f272bcbb5af3f6e19e38c5184864892e7ea602f38777100516bfc4e54bc8bd4",
       "updateLog": ""
     },
     {
@@ -661,29 +684,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "2.6 KiB",
       "sha256": "b1ad07ce8de6213ca9a4af5a8c413e719bd484df2df71e5f08d08cd4d2da7775",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "liuxin.lua.recipebook",
-      "name": "合成图鉴",
-      "author": "liu xin",
-      "version": "1.1",
-      "versionCode": 29,
-      "brieflyDescribe": "[下载量:10]\n蓝色网格合成图鉴",
-      "features": [
-        "UI_IMPROVEMENT",
-        "UTILITY"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.recipebook.tefpkg",
-      "downloadCount": 10,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "2.86 MiB",
-      "sha256": "1f272bcbb5af3f6e19e38c5184864892e7ea602f38777100516bfc4e54bc8bd4",
       "updateLog": ""
     },
     {
@@ -976,6 +976,29 @@
       "updateLog": ""
     },
     {
+      "pkgId": "celso.lua.lucktuner",
+      "name": "幸运调节（Lua）",
+      "author": "liuxin",
+      "version": "1.0",
+      "versionCode": 3,
+      "brieflyDescribe": "[下载量:7]\n通过滑块调节玩家额外幸运值。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "UTILITY"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/celso.lua.lucktuner.tefpkg",
+      "downloadCount": 7,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "2.8 KiB",
+      "sha256": "c07f001b17173375bb828af37be3637c3815d021037d77791a0ddb012c476749",
+      "updateLog": ""
+    },
+    {
       "pkgId": "liuxin.weapon_growth.lua",
       "name": "全武器成长",
       "author": "liuxin",
@@ -1079,6 +1102,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "ring.lua.nolies",
+      "name": "去泥🐴骗伤咳咳拒绝骗伤",
+      "author": "ring",
+      "version": "5.2.0",
+      "versionCode": 1,
+      "brieflyDescribe": "[下载量:7]\n把玩家造成伤害的无敌帧类型全部改为局部无敌帧",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ring.lua.nolies.tefpkg",
+      "downloadCount": 7,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "1.5 KiB",
+      "sha256": "0241ba823121f788e2ee4cb2f218f4d0079a1096ecb1864c63606461cb3df3f3",
+      "updateLog": ""
+    },
+    {
       "pkgId": "ailab.lua.itemforge",
       "name": "属性工坊 (ItemForge)",
       "author": "哇",
@@ -1145,26 +1188,23 @@
       "updateLog": ""
     },
     {
-      "pkgId": "celso.lua.lucktuner",
-      "name": "幸运调节（Lua）",
-      "author": "liuxin",
-      "version": "1.0",
-      "versionCode": 3,
-      "brieflyDescribe": "[下载量:6]\n通过滑块调节玩家额外幸运值。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "UTILITY"
-      ],
+      "pkgId": "jingjing.lua.whale",
+      "name": "鲸屿小物 (WhaleByMySide)",
+      "author": "鲸鲸",
+      "version": "2.0.0",
+      "versionCode": 202610290,
+      "brieflyDescribe": "[下载量:6]\n鲸歌杖、潮汐护符，和一颗会追人的鲸歌",
+      "features": [],
       "sizeCategory": "TINY",
       "stableVerified": false,
-      "experimental": true,
+      "experimental": false,
       "deprecated": false,
       "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/celso.lua.lucktuner.tefpkg",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/jingjing.lua.whale.tefpkg",
       "downloadCount": 6,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "2.8 KiB",
-      "sha256": "c07f001b17173375bb828af37be3637c3815d021037d77791a0ddb012c476749",
+      "fileSize": "17.4 KiB",
+      "sha256": "9d2a807e89828d0600c914dfe24a6e4aa4e38b18a266a021d9e0a2081a1957af",
       "updateLog": ""
     },
     {
@@ -1288,26 +1328,6 @@
       "updateLog": ""
     },
     {
-      "pkgId": "ring.lua.nolies",
-      "name": "去泥🐴骗伤咳咳拒绝骗伤",
-      "author": "ring",
-      "version": "5.2.0",
-      "versionCode": 1,
-      "brieflyDescribe": "[下载量:6]\n把玩家造成伤害的无敌帧类型全部改为局部无敌帧",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ring.lua.nolies.tefpkg",
-      "downloadCount": 6,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "1.5 KiB",
-      "sha256": "0241ba823121f788e2ee4cb2f218f4d0079a1096ecb1864c63606461cb3df3f3",
-      "updateLog": ""
-    },
-    {
       "pkgId": "HvnT.lua.uihidden",
       "name": "UI隐藏（Hide UI）",
       "author": "HvnT",
@@ -1368,26 +1388,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "274.7 KiB",
       "sha256": "4e6bf69e08a765ab4fafcf4a950d0cb85f9346e630108cea705c7a1546b6ce3e",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "jingjing.lua.whale",
-      "name": "鲸屿小物 (WhaleByMySide)",
-      "author": "鲸鲸",
-      "version": "2.0.0",
-      "versionCode": 202610290,
-      "brieflyDescribe": "[下载量:5]\n鲸歌杖、潮汐护符，和一颗会追人的鲸歌",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/jingjing.lua.whale.tefpkg",
-      "downloadCount": 5,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "17.4 KiB",
-      "sha256": "9d2a807e89828d0600c914dfe24a6e4aa4e38b18a266a021d9e0a2081a1957af",
       "updateLog": ""
     },
     {
@@ -1626,6 +1626,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "bluefish.skateboard",
+      "name": "我的滑板鞋",
+      "author": "MIMO",
+      "version": "1.0.2",
+      "versionCode": 3,
+      "brieflyDescribe": "[下载量:3]\n攻击位移",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.skateboard.tefpkg",
+      "downloadCount": 3,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "428.6 KiB",
+      "sha256": "a5959949b63aaf8eed3f8bcb96ec44def21932492f8d26023e76459d8f3cab44",
+      "updateLog": ""
+    },
+    {
       "pkgId": "lua.qing.crashprobe",
       "name": "加载模组，进世界就闪退",
       "author": "qing",
@@ -1763,26 +1783,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "89.2 KiB",
       "sha256": "988560c3d4efec5bb8774dd4a94c49633ddec64c7e3d6956b0f072ee69a9314a",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "bluefish.skateboard",
-      "name": "我的滑板鞋",
-      "author": "MIMO",
-      "version": "1.0.2",
-      "versionCode": 3,
-      "brieflyDescribe": "[下载量:2]\n攻击位移",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.skateboard.tefpkg",
-      "downloadCount": 2,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "428.6 KiB",
-      "sha256": "a5959949b63aaf8eed3f8bcb96ec44def21932492f8d26023e76459d8f3cab44",
       "updateLog": ""
     },
     {
