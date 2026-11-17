@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-17T10:48:37.198059Z",
+  "updatedAt": "2026-11-17T21:00:16.697492Z",
   "mods": [
     {
       "pkgId": "lua.qing.crashfix",
@@ -195,7 +195,7 @@
       "author": "liuxin",
       "version": "3.1",
       "versionCode": 34,
-      "brieflyDescribe": "[下载量:30]\n360° Boss指针、六种样式与负面Buff倒计时",
+      "brieflyDescribe": "[下载量:31]\n360° Boss指针、六种样式与负面Buff倒计时",
       "features": [
         "ASSISTANCE",
         "UI_IMPROVEMENT"
@@ -206,7 +206,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.bossdirectionhint.tefpkg",
-      "downloadCount": 30,
+      "downloadCount": 31,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "144.6 KiB",
       "sha256": "ff75072169dbb7b2129cd82bc08e25ab9c81cbf96e734f975bcd110572c10f04",
@@ -286,7 +286,7 @@
       "author": "lzup333",
       "version": "1.1.0",
       "versionCode": 20260922,
-      "brieflyDescribe": "[下载量:26]\n你现在可以全自动钓鱼！",
+      "brieflyDescribe": "[下载量:27]\n你现在可以全自动钓鱼！",
       "features": [],
       "sizeCategory": "TINY",
       "stableVerified": true,
@@ -294,7 +294,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.autofisher.tefpkg",
-      "downloadCount": 26,
+      "downloadCount": 27,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "5.4 KiB",
       "sha256": "2344e65f56c9c45bdb6afe6ce35f875b05186058ef2b2b0fc2034ad8df7cff29",
@@ -390,6 +390,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "lzup.lua.housewand",
+      "name": "房屋魔杖",
+      "author": "lzup",
+      "version": "0.1.0",
+      "versionCode": 1,
+      "brieflyDescribe": "[下载量:20]\n用100个木头合成房屋魔杖，预览并生成一间木屋。\n仅支持Android单人模式",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.housewand.tefpkg",
+      "downloadCount": 20,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "30.2 KiB",
+      "sha256": "7b2033d536f9333ac1dd93a13dd06feae70808b254de8d02a89de76d5d5f3c98",
+      "updateLog": ""
+    },
+    {
       "pkgId": "moliy.soarersglory",
       "name": "翱翔者的荣耀",
       "author": "Moliy",
@@ -433,26 +453,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "178.3 KiB",
       "sha256": "ef52dc5acb6c738908a51625e13c7688a6a5a5b4fdb960224aacb1f7a4002eb0",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "lzup.lua.housewand",
-      "name": "房屋魔杖",
-      "author": "lzup",
-      "version": "0.1.0",
-      "versionCode": 1,
-      "brieflyDescribe": "[下载量:19]\n用100个木头合成房屋魔杖，预览并生成一间木屋。\n仅支持Android单人模式",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.housewand.tefpkg",
-      "downloadCount": 19,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "30.2 KiB",
-      "sha256": "7b2033d536f9333ac1dd93a13dd06feae70808b254de8d02a89de76d5d5f3c98",
       "updateLog": ""
     },
     {
@@ -641,6 +641,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "lua.qing.pylon",
+      "name": "更好的体验分支(晶塔)",
+      "author": "qing",
+      "version": "1.0.0",
+      "versionCode": 100,
+      "brieflyDescribe": "[下载量:15]\n晶塔相关",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.pylon.tefpkg",
+      "downloadCount": 15,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "1.6 KiB",
+      "sha256": "cada1b91cae1ed27ab5d4161c251b88796c6f4564bdef8684fd74b517cce4d12",
+      "updateLog": ""
+    },
+    {
       "pkgId": "lzup.lua.forgottenitem",
       "name": "遗忘之物 Refresh (ForgottenItem Lua版)",
       "author": "lzup333",
@@ -787,26 +807,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "3.2 KiB",
       "sha256": "a56febaa19929e432a968a3ea0c12662a4a873d1dd77b937f5ebdabf35a0c63e",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "lua.qing.pylon",
-      "name": "更好的体验分支(晶塔)",
-      "author": "qing",
-      "version": "1.0.0",
-      "versionCode": 100,
-      "brieflyDescribe": "[下载量:14]\n晶塔相关",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.pylon.tefpkg",
-      "downloadCount": 14,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "1.6 KiB",
-      "sha256": "cada1b91cae1ed27ab5d4161c251b88796c6f4564bdef8684fd74b517cce4d12",
       "updateLog": ""
     },
     {
