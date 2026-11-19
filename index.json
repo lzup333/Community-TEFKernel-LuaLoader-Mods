@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-19T10:26:53.189545Z",
+  "updatedAt": "2026-11-19T20:43:42.014568Z",
   "mods": [
     {
       "pkgId": "lua.qing.crashfix",
@@ -263,7 +263,7 @@
       "author": "AI",
       "version": "1.0.0",
       "versionCode": 1,
-      "brieflyDescribe": "[下载量:29]\n每天黎明：旅行商人保底到访；洞穴层保底刷出骷髅商人。",
+      "brieflyDescribe": "[下载量:30]\n每天黎明：旅行商人保底到访；洞穴层保底刷出骷髅商人。",
       "features": [],
       "sizeCategory": "TINY",
       "stableVerified": false,
@@ -271,7 +271,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.example.dailymechants.tefpkg",
-      "downloadCount": 29,
+      "downloadCount": 30,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "4.6 KiB",
       "sha256": "7489e4fa01c5143f50595a5b9722d01a78a818c89299bbaabb87b88ea60bb56d",
@@ -558,6 +558,29 @@
       "updateLog": ""
     },
     {
+      "pkgId": "liuxin.bossbar.classic",
+      "name": "Boss 血条",
+      "author": "liu xin",
+      "version": "1.2.2",
+      "versionCode": 15,
+      "brieflyDescribe": "[下载量:17]\n鎏金血条与简洁血条。",
+      "features": [
+        "VISUAL_ENHANCEMENT",
+        "UI_IMPROVEMENT"
+      ],
+      "sizeCategory": "SMALL",
+      "stableVerified": false,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.bossbar.classic.tefpkg",
+      "downloadCount": 17,
+      "publishedAt": "2026-11-10T15:04:28.162390Z",
+      "fileSize": "447.1 KiB",
+      "sha256": "5bb9cc635dfb8edca6605038d668fcf2aa015d59821aeeb73d10fac9a1705317",
+      "updateLog": ""
+    },
+    {
       "pkgId": "liuxin.lua.betterzoom",
       "name": "缩放界面",
       "author": "liuxin",
@@ -618,6 +641,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "lzup.lua.forgottenitem",
+      "name": "遗忘之物 Refresh (ForgottenItem Lua版)",
+      "author": "lzup333",
+      "version": "1.2.1",
+      "versionCode": 20250518,
+      "brieflyDescribe": "[下载量:17]\n把被移除的遗忘之物重新带回游戏",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.forgottenitem.tefpkg",
+      "downloadCount": 17,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "6.9 KiB",
+      "sha256": "49976ec9aa6e7327c1209f028354970844e91e9ab229701d9b7db2b621e521d4",
+      "updateLog": ""
+    },
+    {
       "pkgId": "lzup.lua.platformwand",
       "name": "平台魔杖",
       "author": "lzup",
@@ -635,49 +678,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "25.1 KiB",
       "sha256": "c0971fd4174258f40815db95096e44c1ac8c91dd9bc09944d21a714a4fed0656",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "liuxin.bossbar.classic",
-      "name": "Boss 血条",
-      "author": "liu xin",
-      "version": "1.2.2",
-      "versionCode": 15,
-      "brieflyDescribe": "[下载量:16]\n鎏金血条与简洁血条。",
-      "features": [
-        "VISUAL_ENHANCEMENT",
-        "UI_IMPROVEMENT"
-      ],
-      "sizeCategory": "SMALL",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.bossbar.classic.tefpkg",
-      "downloadCount": 16,
-      "publishedAt": "2026-11-10T15:04:28.162390Z",
-      "fileSize": "447.1 KiB",
-      "sha256": "5bb9cc635dfb8edca6605038d668fcf2aa015d59821aeeb73d10fac9a1705317",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "lzup.lua.forgottenitem",
-      "name": "遗忘之物 Refresh (ForgottenItem Lua版)",
-      "author": "lzup333",
-      "version": "1.2.1",
-      "versionCode": 20250518,
-      "brieflyDescribe": "[下载量:16]\n把被移除的遗忘之物重新带回游戏",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lzup.lua.forgottenitem.tefpkg",
-      "downloadCount": 16,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "6.9 KiB",
-      "sha256": "49976ec9aa6e7327c1209f028354970844e91e9ab229701d9b7db2b621e521d4",
       "updateLog": ""
     },
     {
@@ -701,6 +701,26 @@
       "publishedAt": "2026-11-02T13:41:18.642701Z",
       "fileSize": "6.7 KiB",
       "sha256": "e87132b33ff416d84776a85d88292a6741a57ce273c922a3bf74e7769827a201",
+      "updateLog": ""
+    },
+    {
+      "pkgId": "bluefish.lowhpwarn",
+      "name": "残血提示",
+      "author": "蓝色大肥鱼",
+      "version": "2.0.0",
+      "versionCode": 26,
+      "brieflyDescribe": "[下载量:15]\n更好的残血提示",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": true,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.lowhpwarn.tefpkg",
+      "downloadCount": 15,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "146.7 KiB",
+      "sha256": "8d471ea257e17326985973e3f52da5db01267951311d22a33b2cba3c255c1832",
       "updateLog": ""
     },
     {
@@ -787,26 +807,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "1.6 KiB",
       "sha256": "cada1b91cae1ed27ab5d4161c251b88796c6f4564bdef8684fd74b517cce4d12",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "bluefish.lowhpwarn",
-      "name": "残血提示",
-      "author": "蓝色大肥鱼",
-      "version": "2.0.0",
-      "versionCode": 26,
-      "brieflyDescribe": "[下载量:14]\n更好的残血提示",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": true,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/bluefish.lowhpwarn.tefpkg",
-      "downloadCount": 14,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "146.7 KiB",
-      "sha256": "8d471ea257e17326985973e3f52da5db01267951311d22a33b2cba3c255c1832",
       "updateLog": ""
     },
     {
