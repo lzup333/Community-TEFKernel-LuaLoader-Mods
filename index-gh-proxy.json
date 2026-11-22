@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-22T09:51:54.478037Z",
+  "updatedAt": "2026-11-22T19:46:46.633691Z",
   "mods": [
     {
       "pkgId": "lua.qing.crashfix",
@@ -9,7 +9,7 @@
       "author": "qing",
       "version": "1.0.0",
       "versionCode": 100,
-      "brieflyDescribe": "[下载量:83]\n修复闪退",
+      "brieflyDescribe": "[下载量:84]\n修复闪退",
       "features": [],
       "sizeCategory": "TINY",
       "stableVerified": false,
@@ -17,7 +17,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.qing.crashfix.tefpkg",
-      "downloadCount": 83,
+      "downloadCount": 84,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "1.4 KiB",
       "sha256": "4a03c583a4ab23c13d2862cea5b051baf6e058b01627e3b909cdd83f5036a8f6",
@@ -104,6 +104,29 @@
       "updateLog": ""
     },
     {
+      "pkgId": "omni.lua.ultimatemaster",
+      "name": "全能大师",
+      "author": "YourName",
+      "version": "1.1.6",
+      "versionCode": 10106,
+      "brieflyDescribe": "[下载量:49]\n肉前终极毕业移动饰品，缝合7件神装。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "UTILITY"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/omni.lua.ultimatemaster.tefpkg",
+      "downloadCount": 49,
+      "publishedAt": "2026-11-06T11:52:48.365589Z",
+      "fileSize": "16.8 KiB",
+      "sha256": "478ff9c52d4e9d42e2fc58825c8b595b54336e48b6ec0fec7b2026c8a63e62e3",
+      "updateLog": ""
+    },
+    {
       "pkgId": "liuxin.lua.bosschecklist",
       "name": "Boss清单",
       "author": "liuxin",
@@ -124,29 +147,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "3.64 MiB",
       "sha256": "bbcacb7205fb5c4b1425d3cd8812ccf489c0075c9e09e47c67273c6c72348338",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "omni.lua.ultimatemaster",
-      "name": "全能大师",
-      "author": "YourName",
-      "version": "1.1.6",
-      "versionCode": 10106,
-      "brieflyDescribe": "[下载量:48]\n肉前终极毕业移动饰品，缝合7件神装。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "UTILITY"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/omni.lua.ultimatemaster.tefpkg",
-      "downloadCount": 48,
-      "publishedAt": "2026-11-06T11:52:48.365589Z",
-      "fileSize": "16.8 KiB",
-      "sha256": "478ff9c52d4e9d42e2fc58825c8b595b54336e48b6ec0fec7b2026c8a63e62e3",
       "updateLog": ""
     },
     {
@@ -455,6 +455,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "liuxin.lua.betterzoom",
+      "name": "缩放界面",
+      "author": "liuxin",
+      "version": "1.0",
+      "versionCode": 9,
+      "brieflyDescribe": "[下载量:22]\n游戏内双指自由缩放，扩大可见范围；无GUI，设置本地保存。保留v1.6有效相机逻辑，精简逐帧开销及旧配置。",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.betterzoom.tefpkg",
+      "downloadCount": 22,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "2.6 KiB",
+      "sha256": "b1ad07ce8de6213ca9a4af5a8c413e719bd484df2df71e5f08d08cd4d2da7775",
+      "updateLog": ""
+    },
+    {
       "pkgId": "liuxin.bossbar.classic",
       "name": "Boss 血条",
       "author": "liu xin",
@@ -475,26 +495,6 @@
       "publishedAt": "2026-11-10T15:04:28.162390Z",
       "fileSize": "447.1 KiB",
       "sha256": "5bb9cc635dfb8edca6605038d668fcf2aa015d59821aeeb73d10fac9a1705317",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "liuxin.lua.betterzoom",
-      "name": "缩放界面",
-      "author": "liuxin",
-      "version": "1.0",
-      "versionCode": 9,
-      "brieflyDescribe": "[下载量:21]\n游戏内双指自由缩放，扩大可见范围；无GUI，设置本地保存。保留v1.6有效相机逻辑，精简逐帧开销及旧配置。",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.lua.betterzoom.tefpkg",
-      "downloadCount": 21,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "2.6 KiB",
-      "sha256": "b1ad07ce8de6213ca9a4af5a8c413e719bd484df2df71e5f08d08cd4d2da7775",
       "updateLog": ""
     },
     {
@@ -810,6 +810,29 @@
       "updateLog": ""
     },
     {
+      "pkgId": "ailab.lua.playerforge",
+      "name": "玩家工坊 (PlayerForge)",
+      "author": "哇",
+      "version": "2.1.3",
+      "versionCode": 20271026,
+      "brieflyDescribe": "[下载量:15]\n玩家属性工坊：108 项设置，倍率类上限放宽到 10000（100 倍），含仆从/哨兵倍率、鞭子攻速与范围、使用时间下限、点亮全图、视野缩放与光照穿透、暴击伤害/无敌帧/药水冷却/拾取范围/自动挂机/自动朝向；v2.0.1 移除了会导致整进程闪退的聊天对象反射，聊天指令默认关闭，导出/导入改为 forge_export.txt 与粘贴设置串，另加崩溃取证日志；v2.1.1 修复主菜单属性页空指针崩溃；v2.1.0 新增游戏内图形面板（5 页，属性页只读）；默认零开销。",
+      "features": [
+        "MECHANICS_CHANGE",
+        "UTILITY"
+      ],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.playerforge.tefpkg",
+      "downloadCount": 15,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "77.8 KiB",
+      "sha256": "564f4b6e9285b37dc98eaeefcc8e087a0bc24c4c9d059382f6688f87788e4105",
+      "updateLog": ""
+    },
+    {
       "pkgId": "bluefish.lowhpwarn",
       "name": "残血提示",
       "author": "蓝色大肥鱼",
@@ -867,29 +890,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "2.5 KiB",
       "sha256": "6b87cb8bb60c3965a5368fd7a5178bbfba874bbd17643c25389b3bfff89eb800",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "ailab.lua.playerforge",
-      "name": "玩家工坊 (PlayerForge)",
-      "author": "哇",
-      "version": "2.1.3",
-      "versionCode": 20271026,
-      "brieflyDescribe": "[下载量:14]\n玩家属性工坊：108 项设置，倍率类上限放宽到 10000（100 倍），含仆从/哨兵倍率、鞭子攻速与范围、使用时间下限、点亮全图、视野缩放与光照穿透、暴击伤害/无敌帧/药水冷却/拾取范围/自动挂机/自动朝向；v2.0.1 移除了会导致整进程闪退的聊天对象反射，聊天指令默认关闭，导出/导入改为 forge_export.txt 与粘贴设置串，另加崩溃取证日志；v2.1.1 修复主菜单属性页空指针崩溃；v2.1.0 新增游戏内图形面板（5 页，属性页只读）；默认零开销。",
-      "features": [
-        "MECHANICS_CHANGE",
-        "UTILITY"
-      ],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/ailab.lua.playerforge.tefpkg",
-      "downloadCount": 14,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "77.8 KiB",
-      "sha256": "564f4b6e9285b37dc98eaeefcc8e087a0bc24c4c9d059382f6688f87788e4105",
       "updateLog": ""
     },
     {
@@ -1866,6 +1866,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "liuxin.adventurejournal",
+      "name": "冒险手记",
+      "author": "liuxin",
+      "version": "1.0.2",
+      "versionCode": 9,
+      "brieflyDescribe": "[下载量:3]\n离家记录冒险，归家留下手记。",
+      "features": [],
+      "sizeCategory": "SMALL",
+      "stableVerified": false,
+      "experimental": false,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.adventurejournal.tefpkg",
+      "downloadCount": 3,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "22.4 KiB",
+      "sha256": "de3c9e7a26dcd2e6e188300da4bc46700631c4831b1940b5f2cd6c385e94eac5",
+      "updateLog": ""
+    },
+    {
       "pkgId": "liuxin.monstermorph.probe",
       "name": "怪物伙伴",
       "author": "liu xin",
@@ -1945,26 +1965,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "4.5 KiB",
       "sha256": "ce91d6c16d08730c4a3ab9177344e87ce4d7f1ca7a0295f18006a87377891689",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "liuxin.adventurejournal",
-      "name": "冒险手记",
-      "author": "liuxin",
-      "version": "1.0.2",
-      "versionCode": 9,
-      "brieflyDescribe": "[下载量:2]\n离家记录冒险，归家留下手记。",
-      "features": [],
-      "sizeCategory": "SMALL",
-      "stableVerified": false,
-      "experimental": false,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/liuxin.adventurejournal.tefpkg",
-      "downloadCount": 2,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "22.4 KiB",
-      "sha256": "de3c9e7a26dcd2e6e188300da4bc46700631c4831b1940b5f2cd6c385e94eac5",
       "updateLog": ""
     },
     {
