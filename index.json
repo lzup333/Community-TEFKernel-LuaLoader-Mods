@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-23T23:58:51.956186Z",
+  "updatedAt": "2026-11-24T12:35:18.185570Z",
   "mods": [
     {
       "pkgId": "lua.qing.crashfix",
@@ -155,7 +155,7 @@
       "author": "lzup",
       "version": "1.0.1",
       "versionCode": 20261008,
-      "brieflyDescribe": "[下载量:47]\n把角色手持的武器背在背上,",
+      "brieflyDescribe": "[下载量:48]\n把角色手持的武器背在背上,",
       "features": [],
       "sizeCategory": "SMALL",
       "stableVerified": false,
@@ -163,7 +163,7 @@
       "deprecated": false,
       "iconUrl": "",
       "downloadUrl": "https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.weaponout.back.tefpkg",
-      "downloadCount": 47,
+      "downloadCount": 48,
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "6.2 KiB",
       "sha256": "170dd52f2fd6e7055afda823107d88905fe64ac1747334e621f4322a95972aba",
