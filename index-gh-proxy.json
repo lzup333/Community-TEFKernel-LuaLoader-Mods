@@ -1,7 +1,7 @@
 {
   "loaderMinVersionCode": 37,
   "loaderMinVersion": "2.3.3",
-  "updatedAt": "2026-11-24T12:35:18.185570Z",
+  "updatedAt": "2026-11-25T01:26:51.715486Z",
   "mods": [
     {
       "pkgId": "lua.qing.crashfix",
@@ -213,6 +213,26 @@
       "updateLog": ""
     },
     {
+      "pkgId": "lua.example.dailymechants",
+      "name": "每日商人刷新",
+      "author": "AI",
+      "version": "1.0.0",
+      "versionCode": 1,
+      "brieflyDescribe": "[下载量:38]\n每天黎明：旅行商人保底到访；洞穴层保底刷出骷髅商人。",
+      "features": [],
+      "sizeCategory": "TINY",
+      "stableVerified": false,
+      "experimental": true,
+      "deprecated": false,
+      "iconUrl": "",
+      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.example.dailymechants.tefpkg",
+      "downloadCount": 38,
+      "publishedAt": "2026-11-02T05:48:41.213071Z",
+      "fileSize": "4.6 KiB",
+      "sha256": "7489e4fa01c5143f50595a5b9722d01a78a818c89299bbaabb87b88ea60bb56d",
+      "updateLog": ""
+    },
+    {
       "pkgId": "lzup.lua.autofisher",
       "name": "自动钓鱼 (AutoFisher)",
       "author": "lzup333",
@@ -255,26 +275,6 @@
       "publishedAt": "2026-11-02T05:48:41.213071Z",
       "fileSize": "39.3 KiB",
       "sha256": "06bc1674848cd481045544c341271e5671470264675c2172d30c7cbe15de278a",
-      "updateLog": ""
-    },
-    {
-      "pkgId": "lua.example.dailymechants",
-      "name": "每日商人刷新",
-      "author": "AI",
-      "version": "1.0.0",
-      "versionCode": 1,
-      "brieflyDescribe": "[下载量:37]\n每天黎明：旅行商人保底到访；洞穴层保底刷出骷髅商人。",
-      "features": [],
-      "sizeCategory": "TINY",
-      "stableVerified": false,
-      "experimental": true,
-      "deprecated": false,
-      "iconUrl": "",
-      "downloadUrl": "https://gh-proxy.com/https://github.com/lzup333/Community-TEFKernel-LuaLoader-Mods/releases/download/mod-repository/lua.example.dailymechants.tefpkg",
-      "downloadCount": 37,
-      "publishedAt": "2026-11-02T05:48:41.213071Z",
-      "fileSize": "4.6 KiB",
-      "sha256": "7489e4fa01c5143f50595a5b9722d01a78a818c89299bbaabb87b88ea60bb56d",
       "updateLog": ""
     },
     {
