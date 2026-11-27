@@ -1,0 +1,10 @@
+{
+  "main": "main.lua",
+  "pkg_id": "lzup.lua.planterasummon",
+  "version": "1.0.1",
+  "version_code": 21,
+  "api_version": 1,
+  "name": "世纪之花加强",
+  "description": "召唤世纪之花（NPC 262），行为同原版 Boss 苏醒",
+  "multiplayer_safe": false
+}

@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "zl.luamod",
+  "version": "2.4.0",
+  "version_code": 15,
+  "api_version": 1,
+  "multiplayer_safe": false
+}

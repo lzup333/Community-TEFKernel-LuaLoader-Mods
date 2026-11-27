@@ -1,0 +1,10 @@
+-- buff_icon.lua
+-- Buff 显示按钮的贴图（32x32 像素药水瓶 + 星芒）
+-- 由 build 脚本生成，内容是 PNG 的 base64
+return "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQklEQVR4nO1WPQ8BQRScQ60QtZZS" ..
+"VH6AWqUU8RtEoRJR+Q0qhVKlpdRJLio5jYhaREQlZFUri/16i1O4qe52376ZfW/29oAIIYEFVSYb" ..
+"T7gkm/Yq0mQAUGqNPEqumG6S7QZKok9BWwEvXZfuZhlsSCS8/CyoMi83fMgprUAYO+eQVkC1cxG1" ..
+"/hwAsD5d72OzRhGAwnDZDrDqvMyRDCPicGbsWUAhlZDmE0mNLQiz/ACxAv7+Yi3uuRoyAwKGY+hK" ..
+"Tom3EkAlp6wztsDfX1g2Gb+/r45XTbQcKnMChgq47pySx9oD34LTZbTtxpVzmTatRdYCJk3+pCYH" ..
+"HsXZiNGakPeOJ82XX2MWYz0BF6EyIqkFJjIX/NyEkYBIgJUA6seFsk4rQDy7VBFivPNl5CrClhwg" ..
+"/BG53IwmcoBgQptk78T/L27xbXxo5XSF2AAAAABJRU5ErkJggg=="

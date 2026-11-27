@@ -1,0 +1,54 @@
+{
+  "pkgId": "port.improvegame.bannerchest",
+  "name": "旗帜盒 (BannerChest)",
+  "author": "竹溪寒",
+  "version": "1.1.1",
+  "versionCode": 4,
+  "brieflyDescribe": "旗帜盒：装填/取出背包旗帜，盒内旗帜原版增伤生效，白金面板+缩小贴图入口。（1.4.6 适配版）",
+  "description": "旗帜盒 v1.1.1（纯 GUI 面板，无自定义物品，适配泰拉瑞亚 1.4.6）。\\n【用法】面板可拖动。\\n· 装填：把背包所有旗帜收进盒子\\n· 取出：全部放回背包\\n· v1.1.0：盒内旗帜原版增伤生效（无需放置，与地面放置旗共存）\\n· 排序/单次取出数量可调；点收起显示旗帜贴图入口",
+  "features": [
+    "UTILITY",
+    "QUALITY_OF_LIFE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.6",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.6",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false
+}

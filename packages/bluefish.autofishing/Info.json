@@ -1,0 +1,55 @@
+{
+  "pkgId": "bluefish.autofishing",
+  "name": "自动钓鱼机",
+  "author": "蓝色大肥鱼",
+  "version": "2.1.8",
+  "versionCode": 218,
+  "brieflyDescribe": "解放双手，自动钓鱼",
+  "description": "放置在水域附近自动钓鱼，鱼获自动存入钓鱼机内，需投放钓竿和鱼饵\n配方：强化钓竿×1 + 蠕虫×5 + 宝箱×1 + 开关×1 + 电线×10，制作站：工作台\n可投放渔具（靠近后会自动装备手持渔具）：\n·钓竿：任意钓竿 ×1\n·鱼饵：任意鱼饵整叠\n·渔具：钓具箱 / 渔夫耳环 / 优质钓鱼线 / 渔夫工具包 / 防熔岩渔具袋 / 各类钓鱼浮标（各 +10）\n·渔夫套：渔夫帽 / 背心 / 裤（各 +5）\n·消耗品：宝匣药水 +15、钓鱼药水 +20（最多累计60分钟）、鱼饵桶 +10（10 分钟）\n产出：\n空手靠近钓鱼机会把渔获自动收进背包，空手点击钓鱼机能回收渔具",
+  "features": [
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8.6",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": []
+}

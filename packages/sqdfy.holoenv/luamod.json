@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "sqdfy.holoenv",
+  "version": "1.1.2",
+  "version_code": 4,
+  "api_version": 1,
+  "multiplayer_safe": true,
+  "description": "环境监控（聊天栏单行版）\n环境：丛林丨群系：地表丨事件：史莱姆雨\n进世界播报，环境变化才再发。"
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "boss_life_multiplier": 1,
+    "shards_per_kill": 3,
+    "rifle_damage": 20,
+    "boss_music": "Golem"
+  }
+}

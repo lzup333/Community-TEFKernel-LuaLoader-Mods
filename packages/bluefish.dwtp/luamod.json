@@ -1,0 +1,11 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.dwtp",
+  "version": "0.2.2",
+  "version_code": 22,
+  "api_version": 1,
+  "name": "定位传送",
+  "description": "一步传送到微光湖/神庙/花苞/地牢",
+  "author": "蓝色大肥鱼",
+  "multiplayer_safe": false
+}

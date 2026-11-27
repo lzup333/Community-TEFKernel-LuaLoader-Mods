@@ -1,0 +1,81 @@
+{
+  "pkgId": "moliy.endlesssupply",
+  "name": "无尽补给",
+  "author": "Moliy",
+  "version": "2.0.0",
+  "versionCode": 4,
+  "brieflyDescribe": "弹药、药水、用掉之后不扣数量。独立开关。",
+  "description": "独立开关，各自决定「用完不扣数量」：\n① 弹药不消耗：弓箭/子弹/火箭/飞镖等被弓与枪选中的弹药，射出后数量不变。\n② 药水不消耗：治疗药水、魔力药水、各类增益药水、显形药水等，喝下照常生效，但数量不变。\n③ 食物不消耗：吃下食物照常获得「饱食 / 吃得很饱 / 极饱」等增益，但数量不变。\n效果本身完全按原版走（回血、回蓝、buff、持续时间），本模组只拦掉「扣 1 个」那一步；也不改任何掉落与合成。\n\nv2.0.0（终版）：只保留「弹药不消耗」与「治疗药水不消耗」两项，删掉蓝药/其他药水/食物与游戏内诊断窗口。",
+  "features": [
+    "QUALITY_OF_LIFE",
+    "MECHANICS_CHANGE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8",
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "启用无尽补给",
+      "description": "总开关。关掉后不安装任何钩子，一切按原版。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "常规"
+    },
+    {
+      "key": "keep_ammo",
+      "title": "弹药不消耗",
+      "description": "弓／枪选中的弹药射出后数量不变；投掷类（飞刀、手雷等）不在此列。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "不消耗"
+    },
+    {
+      "key": "keep_heal",
+      "title": "治疗药水不消耗",
+      "description": "只作用于回血类药水（治疗药水等）；蓝药、其他药水与食物仍按原版扣。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "不消耗"
+    }
+  ]
+}

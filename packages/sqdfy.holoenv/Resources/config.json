@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "values": {
+    "enabled": "true",
+    "report_interval": "3"
+  }
+}

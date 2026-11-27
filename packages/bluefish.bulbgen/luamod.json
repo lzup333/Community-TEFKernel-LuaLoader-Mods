@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.bulbgen",
+  "version": "1.2.1",
+  "version_code": 1201,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "在三王后且符合条件的情况下，在角色脚下生成一个世纪之花花苞"
+}

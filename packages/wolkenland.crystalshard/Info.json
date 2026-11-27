@@ -1,0 +1,74 @@
+{
+  "pkgId": "wolkenland.crystalshard",
+  "name": "碎晶之链 (Crystal Shard)",
+  "author": "Wolkenland",
+  "version": "1.2.84",
+  "versionCode": 10284,
+  "brieflyDescribe": "原创碎晶傀儡与晶核领主 → 四系武器、随从、饰品与晶核宝藏袋",
+  "description": "新增 2 种材料、1 只精英怪、1 个 Boss、四系武器（近战/远程/魔法/召唤）、5 件饰品与 1 条合成链。\n碎晶傀儡与晶核领主都是自定义 NPC（自带贴图与 AI，不借用原版生物）。\n单机游玩；联机未做同步。",
+  "features": [],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.6",
+  "minGameVersion": "1.4.6",
+  "maxGameVersion": "1.4.6",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": true,
+      "x86": true
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "boss_life_multiplier",
+      "title": "Boss 血量倍率",
+      "type": "INTEGER",
+      "defaultValue": 1,
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "×"
+    },
+    {
+      "key": "shards_per_kill",
+      "title": "傀儡掉落碎晶数量",
+      "type": "INTEGER",
+      "defaultValue": 3,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "个"
+    }
+  ]
+}

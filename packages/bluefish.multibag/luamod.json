@@ -1,0 +1,12 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.multibag",
+  "version": "4.0.0",
+  "version_code": 400,
+  "api_version": 1,
+  "name": "多功能大背包",
+  "description": "多功能大背包，你值得拥有",
+  "author": "蓝色大肥鱼",
+  "multiplayer_safe": false,
+  "versionCode": 400
+}

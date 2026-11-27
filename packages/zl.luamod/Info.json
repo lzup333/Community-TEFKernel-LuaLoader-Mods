@@ -1,0 +1,139 @@
+{
+  "pkgId": "zl.luamod",
+  "name": "万物随机",
+  "author": "坠落",
+  "version": "2.4.0",
+  "versionCode": 15,
+  "brieflyDescribe": "挖方块随机掉落物品，并随机生成生物",
+  "description": "【万物随机】\n\n每次挖掉一个方块，都有机会触发两件事：掉落物被替换成随机物品，同时在原地随机生成生物。\n\n一、物品随机掉落\n挖掉的方块不再掉原物，而是换成一件随机物品（从全部 6000+ 种物品里摇）。\n• 同一种方块在【当前世界】内固定掉同一样东西——挖土块掉石头，那这局土块就永远掉石头\n• 退出世界再进入（或换世界）会重新随机，每次进来都不一样\n\n二、随机生成生物\n挖方块时可随机生成城镇NPC、Boss、小怪、友善生物。生成数量按本次掉落的物品数量计算——一次挖掉 3 个堆叠，就生成 3 只。\n\n三、设置项（在该Mod的设置里调整）\n• 万物随机（总开关）：关掉后整个 Mod 停手\n• 四类生物各自可开关：城镇NPC / Boss / 小怪 / 友善生物\n• 四个刷新率滑动条（0~100）：数值越大越容易出这一类，0 表示不生成\n• 触发概率（1~100%）：每挖一个方块触发随机生成的概率，100 = 必触发\n\n四、小贴士\n• 想要 Boss 频繁出现：把 Boss 刷新率调高，小怪/友善生物调到 0\n• 只想要物品随机、不要生物：四类全部关闭即可\n• 只想要生物、不要物品变化：把「触发概率」降下来，或自行取舍类别\n\nv2.4.0 更新：重新撰写模组说明。",
+  "features": [
+    "MECHANICS_CHANGE",
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true
+    },
+    "windows": {
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "x64": false,
+      "arm64": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "settings": [
+    {
+      "key": "mod_enabled",
+      "title": "万物随机（总开关）",
+      "description": "总开关。关闭后本模组完全停手。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "总开关"
+    },
+    {
+      "key": "town_npc",
+      "title": "城镇NPC随机生成",
+      "description": "挖方块时随机生成城镇NPC。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "生成类别"
+    },
+    {
+      "key": "town_npc_rate",
+      "title": "城镇NPC刷新率",
+      "description": "城镇NPC出现的相对权重。0 = 不生成。",
+      "type": "INTEGER",
+      "defaultValue": 10,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "刷新率"
+    },
+    {
+      "key": "boss",
+      "title": "Boss随机生成",
+      "description": "挖方块时随机生成Boss。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "生成类别"
+    },
+    {
+      "key": "boss_rate",
+      "title": "Boss刷新率",
+      "description": "Boss出现的相对权重。0 = 不生成。",
+      "type": "INTEGER",
+      "defaultValue": 5,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "刷新率"
+    },
+    {
+      "key": "monster",
+      "title": "小怪随机生成",
+      "description": "挖方块时随机生成普通敌人。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "生成类别"
+    },
+    {
+      "key": "monster_rate",
+      "title": "小怪刷新率",
+      "description": "小怪出现的相对权重。0 = 不生成。",
+      "type": "INTEGER",
+      "defaultValue": 30,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "刷新率"
+    },
+    {
+      "key": "animal",
+      "title": "友善生物随机生成",
+      "description": "挖方块时随机生成动物等友善生物。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "生成类别"
+    },
+    {
+      "key": "animal_rate",
+      "title": "友善生物刷新率",
+      "description": "友善生物出现的相对权重。0 = 不生成。",
+      "type": "INTEGER",
+      "defaultValue": 20,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "刷新率"
+    },
+    {
+      "key": "chance_percent",
+      "title": "触发概率",
+      "description": "每挖掉一个方块时触发随机生成的百分比。",
+      "type": "INTEGER",
+      "defaultValue": 100,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "section": "参数"
+    }
+  ]
+}

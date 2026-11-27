@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.npcguard",
+  "version": "1.5.0",
+  "version_code": 150,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "城镇NPC不会受到敌怪伤害"
+}

@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.treegrow",
+  "version": "1.0.4",
+  "version_code": 104,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "让宝石果的成长无视深度；让宝石果、橡实立即长成树。"
+}

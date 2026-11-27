@@ -1,0 +1,55 @@
+{
+  "pkgId": "bluefish.multibag",
+  "name": "多功能大背包",
+  "author": "蓝色大肥鱼",
+  "version": "4.0.0",
+  "versionCode": 400,
+  "brieflyDescribe": "多功能大背包，你值得拥有",
+  "description": "多功能大背包包含500格独立大空间、药水袋（同种药水数量达到30支，获得其永久Buff）、制作站（视同处于制作站附近）、增益站（获得增益站的Buff）、旗帜袋（获得旗帜效果）。\n配方：宝箱×2、丝绸×10、铁锭/铅锭×10；制作站：恶魔祭坛。",
+  "features": [
+    "UTILITY"
+  ],
+  "sizeCategory": "SMALL",
+  "targetGameVersion": "1.4.6",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.6.9",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": []
+}

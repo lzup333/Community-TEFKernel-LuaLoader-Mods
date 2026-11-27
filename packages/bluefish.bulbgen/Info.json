@@ -1,0 +1,53 @@
+{
+  "pkgId": "bluefish.bulbgen",
+  "name": "花苞速生",
+  "author": "蓝色大肥鱼",
+  "version": "1.2.1",
+  "versionCode": 1201,
+  "brieflyDescribe": "在角色脚下生成世纪之花球茎",
+  "description": "在三王后且符合条件的情况下，在角色脚下生成一个世纪之花花苞",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": []
+}

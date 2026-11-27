@@ -1,0 +1,55 @@
+{
+  "pkgId": "bluefish.dwtp",
+  "name": "定位传送",
+  "author": "蓝色大肥鱼",
+  "version": "0.2.2",
+  "versionCode": 22,
+  "brieflyDescribe": "一步传送到微光湖/神庙/花苞/地牢",
+  "description": "用面板按钮把玩家传送到世界地标：微光湖、神庙、世纪之花花苞、地牢。\n（验证版：先确认能否批量读取图格内存）",
+  "features": [
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8.6",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": true,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": []
+}

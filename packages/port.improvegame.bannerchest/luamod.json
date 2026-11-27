@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "port.improvegame.bannerchest",
+  "version": "1.1.1",
+  "version_code": 4,
+  "api_version": 1,
+  "multiplayer_safe": true
+}

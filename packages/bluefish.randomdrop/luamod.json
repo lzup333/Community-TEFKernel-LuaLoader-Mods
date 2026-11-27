@@ -1,0 +1,11 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.randomdrop",
+  "version": "2.0.0",
+  "version_code": 2000,
+  "api_version": 1,
+  "name": "死亡随机掉落",
+  "description": "怪物死亡随机掉落物品",
+  "author": "蓝色大肥鱼",
+  "multiplayer_safe": false
+}

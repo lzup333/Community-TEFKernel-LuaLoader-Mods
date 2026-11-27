@@ -1,0 +1,9 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.summonmenu",
+  "version": "16.0.0",
+  "version_code": 1600,
+  "api_version": 1,
+  "multiplayer_safe": false,
+  "description": "更适合陈什么的模组合集"
+}

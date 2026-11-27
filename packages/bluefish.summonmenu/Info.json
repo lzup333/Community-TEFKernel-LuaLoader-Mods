@@ -1,0 +1,53 @@
+{
+  "pkgId": "bluefish.summonmenu",
+  "name": "你已是完全之龙了",
+  "author": "蓝色大肥鱼和MIMO",
+  "version": "16.0.0",
+  "versionCode": 1600,
+  "brieflyDescribe": "你什么都不缺了",
+  "description": "感谢lzup、liuxin、NinetyQWQ、king、皇、哇、小白兔白又白、霜霜霜、Wolkenland及其他模组作者的开源支持٩(๑•̀ω•́๑)۶",
+  "features": [],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": true,
+  "settings": []
+}

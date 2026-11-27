@@ -1,0 +1,30 @@
+{
+  "pkgId": "star.fullmap",
+  "name": "全图点亮 (Full Map)",
+  "author": "竹溪寒",
+  "version": "1.1.0",
+  "versionCode": 2,
+  "brieflyDescribe": "屏幕按钮一键点亮整张地图，只对自己生效",
+  "description": "全图点亮 v1.1.0\n\n【功能】\n· 屏幕原生按钮「点亮全图」，按一下整张地图直接显示（进入世界后按钮才出现）\n· 分帧执行：每帧约 10ms 时间预算逐格点亮，不卡死主线程\n· 点亮后自动刷新地图贴图并写入 .map 存档\n\n【v1.1 修复】\n· 旧版调用 PE 的 UnlockMapSection，但它在 Android 端是空实现，所以“成功”却没点亮\n· 改为逐格写入地图光照（与 PC 解锁同语义），点亮后采样校验，确认数据真的写进去了\n\n【联机】\n· 地图数据是每玩家本地的 .map 文件，只改自己这份 → 只对自己生效，不发任何网络包\n· 单机 / 房主全部区块已加载 → 整图点亮；联机客户端只点亮已加载的区块（未加载区域没有地形数据，无法凭空生成）",
+  "features": [
+    "UTILITY",
+    "QUALITY_OF_LIFE"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.6",
+  "minGameVersion": "1.4.6",
+  "maxGameVersion": "1.4.6",
+  "support": {
+    "android": { "arm64": true,  "arm": true,  "x64": false, "x86": false },
+    "windows": { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "linux":   { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "mac":     { "arm64": false, "arm": false, "x64": false, "x86": false },
+    "ios":     { "arm64": false, "arm": false, "x64": false, "x86": false }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false
+}

@@ -1,0 +1,11 @@
+{
+  "main": "main.lua",
+  "pkg_id": "bluefish.autofishing",
+  "version": "2.1.8",
+  "version_code": 218,
+  "api_version": 1,
+  "name": "自动钓鱼机",
+  "description": "解放双手，自动钓鱼",
+  "author": "蓝色大肥鱼",
+  "multiplayer_safe": false
+}

@@ -1,0 +1,76 @@
+{
+  "pkgId": "sqdfy.holoenv",
+  "name": "环境监控",
+  "author": "烧钱的肥鱼",
+  "version": "1.1.2",
+  "versionCode": 4,
+  "brieflyDescribe": "聊天栏单行环境播报：环境：丛林丨群系：地表丨事件：史莱姆雨。",
+  "description": "把当前环境压成一行，发到聊天栏：\n\n环境：丛林丨群系：地表丨事件：史莱姆雨\n\n进世界约 0.5 秒后播报第一行；之后只在群系 / 层深 / 事件变化时再发，并受「最短间隔」节流，快速穿越群系不会刷屏。有事件（血月 / 日食 / 入侵 / 南瓜月 / 霜月 / 史莱姆雨）时整行变暖色。\n\n【环境】腐化之地 / 猩红之地 / 神圣之地 / 丛林 / 雪原 / 蘑菇洞 / 地下沙漠 / 沙漠 / 地牢 / 丛林神庙 / 蜂巢 / 花岗岩洞 / 大理石洞 / 海滩 / 陨石区 / 墓地 / 微光之地；地表无特殊群系时显示森林，地下无特殊群系时显示岩层。多个群系同时成立用「／」连接。\n【群系】地表 / 地下 / 洞穴 / 地狱 / 太空，由 Player 的 Zone 层深标记判定，读不到时按 Y 坐标与世界高度兜底。\n【事件】入侵（带剩余数量）、血月、日食、南瓜月、霜月、史莱姆雨；没有则显示「无」。\n\nv1.1.0 修复：手机版 Player.Zone* 是属性（get_ZoneJungle）而不是字段，早先按字段读会全部为空，于是永远显示「森林 / 岩层」。现在先字段、再属性，两种都支持。\n\n只读：不改任何数值、不生成物品 / 弹幕、不绘图、不写文件。所有读取都在 pcall 里，单项缺失只显示「未知 / 无」。",
+  "features": [
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.4.0",
+  "maxGameVersion": "1.4.9.0",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": false,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": [
+    {
+      "key": "enabled",
+      "title": "聊天栏播报",
+      "description": "关闭后完全不发消息。",
+      "type": "SWITCH",
+      "defaultValue": true,
+      "section": "播报"
+    },
+    {
+      "key": "report_interval",
+      "title": "最短播报间隔",
+      "description": "两次播报之间至少隔这么多秒；快速穿越群系时把多次变化合并成一次。",
+      "type": "INTEGER",
+      "defaultValue": 3,
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "秒",
+      "section": "播报"
+    }
+  ]
+}

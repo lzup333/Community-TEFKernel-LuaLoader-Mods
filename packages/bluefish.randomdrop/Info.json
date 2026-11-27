@@ -1,0 +1,55 @@
+{
+  "pkgId": "bluefish.randomdrop",
+  "name": "死亡随机掉落",
+  "author": "蓝色大肥鱼",
+  "version": "2.0.0",
+  "versionCode": 2000,
+  "brieflyDescribe": "怪物死亡随机掉落物品",
+  "description": "怪物死亡时额外掉落一件随机物品，支持新添加的物品；可以定义掉率和掉落数量",
+  "features": [
+    "UTILITY"
+  ],
+  "sizeCategory": "TINY",
+  "targetGameVersion": "1.4.5.8",
+  "minGameVersion": "1.4.5.8",
+  "maxGameVersion": "1.4.5.8.6",
+  "support": {
+    "android": {
+      "arm64": true,
+      "arm": true,
+      "x64": false,
+      "x86": false
+    },
+    "windows": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "linux": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "mac": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    },
+    "ios": {
+      "arm64": false,
+      "arm": false,
+      "x64": false,
+      "x86": false
+    }
+  },
+  "dependence": [],
+  "conflicts": [],
+  "stableVerified": true,
+  "experimental": false,
+  "deprecated": false,
+  "hasExtendedContent": false,
+  "settings": []
+}

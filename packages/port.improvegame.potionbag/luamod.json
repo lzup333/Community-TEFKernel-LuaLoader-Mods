@@ -1,0 +1,8 @@
+{
+  "main": "main.lua",
+  "pkg_id": "port.improvegame.potionbag",
+  "version": "1.3.2",
+  "version_code": 22,
+  "api_version": 1,
+  "multiplayer_safe": true
+}
